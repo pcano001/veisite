@@ -1,0 +1,96 @@
+package com.veisite.vegecom.binding;
+
+import java.lang.reflect.InvocationTargetException;
+
+import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class BindTarget<SV> {
+
+	/**
+	 * logger
+	 */
+	private static Logger logger = LoggerFactory.getLogger(BindTarget.class);
+
+	/**
+	 * target object to be synchronized
+	 */
+	private Object target;
+	
+	/**
+	 * target object to be synchronized
+	 */
+	private String property;
+	
+	/**
+	 * 
+	 * @param target
+	 * @param property
+	 */
+	private Converter<SV, ?> converter;
+
+	
+	public BindTarget(Object target, String property) {
+		super();
+		this.target = target;
+		this.property = property;
+	}
+
+	/**
+	 * @return the target
+	 */
+	public Object getTarget() {
+		return target;
+	}
+
+	/**
+	 * @return the property
+	 */
+	public String getProperty() {
+		return property;
+	}
+
+	/**
+	 * Estable el valor en el destino
+	 * @param newValue
+	 */
+	public void setValue(SV newValue) {
+		if (target!=null) {
+			Object v;
+			if (converter!=null) {
+				v = converter.convert(newValue);
+			} else v = newValue;
+			try {
+				PropertyUtils.setProperty(target, property, v);
+			} catch (NoSuchMethodException e) {
+				logger.error(
+						"Error al estabecer valor en binding: ObjectClass: {}, property: {}",
+						target.getClass().getName(), property, e);
+			} catch (IllegalAccessException e) {
+				logger.error(
+						"Error al estabecer valor en binding: ObjectClass: {}, property: {}",
+						target.getClass().getName(), property, e);
+			} catch (InvocationTargetException e) {
+				logger.error(
+						"Error al estabecer valor en binding: ObjectClass: {}, property: {}",
+						target.getClass().getName(), property, e);
+			}
+		}
+	}
+
+	/**
+	 * @return the converter
+	 */
+	public Converter<SV, ?> getConverter() {
+		return converter;
+	}
+
+	/**
+	 * @param converter the converter to set
+	 */
+	public void setConverter(Converter<SV, ?> converter) {
+		this.converter = converter;
+	}
+
+}
