@@ -1,4 +1,4 @@
-package org.veisite.vegecom;
+package com.veisite.vegecom;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
