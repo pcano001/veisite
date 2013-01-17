@@ -34,7 +34,9 @@ public class ApplicationFrame extends JFrame {
 	public ApplicationFrame() throws VegecomException {
 		super();
 		enableEvents(AWTEvent.WINDOW_EVENT_MASK);
-		setTitle(DeskApp.getMessage("ui.ApplicationFrame.Title", null, "Gestión Comercial"));
+		String title = DeskApp.getMessage("ui.ApplicationFrame.Title", null, "Gestión Comercial");
+		if (!DeskApp.isProductionMode()) title += " (Runnig in test mode)";
+		setTitle(title);
 		initComponent();
 	}
 

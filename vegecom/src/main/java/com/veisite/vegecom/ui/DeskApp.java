@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import org.apache.log4j.Level;
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 import org.slf4j.Logger;
@@ -34,8 +35,22 @@ public class DeskApp extends Application {
 	
 	private static Throwable configurationException = null;
 
+	/**
+	 * Establece si la aplicación está ejecutandose en modo de pruebas o
+	 * real. Por defecto modo de pruebas.
+	 */
+	private static boolean productionMode = false;
+	private static final String PRODUCTIONMODE_STRING = "productionMode"; 
+
 	public static void main(String[] args) {
 
+		// detectar si estamos ejecutando en modo producción o pruebas
+		if (args.length>0 && args[0].equals(PRODUCTIONMODE_STRING))
+			DeskApp.productionMode = true;
+		
+		// Configuramos logs
+		configureLogLevels();
+		
 		// Lanzamos la carga de la configuración.
 		try {
 		  loadConfiguration();
@@ -71,7 +86,10 @@ public class DeskApp extends Application {
 
 
 	public static void loadConfiguration() {
-		final String[] configSpringPaths = {"META-INF/spring/applicationContext.xml"};
+		String[] configSpringPaths = {"META-INF/spring/applicationContext_pru.xml"};
+		if (DeskApp.isProductionMode()) {
+			configSpringPaths[0] = "META-INF/spring/applicationContext_pro.xml";
+		}
 		/* Iniciamos contexto de aplicacion con spring */
 		setContext(new ClassPathXmlApplicationContext(configSpringPaths));
 		/* Inicializamos recurso de mensajes */
@@ -136,6 +154,21 @@ public class DeskApp extends Application {
 	}
 
 
+	/**
+	 * Configura los niveles de logs según el modo de ejecución de la 
+	 * aplicación
+	 */
+	private static void configureLogLevels() {
+		if (isProductionMode()) {
+			org.apache.log4j.Logger root = 
+					org.apache.log4j.LogManager.getRootLogger();
+			root.setLevel(Level.ERROR);
+			org.apache.log4j.Logger appLogger = 
+					org.apache.log4j.LogManager.getLogger("com.veisite.vegecom");
+			appLogger.setLevel(Level.INFO);
+		}
+	}
+
 	private static void exitDesktopApp(int exitCode) {
 		logger.info("Closing application with exit code {}", exitCode);
 		System.exit(exitCode);
@@ -178,6 +211,13 @@ public class DeskApp extends Application {
 		throw new VegecomException("El tiempo de inicializacion de la aplicación es excesivo");
 	}
 	
+
+	/**
+	 * @return the productionMode
+	 */
+	public static boolean isProductionMode() {
+		return productionMode;
+	}
 
 	public static Frame getMainFrame() {
 		return mainFrame;
