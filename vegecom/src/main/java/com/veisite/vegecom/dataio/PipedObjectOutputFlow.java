@@ -13,24 +13,24 @@ package com.veisite.vegecom.dataio;
  *
  * @param <T>
  */
-public class PipedObjectOutputStream<T> extends ObjectOutputStream<T> {
+public class PipedObjectOutputFlow<T> extends ObjectOutputFlow<T> {
 
 	/**
 	 * PipedObjectInputStream al que está conectado
 	 */
-	PipedObjectInputStream<T> inputPipe;
+	PipedObjectInputFlow<T> inputPipe;
 	
 	/**
 	 * Constructor sin argumentos
 	 */
-	public PipedObjectOutputStream() {
+	public PipedObjectOutputFlow() {
 	}
 	
 	/**
 	 * Constructor sin argumentos
 	 * @throws DataIOException 
 	 */
-	public PipedObjectOutputStream(PipedObjectInputStream<T> dest) throws DataIOException {
+	public PipedObjectOutputFlow(PipedObjectInputFlow<T> dest) throws DataIOException {
 		connect(dest);
 	}
 	
@@ -39,7 +39,7 @@ public class PipedObjectOutputStream<T> extends ObjectOutputStream<T> {
 	 * @param dest
 	 * @throws DataIOException
 	 */
-	public void connect(PipedObjectInputStream<T> dest) throws DataIOException {
+	public void connect(PipedObjectInputFlow<T> dest) throws DataIOException {
 		if (dest==null)
 			throw new java.lang.NullPointerException("PipedObjectInputStream:connect(src): src is null");
 		if (inputPipe!=null)

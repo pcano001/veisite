@@ -2,6 +2,7 @@ package com.veisite.vegecom.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,8 +24,8 @@ public class TipoIva extends ModelObject {
     @Column @NotNull
     private String nombre;
     
-    @OneToMany
-    private List<TramoTiposIva> tramoTiposIva;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoIva", orphanRemoval = true)
+    private List<TramoTiposIva> tramosTiposIva;
     
 	/**
 	 * @return the id
@@ -57,8 +58,8 @@ public class TipoIva extends ModelObject {
 	/**
 	 * @return the tramoTiposIva
 	 */
-	public List<TramoTiposIva> getTramoTiposIva() {
-		return tramoTiposIva;
+	public List<TramoTiposIva> getTramosTiposIva() {
+		return tramosTiposIva;
 	}
 
 	

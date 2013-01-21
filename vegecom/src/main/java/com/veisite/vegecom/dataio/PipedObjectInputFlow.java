@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @param <T>
  */
-public class PipedObjectInputStream<T> extends ObjectInputStream<T> {
+public class PipedObjectInputFlow<T> extends ObjectInputFlow<T> {
 
 	/**
 	 * Capacidad por defecto
@@ -47,30 +47,30 @@ public class PipedObjectInputStream<T> extends ObjectInputStream<T> {
 	/**
 	 * Tuberia de salida a la que esta conectada
 	 */
-	private PipedObjectOutputStream<T> outputPipe;
+	private PipedObjectOutputFlow<T> outputPipe;
 
 	
-	public PipedObjectInputStream() {
+	public PipedObjectInputFlow() {
 		buffer = new ArrayBlockingQueue<T>(BUFFER_SIZE);
 	}
 	
-	public PipedObjectInputStream(int capacity) {
+	public PipedObjectInputFlow(int capacity) {
 		buffer = new ArrayBlockingQueue<T>(capacity);
 	}
 	
-	public PipedObjectInputStream(PipedObjectOutputStream<T> src)
+	public PipedObjectInputFlow(PipedObjectOutputFlow<T> src)
 		throws DataIOException {
 		buffer = new ArrayBlockingQueue<T>(BUFFER_SIZE);
 		connect(src);
 	}
 	
-	public PipedObjectInputStream(PipedObjectOutputStream<T> src, int capacity) 
+	public PipedObjectInputFlow(PipedObjectOutputFlow<T> src, int capacity) 
 		throws DataIOException {
 		buffer = new ArrayBlockingQueue<T>(capacity);
 		connect(src);
 	}
 	
-	public void connect(PipedObjectOutputStream<T> src) throws DataIOException {
+	public void connect(PipedObjectOutputFlow<T> src) throws DataIOException {
 		if (src==null)
 			throw new java.lang.NullPointerException("PipedObjectInputStream:connect(src): src is null");
 		if (outputPipe!=null)

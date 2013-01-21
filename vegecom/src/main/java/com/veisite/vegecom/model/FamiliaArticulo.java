@@ -75,5 +75,6 @@ public class FamiliaArticulo extends ModelObject {
 		result = HashCodeUtil.hash(result, id);
 		result = HashCodeUtil.hash(result, nombre);
 		return result;
-	}	
+	}
+	
 }

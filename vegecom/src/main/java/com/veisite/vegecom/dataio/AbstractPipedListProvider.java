@@ -28,12 +28,12 @@ public abstract class AbstractPipedListProvider<T> extends ObjectFlowProvider<T>
 	/**
 	 * input stream
 	 */
-	private PipedObjectInputStream<T> input;
+	private PipedObjectInputFlow<T> input;
 	
 	/**
 	 * output stream
 	 */
-	private PipedObjectOutputStream<T> output;
+	private PipedObjectOutputFlow<T> output;
 	
 	/**
 	 * Error capturado en la escritura
@@ -45,7 +45,7 @@ public abstract class AbstractPipedListProvider<T> extends ObjectFlowProvider<T>
 	 * output stream la lista de objetos.
 	 * 
 	 */
-	protected abstract void writeOutputStream(ObjectOutputStream<T> output) 
+	protected abstract void writeOutputStream(ObjectOutputFlow<T> output) 
 			throws Throwable;
 	
 	/**
@@ -76,14 +76,14 @@ public abstract class AbstractPipedListProvider<T> extends ObjectFlowProvider<T>
 	/**
 	 * @return the input
 	 */
-	public PipedObjectInputStream<T> getInput() {
+	public PipedObjectInputFlow<T> getInput() {
 		return input;
 	}
 
 	/**
 	 * @return the output
 	 */
-	public PipedObjectOutputStream<T> getOutput() {
+	public PipedObjectOutputFlow<T> getOutput() {
 		return output;
 	}
 
@@ -109,8 +109,8 @@ public abstract class AbstractPipedListProvider<T> extends ObjectFlowProvider<T>
 	 * @throws DataIOException 
 	 */
 	public void fireStartObjectFlow() throws DataIOException {
-		input = new PipedObjectInputStream<T>();
-		output = new PipedObjectOutputStream<T>(input);
+		input = new PipedObjectInputFlow<T>();
+		output = new PipedObjectOutputFlow<T>(input);
 		input.connect(output);
 		setOutputError(null);
 		/* Lanzamos un thread para el escritor del buffer */

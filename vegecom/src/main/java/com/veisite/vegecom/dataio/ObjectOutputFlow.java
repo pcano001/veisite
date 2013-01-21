@@ -1,6 +1,6 @@
 package com.veisite.vegecom.dataio;
 
-public abstract class ObjectOutputStream<T> {
+public abstract class ObjectOutputFlow<T> {
 	
 	/**
 	 * Indica si el flujo está cerrado.
