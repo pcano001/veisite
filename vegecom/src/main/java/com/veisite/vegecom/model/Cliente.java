@@ -8,8 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
-import org.apache.commons.io.filefilter.FalseFileFilter;
-
 import com.veisite.vegecom.util.EqualsUtil;
 import com.veisite.vegecom.util.HashCodeUtil;
 
@@ -74,10 +72,8 @@ public class Cliente extends ModelObject {
 	/**
 	 * @param cif the cif to set
 	 */
-	public void setCif(String newCif) {
-		String oldValue = this.cif;
-		this.cif = newCif;
-		pcs.firePropertyChange("cif", oldValue, newCif );
+	public void setCif(String cif) {
+		pcs.firePropertyChange("cif", this.cif, this.cif = cif );
 	}
 
 	/**
@@ -90,10 +86,8 @@ public class Cliente extends ModelObject {
 	/**
 	 * @param nombre the nombre to set
 	 */
-	public void setNombre(String newNombre) {
-		String oldValue = this.nombre;
-		this.nombre = newNombre;
-		pcs.firePropertyChange("nombre", oldValue, newNombre );
+	public void setNombre(String nombre) {
+		pcs.firePropertyChange("nombre", this.nombre, this.nombre = nombre );
 	}
 	
 	/**
