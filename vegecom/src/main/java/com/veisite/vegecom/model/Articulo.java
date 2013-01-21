@@ -1,5 +1,8 @@
 package com.veisite.vegecom.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -8,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 import com.veisite.vegecom.util.EqualsUtil;
@@ -79,6 +83,11 @@ public class Articulo extends ModelObject {
     @Column
     private double stock;
     
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "articulo", orphanRemoval = true)
+	private List<PrecioArticuloCliente> preciosClientes;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "articulo", orphanRemoval = true)
+	private List<PrecioArticuloProveedor> preciosProveedor;
 
 	/**
 	 * @return the id
@@ -325,6 +334,21 @@ public class Articulo extends ModelObject {
 		pcs.firePropertyChange("stock", this.stock, this.stock = stock);
 	}
 
+	/**
+	 * @return the preciosClientes
+	 */
+	public List<PrecioArticuloCliente> getPreciosClientes() {
+		return preciosClientes;
+	}
+
+	/**
+	 * @return the preciosProveedor
+	 */
+	public List<PrecioArticuloProveedor> getPreciosProveedor() {
+		return preciosProveedor;
+	}
+
+	
 	/**
 	 * toString
 	 */

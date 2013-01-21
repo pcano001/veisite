@@ -26,6 +26,7 @@ public class ClienteDAO {
 	
 	public Cliente getById(Long id) {
 		Cliente cliente = (Cliente) em.find(Cliente.class, id);
+		cliente.getPreciosArticulos().size();
 		return cliente;
 	}
 	
@@ -61,15 +62,15 @@ public class ClienteDAO {
 	 * @param output
 	 * @throws DataIOException
 	 */
-	public void getList(ObjectOutputFlow<Cliente> output) throws DataIOException {
-		org.hibernate.Session session = (Session) em.getDelegate();
+	public void writeListTo(ObjectOutputFlow<Cliente> output) throws DataIOException {
+		Session session = (Session) em.getDelegate();
 		org.hibernate.Query q = session.createQuery("FROM Cliente c "
 				+ "LEFT JOIN FETCH c.municipio "
 				+ "LEFT JOIN FETCH c.provincia " 
 				+ "ORDER BY c.nombre");
-		logger.debug("Quering database for Cliente List...");
+		logger.debug("Querying database for Cliente List...");
 		ScrollableResults sc = q.scroll();
-		logger.debug("Begin writing Cliente list to ObjectOutputStream...");
+		logger.debug("Begin writing Cliente list to ObjectOutputFlow...");
 		if (!sc.first()) {
 			output.close();
 			sc.close();

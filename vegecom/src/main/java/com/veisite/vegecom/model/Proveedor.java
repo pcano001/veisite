@@ -1,11 +1,15 @@
 package com.veisite.vegecom.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 import com.veisite.vegecom.util.EqualsUtil;
@@ -48,7 +52,10 @@ public class Proveedor extends ModelObject {
     @Column
     private String email;
 
-	/**
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "proveedor", orphanRemoval = true)
+	private List<PrecioArticuloProveedor> preciosArticulos;
+	
+    /**
 	 * @return the id
 	 */
 	public Long getId() {
@@ -206,6 +213,13 @@ public class Proveedor extends ModelObject {
 	 */
 	public void setEmail(String email) {
 		pcs.firePropertyChange("email", this.email, this.email = email);
+	}
+
+	/**
+	 * @return the preciosArticulos
+	 */
+	public List<PrecioArticuloProveedor> getPreciosArticulos() {
+		return preciosArticulos;
 	}
 
 	

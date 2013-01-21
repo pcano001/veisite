@@ -14,6 +14,6 @@ public interface ClienteService {
 
 	public List<Cliente> getList();
 	
-	public void getList(ObjectOutputFlow<Cliente> output) throws DataIOException;
+	public void writeListTo(ObjectOutputFlow<Cliente> output) throws DataIOException;
 
 }

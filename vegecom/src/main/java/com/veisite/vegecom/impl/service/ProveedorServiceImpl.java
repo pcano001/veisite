@@ -6,35 +6,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.veisite.vegecom.dao.ClienteDAO;
+import com.veisite.vegecom.dao.ProveedorDAO;
 import com.veisite.vegecom.dataio.DataIOException;
 import com.veisite.vegecom.dataio.ObjectOutputFlow;
-import com.veisite.vegecom.model.Cliente;
-import com.veisite.vegecom.service.ClienteService;
+import com.veisite.vegecom.model.Proveedor;
+import com.veisite.vegecom.service.ProveedorService;
 
 @Service
-public class ClienteServiceImpl implements ClienteService {
+public class ProveedorServiceImpl implements ProveedorService {
 
 	@Autowired
-	ClienteDAO dao;
+	ProveedorDAO dao;
 	
 	@Override @Transactional
-	public Cliente save(Cliente cliente) {
-		return dao.save(cliente);
+	public Proveedor save(Proveedor proveedor) {
+		return dao.save(proveedor);
 	}
 
 	@Override @Transactional
-	public Cliente getById(Long id) {
+	public Proveedor getById(Long id) {
 		return dao.getById(id);
 	}
 
 	@Override @Transactional
-	public List<Cliente> getList() {
+	public List<Proveedor> getList() {
 		return dao.getList();
 	}
 	
 	@Override @Transactional
-	public void writeListTo(ObjectOutputFlow<Cliente> output) throws DataIOException {
+	public void writeListTo(ObjectOutputFlow<Proveedor> output) throws DataIOException {
 		dao.writeListTo(output);
 	}
 
