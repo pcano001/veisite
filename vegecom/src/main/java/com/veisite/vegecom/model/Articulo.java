@@ -83,10 +83,10 @@ public class Articulo extends ModelObject {
     @Column
     private double stock;
     
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "articulo", orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "articulo", targetEntity=PrecioArticuloTercero.class, orphanRemoval = true)
 	private List<PrecioArticuloCliente> preciosClientes;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "articulo", orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "articulo", targetEntity=PrecioArticuloTercero.class, orphanRemoval = true)
 	private List<PrecioArticuloProveedor> preciosProveedor;
 
 	/**
