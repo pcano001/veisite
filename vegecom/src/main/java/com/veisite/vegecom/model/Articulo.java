@@ -20,7 +20,12 @@ import com.veisite.vegecom.util.HashCodeUtil;
 @Entity
 public class Articulo extends ModelObject {
 
-    @Id
+    /**
+	 * serial
+	 */
+	private static final long serialVersionUID = 4109582637079210188L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 

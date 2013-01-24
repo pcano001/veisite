@@ -1,19 +1,20 @@
 package com.veisite.vegecom.ui.components;
 
+import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.Document;
+
+import org.jdesktop.swingx.JXTextField;
 
 import com.veisite.vegecom.binding.BindTarget;
 import com.veisite.vegecom.binding.IBindableTo;
 
-public class VTextField extends JTextField implements IActivableComponent, 
+public class VTextField extends JXTextField implements IActivableComponent, 
 														 IBindableTo<String> {
 
 	/**
@@ -32,27 +33,23 @@ public class VTextField extends JTextField implements IActivableComponent,
 		initComponent();
 	}
 
-	public VTextField(Document doc, String text, int columns) {
-		super(doc, text, columns);
+	public VTextField(String promptText, Color promptForeground,
+			Color promptBackground) {
+		super(promptText, promptForeground, promptBackground);
 		initComponent();
 	}
 
-	public VTextField(int columns) {
-		super(columns);
+	public VTextField(String promptText, Color promptForeground) {
+		super(promptText, promptForeground);
 		initComponent();
 	}
 
-	public VTextField(String text, int columns) {
-		super(text, columns);
+	public VTextField(String promptText) {
+		super(promptText);
 		initComponent();
 	}
 
-	public VTextField(String text) {
-		super(text);
-		initComponent();
-	}
 
-	
 	private void initComponent() {
 		getDocument().addDocumentListener(new BindingDocumentListener());
 		addKeyListener(new KeyAdapter() {
@@ -103,7 +100,6 @@ public class VTextField extends JTextField implements IActivableComponent,
 			b.setValue(getText());
 	}
 	
-	
 	private class BindingDocumentListener implements DocumentListener {
 		@Override
 		public void removeUpdate(DocumentEvent arg0) {
@@ -118,6 +114,5 @@ public class VTextField extends JTextField implements IActivableComponent,
 			documentChanged();
 		}
 	}
-	
 
 }

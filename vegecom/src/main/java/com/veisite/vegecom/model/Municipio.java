@@ -12,7 +12,12 @@ import com.veisite.vegecom.util.HashCodeUtil;
 @Entity
 public class Municipio extends ModelObject {
 
-    @Id
+    /**
+	 * serial
+	 */
+	private static final long serialVersionUID = 6520586906555859645L;
+
+	@Id
     @Column(name = "id", length=5)
     private String id;
 

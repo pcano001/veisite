@@ -15,7 +15,12 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class TramoTiposIva extends ModelObject {
 
-    @Id
+    /**
+	 * serial
+	 */
+	private static final long serialVersionUID = 6125518384897112328L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     

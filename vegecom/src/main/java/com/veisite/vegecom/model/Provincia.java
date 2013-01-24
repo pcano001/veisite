@@ -11,7 +11,12 @@ import com.veisite.vegecom.util.HashCodeUtil;
 @Entity
 public class Provincia extends ModelObject {
 
-    @Id
+    /**
+	 * serial
+	 */
+	private static final long serialVersionUID = -6584205124588347468L;
+
+	@Id
     @Column(name = "id", length=2)
     private String id;
 

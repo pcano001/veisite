@@ -10,6 +10,11 @@ import javax.persistence.OneToMany;
 public class Proveedor extends TerceroComercial {
 
 
+	/**
+	 * serial
+	 */
+	private static final long serialVersionUID = -792277261858752284L;
+	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "proveedor", orphanRemoval = true)
 	private List<PrecioArticuloProveedor> preciosArticulos;
 	

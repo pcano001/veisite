@@ -17,7 +17,12 @@ import com.veisite.vegecom.util.HashCodeUtil;
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public abstract class TerceroComercial extends ModelObject {
 
-    @Id
+    /**
+	 * serial
+	 */
+	private static final long serialVersionUID = 934482483702442714L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 

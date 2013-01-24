@@ -17,7 +17,12 @@ import com.veisite.vegecom.util.HashCodeUtil;
 @Entity
 public class TipoIva extends ModelObject {
 
-    @Id
+    /**
+	 * serial
+	 */
+	private static final long serialVersionUID = 2805755662130383355L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 

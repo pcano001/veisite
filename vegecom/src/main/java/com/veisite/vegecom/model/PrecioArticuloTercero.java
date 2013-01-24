@@ -14,7 +14,12 @@ import javax.validation.constraints.NotNull;
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public abstract class PrecioArticuloTercero extends ModelObject {
 
-    @Id
+    /**
+	 * serial
+	 */
+	private static final long serialVersionUID = -2862952215148055269L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     

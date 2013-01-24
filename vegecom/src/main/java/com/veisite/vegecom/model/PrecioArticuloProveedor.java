@@ -7,7 +7,12 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class PrecioArticuloProveedor extends PrecioArticuloTercero {
 
-    @ManyToOne @NotNull
+    /**
+	 * serial
+	 */
+	private static final long serialVersionUID = -8441118589955932813L;
+	
+	@ManyToOne @NotNull
     protected Proveedor proveedor;
 
     /**
