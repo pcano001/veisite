@@ -15,13 +15,13 @@ public class Cliente extends TerceroComercial {
 	private static final long serialVersionUID = 5564033182137895254L;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente", orphanRemoval = true)
-	private List<PrecioArticuloCliente> preciosArticulos;
+	private List<PrecioReferenciaCliente> preciosArticulos;
     
 
 	/**
 	 * @return the tarifas
 	 */
-	public List<PrecioArticuloCliente> getPreciosArticulos() {
+	public List<PrecioReferenciaCliente> getPreciosArticulos() {
 		return preciosArticulos;
 	}
 

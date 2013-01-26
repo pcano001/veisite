@@ -5,7 +5,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class PrecioArticuloProveedor extends PrecioArticuloTercero {
+public class PrecioReferenciaProveedor extends PrecioReferenciaTercero {
 
     /**
 	 * serial

@@ -26,8 +26,6 @@ public class ArticuloDAO {
 	
 	public Articulo getById(Long id) {
 		Articulo articulo = (Articulo) em.find(Articulo.class, id);
-		articulo.getPreciosClientes().size();
-		articulo.getPreciosProveedor().size();
 		return articulo;
 	}
 	
@@ -49,7 +47,8 @@ public class ArticuloDAO {
 		Query q = 
 				em.createQuery("SELECT a " +
 						"FROM Articulo a " +
-						"LEFT JOIN FETCH a.articuloEnvasado");
+						"LEFT JOIN FETCH a.familia " +
+						"ORDER BY a.codigo");
 		@SuppressWarnings("unchecked")
 		List<Articulo> lista = q.getResultList();
 		return lista;
@@ -64,7 +63,8 @@ public class ArticuloDAO {
 	public void writeListTo(ObjectOutputFlow<Articulo> output) throws DataIOException {
 		Session session = (Session) em.getDelegate();
 		org.hibernate.Query q = session.createQuery("FROM Articulo a "
-				+ "a.articuloEnvasado");
+				+ "LEFT JOIN FETCH a.familia "
+				+ "ORDER BY a.codigo");
 		logger.debug("Querying database for Articulo List...");
 		ScrollableResults sc = q.scroll();
 		logger.debug("Begin writing Articulo list to ObjectOutputFlow...");

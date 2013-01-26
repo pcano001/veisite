@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
-public abstract class PrecioArticuloTercero extends ModelObject {
+public abstract class PrecioReferenciaTercero extends ModelObject {
 
     /**
 	 * serial
@@ -24,7 +24,7 @@ public abstract class PrecioArticuloTercero extends ModelObject {
     private Long id;
     
     @ManyToOne @NotNull
-    protected Articulo articulo;
+    protected Referencia referencia;
     
     @Column
     private double precio;
@@ -61,18 +61,20 @@ public abstract class PrecioArticuloTercero extends ModelObject {
 	 */
 	public abstract void setTercero(TerceroComercial tercero);
 
+
 	/**
-	 * @return the articulo
+	 * @return the referencia
 	 */
-	public Articulo getArticulo() {
-		return articulo;
+	public Referencia getReferencia() {
+		return referencia;
 	}
 
 	/**
-	 * @param articulo the articulo to set
+	 * @param referencia the referencia to set
 	 */
-	public void setArticulo(Articulo articulo) {
-		pcs.firePropertyChange("articulo", this.articulo, this.articulo = articulo);
+	public void setReferencia(Referencia referencia) {
+		pcs.firePropertyChange("referencia", this.referencia,
+				this.referencia = referencia);
 	}
 
 	/**

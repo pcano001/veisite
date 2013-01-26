@@ -16,13 +16,13 @@ public class Proveedor extends TerceroComercial {
 	private static final long serialVersionUID = -792277261858752284L;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "proveedor", orphanRemoval = true)
-	private List<PrecioArticuloProveedor> preciosArticulos;
+	private List<PrecioReferenciaProveedor> preciosArticulos;
 	
 
 	/**
 	 * @return the preciosArticulos
 	 */
-	public List<PrecioArticuloProveedor> getPreciosArticulos() {
+	public List<PrecioReferenciaProveedor> getPreciosArticulos() {
 		return preciosArticulos;
 	}
 
