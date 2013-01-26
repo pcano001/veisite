@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.veisite.vegecom.util.EqualsUtil;
 import com.veisite.vegecom.util.HashCodeUtil;
 
@@ -22,9 +24,11 @@ public class FamiliaArticulo extends ModelObject {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column @NotNull
+    @Column 
+    @NotNull @NotEmpty
     private String nombre;
-	/**
+
+    /**
 	 * @return the id
 	 */
 	public Long getId() {

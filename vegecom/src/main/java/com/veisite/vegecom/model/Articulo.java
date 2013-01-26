@@ -38,7 +38,7 @@ public class Articulo extends ModelObject {
     
     @Enumerated(EnumType.STRING)
     @Column(length=1) 
-    @NotNull
+    @NotNull(message="Debe indicar el artículo")
     private TipoArticulo tipoArticulo;
     
     @ManyToOne
