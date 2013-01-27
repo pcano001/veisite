@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
 import com.veisite.vegecom.util.EqualsUtil;
@@ -15,7 +16,7 @@ import com.veisite.vegecom.util.HashCodeUtil;
 
 @Entity
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
-public abstract class TerceroComercial extends ModelObject {
+public abstract class TerceroComercial extends VersionableObject {
 
     /**
 	 * serial
@@ -25,6 +26,9 @@ public abstract class TerceroComercial extends ModelObject {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+	@Version
+	private Long version;
 
     @Column(length=20)
     private String cif;
@@ -68,6 +72,20 @@ public abstract class TerceroComercial extends ModelObject {
 	 */
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return the version
+	 */
+	public Long getVersion() {
+		return version;
+	}
+
+	/**
+	 * @param version the version to set
+	 */
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 
 	/**

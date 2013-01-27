@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -17,7 +18,7 @@ import com.veisite.vegecom.util.EqualsUtil;
 import com.veisite.vegecom.util.HashCodeUtil;
 
 @Entity
-public class Articulo extends ModelObject {
+public class Articulo extends VersionableObject {
 
     /**
 	 * serial
@@ -27,6 +28,9 @@ public class Articulo extends ModelObject {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+	
+	@Version
+	private Long version;
 
     @Column(unique=true)
     @NotNull @NotEmpty 
@@ -94,6 +98,20 @@ public class Articulo extends ModelObject {
 	 */
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return the version
+	 */
+	public Long getVersion() {
+		return version;
+	}
+
+	/**
+	 * @param version the version to set
+	 */
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 
 	/**
@@ -241,6 +259,20 @@ public class Articulo extends ModelObject {
 	protected void setObservaciones(String observaciones) {
 		pcs.firePropertyChange("observaciones", this.observaciones,
 				this.observaciones = observaciones);
+	}
+
+	/**
+	 * @return the color as int sRGB mode
+	 */
+	public int getColor() {
+		return color;
+	}
+
+	/**
+	 * @param color the color to set in sRGB mode
+	 */
+	public void setColor(int color) {
+		pcs.firePropertyChange("color", this.color, this.color = color);
 	}
 
 	/**

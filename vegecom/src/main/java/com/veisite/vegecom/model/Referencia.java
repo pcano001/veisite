@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -31,7 +32,7 @@ import com.veisite.vegecom.util.HashCodeUtil;
  *
  */
 @Entity
-public class Referencia extends ModelObject {
+public class Referencia extends VersionableObject {
 
 	/**
 	 * serial
@@ -41,6 +42,9 @@ public class Referencia extends ModelObject {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+	@Version
+	private Long version;
 
     @Column(unique=true)
     @NotNull @NotEmpty 
@@ -107,6 +111,20 @@ public class Referencia extends ModelObject {
 		this.id = id;
 	}
 
+
+	/**
+	 * @return the version
+	 */
+	public Long getVersion() {
+		return version;
+	}
+
+	/**
+	 * @param version the version to set
+	 */
+	public void setVersion(Long version) {
+		this.version = version;
+	}
 
 	/**
 	 * @return the codigo

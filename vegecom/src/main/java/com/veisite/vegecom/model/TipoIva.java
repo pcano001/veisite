@@ -9,13 +9,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
 import com.veisite.vegecom.util.EqualsUtil;
 import com.veisite.vegecom.util.HashCodeUtil;
 
 @Entity
-public class TipoIva extends ModelObject {
+public class TipoIva extends VersionableObject {
 
     /**
 	 * serial
@@ -25,6 +26,9 @@ public class TipoIva extends ModelObject {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+	@Version
+	private Long version;
 
     @Column @NotNull
     private String nombre;
@@ -44,6 +48,20 @@ public class TipoIva extends ModelObject {
 	 */
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return the version
+	 */
+	public Long getVersion() {
+		return version;
+	}
+
+	/**
+	 * @param version the version to set
+	 */
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 
 	/**

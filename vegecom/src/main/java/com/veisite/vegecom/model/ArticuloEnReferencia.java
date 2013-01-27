@@ -6,10 +6,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class ArticuloEnReferencia extends ModelObject {
+public class ArticuloEnReferencia extends VersionableObject {
 
 	/**
 	 * 
@@ -19,7 +20,10 @@ public class ArticuloEnReferencia extends ModelObject {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+	
+	@Version
+	private Long version;
+	
 	@ManyToOne
 	@NotNull
 	private Referencia referencia;
@@ -45,6 +49,20 @@ public class ArticuloEnReferencia extends ModelObject {
 	 */
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return the version
+	 */
+	public Long getVersion() {
+		return version;
+	}
+
+	/**
+	 * @param version the version to set
+	 */
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 
 	/**

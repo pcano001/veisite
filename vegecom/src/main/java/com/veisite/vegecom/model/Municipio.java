@@ -20,7 +20,7 @@ public class Municipio extends ModelObject {
 	@Id
     @Column(name = "id", length=5)
     private String id;
-
+	
     @Column @NotNull
     private String nombre;
     

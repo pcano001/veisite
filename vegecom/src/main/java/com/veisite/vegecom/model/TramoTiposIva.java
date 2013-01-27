@@ -10,10 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class TramoTiposIva extends ModelObject {
+public class TramoTiposIva extends VersionableObject {
 
     /**
 	 * serial
@@ -24,6 +25,9 @@ public class TramoTiposIva extends ModelObject {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+	@Version
+	private Long version;
+
     @ManyToOne @NotNull
     private TipoIva tipoIva;
 
@@ -52,6 +56,20 @@ public class TramoTiposIva extends ModelObject {
 	 */
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return the version
+	 */
+	public Long getVersion() {
+		return version;
+	}
+
+	/**
+	 * @param version the version to set
+	 */
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 
 	/**

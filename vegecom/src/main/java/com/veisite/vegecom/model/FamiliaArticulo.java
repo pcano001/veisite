@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -13,7 +14,7 @@ import com.veisite.vegecom.util.EqualsUtil;
 import com.veisite.vegecom.util.HashCodeUtil;
 
 @Entity
-public class FamiliaArticulo extends ModelObject {
+public class FamiliaArticulo extends VersionableObject {
 
     /**
 	 * serial
@@ -23,6 +24,9 @@ public class FamiliaArticulo extends ModelObject {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+	@Version
+	private Long version;
 
     @Column 
     @NotNull @NotEmpty
@@ -40,6 +44,20 @@ public class FamiliaArticulo extends ModelObject {
 	 */
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return the version
+	 */
+	public Long getVersion() {
+		return version;
+	}
+
+	/**
+	 * @param version the version to set
+	 */
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 
 	/**

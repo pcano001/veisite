@@ -8,11 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
-public abstract class PrecioReferenciaTercero extends ModelObject {
+public abstract class PrecioReferenciaTercero extends VersionableObject {
 
     /**
 	 * serial
@@ -23,6 +24,9 @@ public abstract class PrecioReferenciaTercero extends ModelObject {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+	@Version
+	private Long version;
+
     @ManyToOne @NotNull
     protected Referencia referencia;
     
@@ -49,6 +53,20 @@ public abstract class PrecioReferenciaTercero extends ModelObject {
 	 */
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return the version
+	 */
+	public Long getVersion() {
+		return version;
+	}
+
+	/**
+	 * @param version the version to set
+	 */
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 
 	/**
