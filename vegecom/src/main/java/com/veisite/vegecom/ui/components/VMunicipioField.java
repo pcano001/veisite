@@ -11,7 +11,7 @@ import com.veisite.vegecom.model.Provincia;
 import com.veisite.vegecom.service.AddressService;
 import com.veisite.vegecom.ui.DeskApp;
 
-public class VMunicipioField extends VComboBox {
+public class VMunicipioField extends VComboBox<Municipio> {
 
 	/**
 	 * 
@@ -43,7 +43,9 @@ public class VMunicipioField extends VComboBox {
 		as = (AddressService) DeskApp.getContext().getBean(AddressService.class);
 		bindWithParent();
 		if (parent==null) setModelForParent();
-		setPrototypeDisplayValue("SELECCIONE MUNICIPIO DE LA LISTA");
+		Municipio pro = new Municipio();
+		pro.setNombre("SELECCIONE MUNICIPIO DE LA LISTA");
+		setPrototypeDisplayValue(pro);
 	}
 	
 	/**
@@ -66,7 +68,7 @@ public class VMunicipioField extends VComboBox {
 			}
 		}
 		v.add(0, null);
-		setModel(new DefaultComboBoxModel(v));
+		setModel(new DefaultComboBoxModel<Municipio>(v));
 		setSelectedIndex(0);
 	}
 	

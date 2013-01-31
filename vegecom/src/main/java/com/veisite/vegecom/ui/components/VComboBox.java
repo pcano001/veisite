@@ -12,8 +12,8 @@ import javax.swing.JComboBox;
 import com.veisite.vegecom.binding.BindTarget;
 import com.veisite.vegecom.binding.IBindableTo;
 
-public class VComboBox extends JComboBox implements IActivableComponent, 
-													IBindableTo<Object> {
+public class VComboBox<T> extends JComboBox<T> implements IActivableComponent, 
+													IBindableTo<T> {
 
 	/**
 	 * 
@@ -23,24 +23,24 @@ public class VComboBox extends JComboBox implements IActivableComponent,
 	/**
 	 * binding selectedItem to an Object property on this target
 	 */
-	List<BindTarget<Object>> bindList = new ArrayList<BindTarget<Object>>();
+	List<BindTarget<T>> bindList = new ArrayList<BindTarget<T>>();
 	
 	
 	public VComboBox() {
 		initComponent();
 	}
 
-	public VComboBox(ComboBoxModel aModel) {
+	public VComboBox(ComboBoxModel<T> aModel) {
 		super(aModel);
 		initComponent();
 	}
 
-	public VComboBox(Object[] items) {
+	public VComboBox(T[] items) {
 		super(items);
 		initComponent();
 	}
 
-	public VComboBox(Vector<?> items) {
+	public VComboBox(Vector<T> items) {
 		super(items);
 		initComponent();
 	}
@@ -66,21 +66,24 @@ public class VComboBox extends JComboBox implements IActivableComponent,
 	}
 
 	@Override
-	public void addBindTo(BindTarget<Object> target) {
+	public void addBindTo(BindTarget<T> target) {
 		if (target==null) return;
 		bindList.add(target);
 	}
 
 	@Override
-	public void removeBindTo(BindTarget<Object> target) {
+	public void removeBindTo(BindTarget<T> target) {
 		if (target==null) return;
 		bindList.remove(target);
 	}
 
 	
 	private void itemChanged() {
-		for (BindTarget<Object> b : bindList) 
-			b.setValue(getSelectedItem());
+		for (BindTarget<T> b : bindList) {
+			@SuppressWarnings("unchecked")
+			T value = (T) getSelectedItem();
+			b.setValue(value);
+		}
 	}
 	
 	
@@ -96,4 +99,5 @@ public class VComboBox extends JComboBox implements IActivableComponent,
 		}
 	}
 
+	
 }

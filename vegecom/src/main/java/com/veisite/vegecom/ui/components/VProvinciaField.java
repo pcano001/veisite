@@ -13,7 +13,7 @@ import com.veisite.vegecom.model.Provincia;
 import com.veisite.vegecom.service.AddressService;
 import com.veisite.vegecom.ui.DeskApp;
 
-public class VProvinciaField extends VComboBox {
+public class VProvinciaField extends VComboBox<Provincia> {
 
 	/**
 	 * 
@@ -37,9 +37,11 @@ public class VProvinciaField extends VComboBox {
 		Vector<Provincia> v = new Vector<Provincia>(this.lista);
 		// Insert empty value ""
 		v.add(0, null);
-		ComboBoxModel model = new DefaultComboBoxModel(v);
+		ComboBoxModel<Provincia> model = new DefaultComboBoxModel<Provincia>(v);
 		setModel(model);
-		setPrototypeDisplayValue("GUADALAJARA  ");
+		Provincia pro = new Provincia();
+		pro.setNombre("GUADALAJARA  ");
+		setPrototypeDisplayValue(pro);
 	}
 
 	public void setProvinciaFromCode(String code, boolean confirmar) {
