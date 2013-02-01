@@ -7,7 +7,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
@@ -77,7 +76,7 @@ public class Articulo extends VersionableObject {
     /**
      * Campo de observaciones generales para el artículo
      */
-	@Lob
+	@Column(length=1024)
 	private String observaciones;
 
 	/**

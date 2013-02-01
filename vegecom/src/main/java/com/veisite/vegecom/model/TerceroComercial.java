@@ -60,6 +60,9 @@ public abstract class TerceroComercial extends VersionableObject {
     @Column
     private String email;
     
+	@Column(length=1024)
+    private String observaciones;
+    
 	/**
 	 * @return the id
 	 */
@@ -232,6 +235,21 @@ public abstract class TerceroComercial extends VersionableObject {
 	 */
 	public void setEmail(String email) {
 		pcs.firePropertyChange("email", this.email, this.email = email);
+	}
+
+	/**
+	 * @return the observaciones
+	 */
+	public String getObservaciones() {
+		return observaciones;
+	}
+
+	/**
+	 * @param observaciones the observaciones to set
+	 */
+	public void setObservaciones(String observaciones) {
+		pcs.firePropertyChange("observaciones", this.observaciones,
+				this.observaciones = observaciones);
 	}
 
 	
