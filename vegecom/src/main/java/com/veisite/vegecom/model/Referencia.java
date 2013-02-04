@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
@@ -77,6 +78,13 @@ public class Referencia extends VersionableObject {
     @Column
     private double stock;
 
+    /**
+     * Tipo de iva de la referencia.
+     * Puede heredar el del artículo o artículos que lo componen sin son todos iguales
+     */
+    @ManyToOne
+    private TipoIva tipoIva;
+    
     /**
      * Precios de la referencia para clientes
      */
@@ -241,6 +249,20 @@ public class Referencia extends VersionableObject {
 	 */
 	public void setStock(double stock) {
 		pcs.firePropertyChange("stock", this.stock, this.stock = stock);
+	}
+
+	/**
+	 * @return the tipoIva
+	 */
+	public TipoIva getTipoIva() {
+		return tipoIva;
+	}
+
+	/**
+	 * @param tipoIva the tipoIva to set
+	 */
+	public void setTipoIva(TipoIva tipoIva) {
+		pcs.firePropertyChange("tipoIva", this.tipoIva, this.tipoIva = tipoIva);
 	}
 
 	/**
