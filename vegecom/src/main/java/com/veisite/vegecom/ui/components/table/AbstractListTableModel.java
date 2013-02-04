@@ -140,6 +140,14 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
 	}
 	
 	/**
+	 * Devuelve la lista que se usa en el modelo para la 
+	 * visualizacion.
+	 */
+	public List<T> getDataList() {
+		return dataList;
+	}
+
+	/**
 	 * Establece una nueva lista de datos
 	 */
 	public void setDataList(List<T> dataList) {

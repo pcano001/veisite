@@ -1,5 +1,7 @@
 package com.veisite.vegecom.ui.components.table;
 
+import java.util.List;
+
 import javax.swing.JTable;
 
 import org.jdesktop.swingx.JXTable;
@@ -22,16 +24,10 @@ public abstract class AbstractListJTable<T> extends JXTable {
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Modelo
-	 */
-	protected AbstractListTableModel<T> model;
-
-	/**
 	 * Constructor de tabla con el modelo.
 	 */
 	public AbstractListJTable(AbstractListTableModel<T> model) {
 		super(model);
-		this.model = model;
 		init();
 	}
 	
@@ -40,6 +36,7 @@ public abstract class AbstractListJTable<T> extends JXTable {
 		setColumnControlVisible(true);
 		setBackground(new javax.swing.plaf.ColorUIResource(250,250,250));
 		setAutoCreateRowSorter(true);
+		AbstractListTableModel<T> model = getModel();
 		if (model!=null)
 			model.configureColumns(getColumnModel());
 	}
@@ -57,8 +54,8 @@ public abstract class AbstractListJTable<T> extends JXTable {
 	 */
 	public void setModel(AbstractListTableModel<T> model) {
 		super.setModel(model);
-		this.model = model;
-		model.configureColumns(getColumnModel());
+		if (model!=null)
+			model.configureColumns(getColumnModel());
 	}
 
 	/**
@@ -67,7 +64,10 @@ public abstract class AbstractListJTable<T> extends JXTable {
 	 * @return
 	 */
 	public T getItemAt(int row) {
-		return model.getItemAt(row);
+		AbstractListTableModel<T> model = getModel();
+		if (model!=null)
+			return model.getItemAt(row);
+		return null;
 	}
 
 	/**
@@ -76,8 +76,29 @@ public abstract class AbstractListJTable<T> extends JXTable {
 	 * @return
 	 */
 	public void setItemAt(int row, T item) {
-		model.setItemAt(row, item);
+		AbstractListTableModel<T> model = getModel();
+		if (model!=null)
+			model.setItemAt(row, item);
 	}
 
+	
+	/**
+	 * Devuelve la lista que se está usando en el modelo 
+	 * 
+	 * @param dataList
+	 */
+	public List<T> getDataList() {
+		return getModel().getDataList();
+	}
+	
+	/**
+	 * Cambia la lista de la tabla por la proporcionada 
+	 * 
+	 * @param dataList
+	 */
+	public void setDataList(List<T> dataList) {
+		getModel().setDataList(dataList);
+	}
+	
 }
 

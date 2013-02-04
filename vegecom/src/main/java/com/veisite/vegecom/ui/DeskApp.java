@@ -3,7 +3,6 @@ package com.veisite.vegecom.ui;
 import java.awt.Frame;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.Locale;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -221,10 +220,6 @@ public class DeskApp extends Application {
 
 	public static Frame getMainFrame() {
 		return mainFrame;
-	}
-
-	public static String getMessage(String code, Object[] args, String defaultMessage) {
-		return getResourceBundle().getMessage(code, args, defaultMessage, Locale.getDefault());
 	}
 
 }

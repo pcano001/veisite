@@ -1,5 +1,7 @@
 package com.veisite.vegecom;
 
+import java.util.Locale;
+
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
@@ -60,4 +62,17 @@ public class Application {
 	public static void setApplicationProperties(ApplicationProperties applicationProperties) {
 		Application.aplicationProperties = applicationProperties;
 	}
+
+	/**
+	 * Devuelve mensaje de recurso. 
+	 * 
+	 * @param code
+	 * @param args
+	 * @param defaultMessage
+	 * @return
+	 */
+	public static String getMessage(String code, Object[] args, String defaultMessage) {
+		return getResourceBundle().getMessage(code, args, defaultMessage, Locale.getDefault());
+	}
+	
 }

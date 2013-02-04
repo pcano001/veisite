@@ -15,7 +15,7 @@ import com.veisite.vegecom.ui.components.util.RegexFilterKeyListener;
 public class CifTextField extends VUpTextField {
 
 	/**
-	 * 
+	 * serial
 	 */
 	private static final long serialVersionUID = 1L;
 	
@@ -64,7 +64,7 @@ public class CifTextField extends VUpTextField {
 				}
 			}
 		}
-		// TODO Incluir validaciones de cif, nif, nie
+		// TODO Incluir validaciones de cif, nif, nie, etc
 	}
 	
 	private class ValidationProcess implements FocusListener {
