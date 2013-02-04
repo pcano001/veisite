@@ -57,7 +57,7 @@ public class ArticuloDAO {
 	
 	/**
 	 * 	Recupera la lista de articulo y la envia a un buffer de lectura/escritura
-	 * @param output
+	 * @param output salida hacia la que se dirigen los objectos. 
 	 * @throws DataIOException
 	 */
 	public void writeListTo(ObjectOutputFlow<Articulo> output) throws DataIOException {
