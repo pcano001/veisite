@@ -75,15 +75,15 @@ public class BindTarget<SV> {
 					PropertyUtils.setProperty(target, property, v);
 				} catch (NoSuchMethodException e) {
 					logger.error(
-							"Error al estabecer valor en binding: ObjectClass: {}, property: {}",
+							"Error setting value on bind target: ObjectClass: {}, property: {}",
 							target.getClass().getName(), property, e);
 				} catch (IllegalAccessException e) {
 					logger.error(
-							"Error al estabecer valor en binding: ObjectClass: {}, property: {}",
+							"Error setting value on bind target: ObjectClass: {}, property: {}",
 							target.getClass().getName(), property, e);
 				} catch (InvocationTargetException e) {
 					logger.error(
-							"Error al estabecer valor en binding: ObjectClass: {}, property: {}",
+							"Error setting value on bind target: ObjectClass: {}, property: {}",
 							target.getClass().getName(), property, e);
 				}
 				amISetting = false;
