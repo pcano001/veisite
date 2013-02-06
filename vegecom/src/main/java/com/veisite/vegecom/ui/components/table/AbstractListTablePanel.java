@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 
 import com.veisite.vegecom.VegecomException;
 import com.veisite.vegecom.ui.components.panels.DefaultTableStatusBar;
-import com.veisite.vegecom.util.export.TableExporter;
+import com.veisite.vegecom.export.tabular.TableModelExporter;
 
 public abstract class AbstractListTablePanel<T> extends JPanel {
 
@@ -232,7 +232,7 @@ public abstract class AbstractListTablePanel<T> extends JPanel {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					exportModel(TableExporter.ODS_FORMAT);
+					exportModel(TableModelExporter.ODS_FORMAT);
 				}
 			};
 			AbstractAction exportXls = new AbstractAction("a formato XLS") {
@@ -240,7 +240,7 @@ public abstract class AbstractListTablePanel<T> extends JPanel {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					exportModel(TableExporter.XLS_FORMAT);
+					exportModel(TableModelExporter.XLS_FORMAT);
 				}
 			};
 			exportMenu.add(exportOds);
@@ -281,13 +281,13 @@ public abstract class AbstractListTablePanel<T> extends JPanel {
 		Cursor c = table.getCursor();
 		table.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 		try {
-			TableExporter te = new TableExporter(format);
+			TableModelExporter te = new TableModelExporter(format);
 			TableViewModelWraper model = new TableViewModelWraper(table);
 			File f = te.exportToTempFile(model, "gaslabexport");
-			if (format==TableExporter.ODS_FORMAT) {
+			if (format==TableModelExporter.ODS_FORMAT) {
 				OOUtils.open(f);
 			}
-			if (format==TableExporter.XLS_FORMAT) {
+			if (format==TableModelExporter.XLS_FORMAT) {
 				Desktop.getDesktop().open(f);
 			}
 		} catch (Throwable t) {

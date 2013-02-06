@@ -46,6 +46,7 @@ public class ExcelExporter {
 	}
 
 	private static void addCell(WritableSheet sheet, int column, int row, Object value) throws WriteException {
+		if (value==null) return;
 		try {
 			if (value instanceof Date) {
 				sheet.addCell(new DateTime(column, row, (Date) value, DateTime.GMT));
