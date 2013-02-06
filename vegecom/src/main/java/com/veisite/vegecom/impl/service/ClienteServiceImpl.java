@@ -24,6 +24,11 @@ public class ClienteServiceImpl implements ClienteService {
 	}
 
 	@Override @Transactional
+	public void remove(Cliente cliente) {
+		dao.remove(cliente);
+	}
+
+	@Override @Transactional
 	public Cliente getById(Long id) {
 		return dao.getById(id);
 	}

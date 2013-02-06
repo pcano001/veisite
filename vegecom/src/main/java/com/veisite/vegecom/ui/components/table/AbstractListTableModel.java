@@ -96,7 +96,11 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
 		fireTableRowsInserted(init, dataList.size()-1);
 	}
 	
-	
+	/**
+	 * Devuelve el item de la fila indicada
+	 * @param rowIndex
+	 * @return
+	 */
 	public T getItemAt(int rowIndex) {
 		T item;
 		if (rowIndex>=dataList.size()) item=null;
@@ -104,10 +108,49 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
 		return item;
 	}
 	
+	/**
+	 * Cambia un item en la fila indicada
+	 * @param rowIndex
+	 * @param item
+	 */
 	public void setItemAt(int rowIndex, T item) {
 		if (rowIndex>=dataList.size()) return;
 		dataList.set(rowIndex, item);
 		fireTableRowsUpdated(rowIndex, rowIndex);
+	}
+	
+	/**
+	 * Añade un item nuevo insertándolo al final de la lista
+	 * @param item
+	 */
+	public void addItem(T item) {
+		dataList.add(item);
+		fireTableRowsInserted(dataList.size()-1, dataList.size()-1);
+	}
+	
+	/**
+	 * Añade un item nuevo insertándolo en la fila indicada
+	 * Si la fila no es correcta lo añade al final
+	 * @param rowIndex
+	 * @param item
+	 */
+	public void addItemAt(int rowIndex, T item) {
+		if (rowIndex<0 || rowIndex>=dataList.size()) addItem(item);
+		dataList.add(rowIndex, item);
+		fireTableRowsInserted(rowIndex, rowIndex);
+	}
+	
+	/**
+	 * Elimina un item de la fila indicada
+	 * Si la fila no es correcta no hace nada
+	 * @param rowIndex
+	 * @param item
+	 */
+	public T delItemAt(int rowIndex) {
+		if (rowIndex<0 || rowIndex>=dataList.size()) return null;
+		T  item = dataList.remove(rowIndex);
+		fireTableRowsDeleted(rowIndex, rowIndex);
+		return item;
 	}
 	
 	/**

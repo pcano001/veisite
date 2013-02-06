@@ -1,6 +1,5 @@
 package com.veisite.vegecom.ui.util;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -8,6 +7,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.net.URL;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -24,50 +24,55 @@ public class UIResources {
 	
 	private static String iconsPath = "images/icons/";  
 
-	public static JPanel getEditComponent(String label, JComponent c,
-			boolean negrita, boolean vertical) {
-		JPanel p = new JPanel(new BorderLayout());
-		JLabel jlabel = new JLabel(label);
+	/**
+	 * Devuelve un panel compuesto por una etiqueta con el texto pasado
+	 *  y con el componente al lado o debajo segun indique el parametro
+	 *  vertical. El teto de la etiqueta se pone en negrita s se indica
+	 * @param label
+	 * 		texto de la etieuta que acompaña al componente
+	 * @param c
+	 * 		componente 
+	 * @param vertical
+	 * 		si la disposición de la etiqueta y el componente es en 
+	 * 		vertical u horizontal (false)
+	 * @param negrita
+	 * 		si true la fuente de la etiqueta se establece en negrita.
+	 * @return
+	 */
+	public static JPanel getLabeledComponent(String label, JComponent c,
+			boolean vertical, boolean negrita) {
+		JPanel p = new JPanel();
+		BoxLayout bl = new BoxLayout(p, 
+				vertical ? BoxLayout.PAGE_AXIS : BoxLayout.LINE_AXIS);
+		p.setLayout(bl);
+		JLabel jlabel = new JLabel(label+" ");
 		Font f = jlabel.getFont();
-		int i = f.getSize();
+		int fs = f.getSize();
 		if (negrita)
-			jlabel.setFont(new Font(f.getName(), Font.BOLD, i));
-		Dimension df = new Dimension(jlabel.getPreferredSize());
-		if (vertical) {
-			df.height = i + 5;
-			jlabel.setAlignmentY(1.0F);
-			jlabel.setAlignmentX(0.0F);
-		} else {
-			df.width += 5;
-			jlabel.setAlignmentY(1.0F);
-			jlabel.setAlignmentX(0.0F);
-		}
-		Dimension dc = c.getPreferredSize();
-		Dimension dp = new Dimension(dc);
-		if (vertical) {
-			dp.width = Math.max(dc.width, df.width);
-			dp.height = dc.height + df.height;
-		} else {
-			dp.height = Math.max(dc.height, df.height);
-			dp.width = dc.width + df.width;
-			df.height = dp.height;
-		}
-		jlabel.setMinimumSize(df);
-		jlabel.setMaximumSize(df);
-		jlabel.setPreferredSize(df);
-		p.setMinimumSize(dp);
-		p.setMaximumSize(dp);
-		p.setPreferredSize(dp);
-		if (vertical) {
-			p.add(jlabel, BorderLayout.NORTH);
-			p.add(c, BorderLayout.CENTER);
-		} else {
-			p.add(jlabel, BorderLayout.WEST);
-			p.add(c, BorderLayout.CENTER);
-		}
+			jlabel.setFont(new Font(f.getName(), Font.BOLD, fs));
+		jlabel.setAlignmentY(0.95F);
+		jlabel.setAlignmentX(0.0F);
+		p.add(jlabel);
+		c.setAlignmentY(0.85F);
+		c.setAlignmentX(0.0F);
+		p.add(c);
+		int w = p.getPreferredSize().width;
+		int h = p.getPreferredSize().height;
+		p.setMinimumSize(new Dimension(w,h));
+		p.setMaximumSize(new Dimension(w,h));
 		return p;
 	}
+	
 
+	public static JPanel getLabeledComponent(String label, JComponent c) {
+		return getLabeledComponent(label, c, true, false);
+	}
+	
+	public static JPanel getLabeledComponent(String label, JComponent c,
+			boolean vertical) {
+		return getLabeledComponent(label, c, vertical, false);
+	}
+	
 	public static void centerWindow(java.awt.Window window) {
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension screenSize = tk.getScreenSize();
@@ -137,7 +142,17 @@ public class UIResources {
 	 * 
 	 */
 	public static void showException(Component owner, Throwable t) {
-		ErrorInfo err = new ErrorInfo("Error", t.getMessage(), t.getCause().getMessage(), null, t, null, null);
+		String dm = t.getCause()!=null ? t.getCause().getMessage() : t.getMessage();
+		ErrorInfo err = new ErrorInfo("Error", t.getMessage(), dm, null, t, null, null);
+		JXErrorPane.showDialog(owner, err);
+	}
+	
+	/**
+	 * Metodo que toma una excepción y la muestra en un ventana.
+	 * 
+	 */
+	public static void showException(Component owner, Throwable t, String message) {
+		ErrorInfo err = new ErrorInfo("Error", message, t.getMessage(), null, t, null, null);
 		JXErrorPane.showDialog(owner, err);
 	}
 	

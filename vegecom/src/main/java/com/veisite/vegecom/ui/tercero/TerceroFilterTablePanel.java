@@ -6,10 +6,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.RowFilter;
+import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.EventListenerList;
 
 import com.veisite.vegecom.model.TerceroComercial;
@@ -28,10 +33,30 @@ public class TerceroFilterTablePanel<T extends TerceroComercial> extends JPanel 
     private EventListenerList listenerList = new EventListenerList();
     
     private VTextField searchField;
+    
+    /**
+     * TIMEOUT es el tiempo que se espera a que no se pulse una tecla 
+     * para lanzar el filtro
+     */
+    private static final long TIMEOUT=300L;
+    /**
+     * Timer que ejecutas la tarea de filtro
+     */
+    private Timer filterTimer;
+    /**
+     * Tarea que se planifica para ejecutar el filtro
+     */
+    private TimerTask filterTimerTask=null;
+    /**
+     * Objeto para controlar el acceso al timer
+     */
+    final Object lock = new Object();
+    
 	
 	public TerceroFilterTablePanel() {
 		super(new BorderLayout());
 		setBorder(javax.swing.BorderFactory.createTitledBorder("Filtro"));
+		filterTimer = new Timer();
 		configurePanel();
 	}
 
@@ -40,8 +65,7 @@ public class TerceroFilterTablePanel<T extends TerceroComercial> extends JPanel 
 
 	 	searchField = new VTextField("Buscar/Filtro:");
 	 	searchField.setColumns(20);
-	 	//TODO [quitar]
-	 	//filterPanel.add(UIResources.getEditComponent("Buscar/Filtro", searchField, false, true));
+	 	filterPanel.add(searchField);
 	 	
 	 	add(filterPanel, BorderLayout.CENTER);
 	 	
@@ -49,7 +73,8 @@ public class TerceroFilterTablePanel<T extends TerceroComercial> extends JPanel 
 	 	JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 	 	JButton applyButton =  new JButton("Aplicar filtro");
 	 	actionPanel.add(applyButton);
-	 	add(actionPanel, BorderLayout.SOUTH);
+	 	filterPanel.add(actionPanel);
+	 	//add(actionPanel, BorderLayout.SOUTH);
 	 	
 	 	ActionListener changeListener = new ActionListener() {
 			@Override
@@ -57,8 +82,21 @@ public class TerceroFilterTablePanel<T extends TerceroComercial> extends JPanel 
 				fireFilterChanged();
 			}
 	 	};
-	 	searchField.addActionListener(changeListener);
 	 	applyButton.addActionListener(changeListener);
+	 	searchField.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				scheduleFilterChanged();
+			}
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				scheduleFilterChanged();
+			}
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				scheduleFilterChanged();
+			}
+		});
 	}
 
 	
@@ -101,6 +139,41 @@ public class TerceroFilterTablePanel<T extends TerceroComercial> extends JPanel 
 
 		for (int i = listeners.length - 1; i >= 0; i--)
 			((ActionListener) listeners[i]).actionPerformed(e);
+	}
+	
+	
+	/**
+	 * Planifica para el timeput fijado el lanzamiento de la tarea
+	 * de filtrado de filas
+	 */
+	private void scheduleFilterChanged() {
+		synchronized(lock) {
+			cancelTimers();
+			filterTimerTask = new FilterTimerTask();
+			filterTimer.schedule(filterTimerTask, TIMEOUT);
+		}
+	}
+	
+	private void cancelTimers() {
+		if (filterTimerTask!=null) {
+			filterTimerTask.cancel();
+		}
+		filterTimer.purge();
+	}
+	
+	private class FilterTimerTask extends TimerTask {
+		@Override
+		public void run() {
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					synchronized(lock) {
+						fireFilterChanged();
+						cancelTimers();
+					}
+				}
+			});
+		}
 	}
 	
 }

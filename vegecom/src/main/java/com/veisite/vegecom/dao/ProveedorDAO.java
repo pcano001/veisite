@@ -39,6 +39,11 @@ public class ProveedorDAO {
 		return proveedor;
 	}
 
+	public void remove(Proveedor proveedor) {
+		if (proveedor.getId()==null) return;
+		em.remove(proveedor);
+	}
+	
 	/**
 	 * Devuelve la lista de Proveedor.
 	 * 
@@ -84,6 +89,6 @@ public class ProveedorDAO {
 		output.close();
 		logger.debug("Writing Proveedor list has ended correctly, exiting...");
 	}
-	
+
 	
 }

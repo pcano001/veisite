@@ -72,13 +72,50 @@ public abstract class AbstractListJTable<T> extends JXTable {
 
 	/**
 	 * Cambia un object por el indicado en la fila especificada
-	 * @param row, beneficiario
+	 * @param row, tercero
 	 * @return
 	 */
 	public void setItemAt(int row, T item) {
 		AbstractListTableModel<T> model = getModel();
 		if (model!=null)
 			model.setItemAt(row, item);
+	}
+
+	/**
+	 * Elimina un item del la fila especificada.
+	 * Devuelve el item eliminado o null si no se eliminó
+	 * @param row
+	 * @return
+	 */
+	public T delItemAt(int row) {
+		AbstractListTableModel<T> model = getModel();
+		if (model!=null) return model.delItemAt(row);
+		return null;
+	}
+
+	/**
+	 * Añade un nuevo item a la tabla insertandolo al final
+	 * 
+	 * @param tercero
+	 * @return
+	 */
+	public void addItem(T item) {
+		AbstractListTableModel<T> model = getModel();
+		if (model!=null)
+			model.addItem(item);
+	}
+
+	/**
+	 * Añade un nuevo item a la tabla insertandolo en la 
+	 * fila indicada
+	 * 
+	 * @param tercero
+	 * @return
+	 */
+	public void addItemAt(int row, T item) {
+		AbstractListTableModel<T> model = getModel();
+		if (model!=null)
+			model.addItemAt(row, item);
 	}
 
 	

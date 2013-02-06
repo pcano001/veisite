@@ -26,7 +26,9 @@ public class ClienteDAO {
 	
 	public Cliente getById(Long id) {
 		Cliente cliente = (Cliente) em.find(Cliente.class, id);
-		cliente.getPreciosArticulos().size();
+		if (cliente!=null) {
+			cliente.getPreciosArticulos().size();
+		}
 		return cliente;
 	}
 	
@@ -39,6 +41,11 @@ public class ClienteDAO {
 		return cliente;
 	}
 
+	public void remove(Cliente cliente) {
+		if (cliente.getId()==null) return;
+		em.remove(em.merge(cliente));
+	}
+	
 	/**
 	 * Devuelve la lista de cliente.
 	 * 
@@ -84,6 +91,6 @@ public class ClienteDAO {
 		output.close();
 		logger.debug("Writing Cliente list has ended correctly, exiting...");
 	}
-	
+
 	
 }

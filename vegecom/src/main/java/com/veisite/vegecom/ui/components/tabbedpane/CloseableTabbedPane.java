@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.Icon;
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 public class CloseableTabbedPane extends JTabbedPane implements MouseListener {
@@ -101,5 +102,18 @@ public class CloseableTabbedPane extends JTabbedPane implements MouseListener {
 	private void initializeMouseListener() {
 		addMouseListener(this);
 	}
+	
+	/**
+	 * Devuelve el indice del componente dentro del grupo de
+	 * pestañas o -1 si no se encuentra.
+	 * @param component
+	 * @return
+	 */
+	public int getTabIndex(Component component) {
+		for (int i=0; i<getTabCount(); i++)
+			if (getTabComponentAt(i)==component) return i;
+		return -1;
+	}
+
 
 }
