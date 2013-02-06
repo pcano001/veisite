@@ -8,7 +8,12 @@ import javax.swing.JPanel;
 import com.veisite.vegecom.binding.BindTarget;
 import com.veisite.vegecom.model.TerceroComercial;
 import com.veisite.vegecom.ui.DeskApp;
-import com.veisite.vegecom.ui.components.CifTextField;
+import com.veisite.vegecom.ui.components.CifField;
+import com.veisite.vegecom.ui.components.VCodigoPostalField;
+import com.veisite.vegecom.ui.components.VCuentaBancariaField;
+import com.veisite.vegecom.ui.components.VMunicipioField;
+import com.veisite.vegecom.ui.components.VProvinciaField;
+import com.veisite.vegecom.ui.components.VTextArea;
 import com.veisite.vegecom.ui.components.VTextField;
 import com.veisite.vegecom.ui.util.UIResources;
 
@@ -27,8 +32,17 @@ public abstract class TerceroEditComponent<T extends TerceroComercial> extends J
 	/**
 	 * Componentes
 	 */
-	protected CifTextField cifField;
+	protected CifField cifField;
 	protected VTextField nameField;
+	protected VTextField domicilioField;
+	protected VCodigoPostalField cpField;
+	protected VProvinciaField provinciaField;
+	protected VMunicipioField municipioField;
+	protected VTextField localidadField;
+	protected VTextField telefonoField;
+	protected VTextField emailField;
+	protected VCuentaBancariaField cccField;
+	protected VTextArea observacionesField;
 	
 	
 	/**
@@ -58,10 +72,10 @@ public abstract class TerceroEditComponent<T extends TerceroComercial> extends J
 	protected void createComponents() {
 		String s;
 		s =	DeskApp.getMessage("ui.tercero.TerceroEditPanel.cifPrompt", null, "Cif");
-		cifField = new CifTextField(s, 8);
+		cifField = new CifField(s, 10);
 		s =	DeskApp.getMessage("ui.tercero.TerceroEditPanel.namePrompt", null, "Name");
 		nameField = new VTextField(s);
-		nameField.setColumns(20);
+		nameField.setColumns(35);
 	}
 	
 	protected void composePanel() {
