@@ -12,31 +12,31 @@ import com.veisite.vegecom.ui.components.util.LimitLengthKeyListener;
 import com.veisite.vegecom.ui.components.util.RegexFilterKeyListener;
 
 
-public class CifField extends VUpTextField {
+public class VNifField extends VUpTextField {
 
 	/**
 	 * serial
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private static final Logger logger = LoggerFactory.getLogger(CifField.class);
+	private static final Logger logger = LoggerFactory.getLogger(VNifField.class);
 
-	public CifField() {
+	public VNifField() {
 		super();
 		initComponent();
 	}
 
-	public CifField(int columns) {
+	public VNifField(int columns) {
 		super(columns);
 		initComponent();
 	}
 
-	public CifField(String promptText, int columns) {
+	public VNifField(String promptText, int columns) {
 		super(promptText, columns);
 		initComponent();
 	}
 
-	public CifField(String promptText) {
+	public VNifField(String promptText) {
 		super(promptText);
 		initComponent();
 	}
@@ -69,7 +69,7 @@ public class CifField extends VUpTextField {
 	
 	private class ValidationProcess implements FocusListener {
 		
-		public ValidationProcess(CifField field) {
+		public ValidationProcess(VNifField field) {
 		}
 
 		@Override

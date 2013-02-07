@@ -48,6 +48,7 @@ public class ClienteEditDialog extends AbstractEditDialog {
 	}
 	
 	private void initializeDialog() {
+		setTitle(cliente.getNombre());
 		// Poner escucha a los cambios en el cliente
 		cliente.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
@@ -62,7 +63,6 @@ public class ClienteEditDialog extends AbstractEditDialog {
 
 	@Override
 	protected boolean canClose() {
-		// Validar el cliente TODO
 		return true;
 	}
 
@@ -71,4 +71,8 @@ public class ClienteEditDialog extends AbstractEditDialog {
 		return true;
 	}
 
+	@Override
+	protected void onClose() {
+	}
+	
 }

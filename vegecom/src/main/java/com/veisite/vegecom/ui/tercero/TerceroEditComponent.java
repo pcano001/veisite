@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import com.veisite.vegecom.binding.BindTarget;
 import com.veisite.vegecom.model.TerceroComercial;
 import com.veisite.vegecom.ui.DeskApp;
-import com.veisite.vegecom.ui.components.CifField;
+import com.veisite.vegecom.ui.components.VNifField;
 import com.veisite.vegecom.ui.components.VCodigoPostalField;
 import com.veisite.vegecom.ui.components.VCuentaBancariaField;
 import com.veisite.vegecom.ui.components.VMunicipioField;
@@ -32,7 +32,7 @@ public abstract class TerceroEditComponent<T extends TerceroComercial> extends J
 	/**
 	 * Componentes
 	 */
-	protected CifField cifField;
+	protected VNifField nifField;
 	protected VTextField nameField;
 	protected VTextField domicilioField;
 	protected VCodigoPostalField cpField;
@@ -71,8 +71,8 @@ public abstract class TerceroEditComponent<T extends TerceroComercial> extends J
 	
 	protected void createComponents() {
 		String s;
-		s =	DeskApp.getMessage("ui.tercero.TerceroEditPanel.cifPrompt", null, "Cif");
-		cifField = new CifField(s, 10);
+		s =	DeskApp.getMessage("ui.tercero.TerceroEditPanel.nifPrompt", null, "Nif");
+		nifField = new VNifField(s, 10);
 		s =	DeskApp.getMessage("ui.tercero.TerceroEditPanel.namePrompt", null, "Name");
 		nameField = new VTextField(s);
 		nameField.setColumns(35);
@@ -88,8 +88,8 @@ public abstract class TerceroEditComponent<T extends TerceroComercial> extends J
 		String s;
 	    
 	    row = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		s =	DeskApp.getMessage("ui.tercero.TerceroEditPanel.cifLabel", null, "Cif:");
-	    row.add(UIResources.getLabeledComponent(s, cifField));
+		s =	DeskApp.getMessage("ui.tercero.TerceroEditPanel.nifLabel", null, "Nif:");
+	    row.add(UIResources.getLabeledComponent(s, nifField));
 		s =	DeskApp.getMessage("ui.tercero.TerceroEditPanel.nameLabel", null, "Name:");
 	    row.add(UIResources.getLabeledComponent(s, nameField));
 	    vBox.add(row);
@@ -98,8 +98,8 @@ public abstract class TerceroEditComponent<T extends TerceroComercial> extends J
 	}
 	
 	protected void bindComponents() {
-		cifField.setText(tercero.getCif());
-		cifField.addBindTo(new BindTarget<String>(tercero, "cif"));
+		nifField.setText(tercero.getNif());
+		nifField.addBindTo(new BindTarget<String>(tercero, "nif"));
 		nameField.setText(tercero.getNombre());
 		nameField.addBindTo(new BindTarget<String>(tercero, "nombre"));
 	}

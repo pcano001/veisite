@@ -87,9 +87,9 @@ public class ClienteListPanel extends TerceroListPanel<Cliente> {
 				return null;
 			}
 			// Si el cliente es null, no se ha encontrado
-			// Prodría haber sido borrado
+			// Podría haber sido borrado
 			if (cliente==null) {
-				logger.error("Error al recueprar cliente en el servicio de persistencia. No se encuentra.");
+				logger.error("Error al recuperar cliente en el servicio de persistencia. No se encuentra.");
 				String t = DeskApp.getMessage("ui.tercero.cliente.ClienteListPanel.ErrorNotExistClienteTitle", 
 						null, "Error retrieving customer");
 				String m = DeskApp.getMessage("ui.tercero.cliente.ClienteListPanel.ErrorNotExistClienteMessage", 
@@ -102,8 +102,8 @@ public class ClienteListPanel extends TerceroListPanel<Cliente> {
 		ClienteEditDialog dialog = new ClienteEditDialog(this, cliente);
 		dialog.setModalityType(ModalityType.DOCUMENT_MODAL);
 		dialog.pack();
+		dialog.setLocationRelativeTo(dialog.getOwner());
 		dialog.setVisible(true);
-		dialog.setTitle(cliente.getNombre());
 		if (dialog.getExitCode()!=JOptionPane.OK_OPTION) return null;
 		try {
 			cliente = dataService.save(cliente);

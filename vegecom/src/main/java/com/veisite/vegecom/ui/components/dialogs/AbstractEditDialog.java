@@ -171,6 +171,7 @@ public abstract class AbstractEditDialog extends JDialog {
 	/* Cierra el diálogo */
 	private void closeDialog() {
 		this.dispose();
+		onClose();
 	}
 
 	/* Modificado para poder salir cuando se cierra la ventana */
@@ -215,6 +216,14 @@ public abstract class AbstractEditDialog extends JDialog {
 	 * @return
 	 */
 	protected abstract boolean canCancel();
+
+	/**
+	 * Metodo que se llama cuando se cierra el diálogo
+	 * Se puede usar para realizar areas de apagado o actualizaciones
+	 * cuando el dialogo es no modal.
+	 * @return
+	 */
+	protected abstract void onClose();
 
 	/**
 	 * Pregunta si se quieren cancelar y perder los cambios

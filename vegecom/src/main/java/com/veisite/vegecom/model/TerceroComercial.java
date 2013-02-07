@@ -34,7 +34,7 @@ public abstract class TerceroComercial extends VersionableObject {
 	private Long version;
 
     @Column(length=20)
-    private String cif;
+    private String nif;
     
     @Column @NotNull @NotEmpty
     private String nombre;
@@ -97,15 +97,15 @@ public abstract class TerceroComercial extends VersionableObject {
 	/**
 	 * @return the cif
 	 */
-	public String getCif() {
-		return cif;
+	public String getNif() {
+		return nif;
 	}
 
 	/**
-	 * @param cif the cif to set
+	 * @param nif the cif to set
 	 */
-	public void setCif(String cif) {
-		pcs.firePropertyChange("cif", this.cif, this.cif = cif );
+	public void setNif(String nif) {
+		pcs.firePropertyChange("nif", this.nif, this.nif = nif );
 	}
 
 	/**

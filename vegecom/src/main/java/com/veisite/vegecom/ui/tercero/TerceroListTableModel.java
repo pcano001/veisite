@@ -69,7 +69,7 @@ public class TerceroListTableModel<T extends TerceroComercial>
 		if (item==null) return null;
 		switch (columnIndex) {
 		case 0:
-			return item.getCif();
+			return item.getNif();
 		case 1:
 			return item.getNombre();
 		case 2:
