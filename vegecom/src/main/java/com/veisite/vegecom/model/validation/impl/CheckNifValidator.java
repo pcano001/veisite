@@ -16,6 +16,11 @@ public class CheckNifValidator implements ConstraintValidator<CheckNif, String> 
 	 * a partir de DNI,NIE
 	 */
 	private static final String letraDni = "TRWAGMYFPDXBNJZSQVHLCKE";
+	/**
+	 * Secuencia de caracteres para digito de control
+	 */
+	private static final String letraDigitoControl = "JABCDEFGHI";
+
 
 	@Override
 	public void initialize(CheckNif constraintAnnotation) {
@@ -43,25 +48,57 @@ public class CheckNifValidator implements ConstraintValidator<CheckNif, String> 
 	            return false;
 			} else return true;
 		}
-		return false;
+		// El cif empieza por letra distinta de XYZ, calcular digito control
+		int dc = getDigitoControl(v.substring(1,8));
+		System.out.println("Digito control para "+v.substring(1,8)+" es "+dc);
+		if (c1.matches("[PQRSNW]{1}")) {
+			// Tomar letra de control
+			char letra = letraDigitoControl.charAt(dc);
+			if (letra!=v.charAt(8)) {
+	            context.disableDefaultConstraintViolation();
+	            context.buildConstraintViolationWithTemplate("{com.veisite.constraints.CheckNif.IncorrectLetter}")
+	            	.addConstraintViolation();
+	            return false;
+			} else return true;
+		}
+		char digito = Character.forDigit(dc, 10);
+		if (digito!=v.charAt(8)) {
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate("{com.veisite.constraints.CheckNif.IncorrectDigit}")
+            	.addConstraintViolation();
+            return false;
+		} else return true;
 	}
 	
 	
 	/**
-	 * Espera una cadena de digitos numericos y devuelve la suma de todos los dígitos
-	 * Si encuentra un caracter no numericos lo ignora
-	 * 
-	 * @param s
-	 * @return
+	 * Devuelve el digito de control para los nif que no se calculan a partir de dni o nie
+	 * El digito de control está entre 0 y 9.
+	 * El número debe ser de siete caracteres 
 	 */
-	private int sumaDigitos(String s) {
-		if (s==null) return 0;
-		int suma=0;
-		for (int i=0;i<s.length();i++) {
-			char c = s.charAt(i);
-			if (c>='0' && c<='9') suma += (c-'0');
+	private int getDigitoControl(String number) {
+		int suma = 0;
+		for (int i=0;i<=6;i+=2) {
+			int d = getDigit(number, i) * 2;
+			suma += (d % 10) + (d / 10);
 		}
-		return suma;
+		suma += getDigit(number,1)+getDigit(number,3)+getDigit(number,5);
+		int dc = 10 - (suma % 10);
+		return dc % 10;
+	}
+	
+	/**
+	 * Devuelve como entero el valor del digito en la posicion indicada en l string
+	 */
+	public int getDigit(String number, int position) {
+		if (number!=null && position>=0 && position<number.length()) {
+			char c = number.charAt(position);
+			if (c>='0' && c<='9') {
+				System.out.println("Digito "+position+" de "+number+" es "+(c-'0'));
+				return (c-'0');
+			}
+		}
+		return 0;
 	}
 
 }

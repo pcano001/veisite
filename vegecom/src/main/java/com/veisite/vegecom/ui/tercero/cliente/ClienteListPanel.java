@@ -104,7 +104,7 @@ public class ClienteListPanel extends TerceroListPanel<Cliente> {
 		dialog.pack();
 		dialog.setLocationRelativeTo(dialog.getOwner());
 		dialog.setVisible(true);
-		if (dialog.getExitCode()!=JOptionPane.OK_OPTION) return null;
+		if (dialog.getExitCode()!=JOptionPane.OK_OPTION || !dialog.isContentDirty()) return null;
 		try {
 			cliente = dataService.save(cliente);
 		} catch (DataAccessException e) {
