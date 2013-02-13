@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.validation.Validator;
 
 import com.veisite.vegecom.binding.BindTarget;
 import com.veisite.vegecom.model.TerceroComercial;
@@ -71,11 +72,14 @@ public abstract class TerceroEditComponent<T extends TerceroComercial> extends J
 	
 	protected void createComponents() {
 		String s;
+		Validator v = DeskApp.getValidator();
 		s =	DeskApp.getMessage("ui.tercero.TerceroEditPanel.nifPrompt", null, "Nif");
-		nifField = new VNifField(s, 10);
+		nifField = new VNifField(s, 9);
+		nifField.configureValidation(v, tercero, "nif");
 		s =	DeskApp.getMessage("ui.tercero.TerceroEditPanel.namePrompt", null, "Name");
 		nameField = new VTextField(s);
-		nameField.setColumns(35);
+		nameField.setColumns(25);
+		nameField.configureValidation(v, tercero, "nombre");
 	}
 	
 	protected void composePanel() {

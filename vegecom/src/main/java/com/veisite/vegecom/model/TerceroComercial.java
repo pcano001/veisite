@@ -38,7 +38,9 @@ public abstract class TerceroComercial extends VersionableObject {
     @CheckNif
     private String nif;
     
-    @Column @NotNull @NotEmpty
+    @Column 
+    @NotNull 
+    @NotEmpty(message="{com.veisite.vegecom.constraints.model.Cliente.Nombre.NotEmpty}")
     private String nombre;
 
     @Column

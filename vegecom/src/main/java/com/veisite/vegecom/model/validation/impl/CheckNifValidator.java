@@ -50,7 +50,6 @@ public class CheckNifValidator implements ConstraintValidator<CheckNif, String> 
 		}
 		// El cif empieza por letra distinta de XYZ, calcular digito control
 		int dc = getDigitoControl(v.substring(1,8));
-		System.out.println("Digito control para "+v.substring(1,8)+" es "+dc);
 		if (c1.matches("[PQRSNW]{1}")) {
 			// Tomar letra de control
 			char letra = letraDigitoControl.charAt(dc);
@@ -94,7 +93,6 @@ public class CheckNifValidator implements ConstraintValidator<CheckNif, String> 
 		if (number!=null && position>=0 && position<number.length()) {
 			char c = number.charAt(position);
 			if (c>='0' && c<='9') {
-				System.out.println("Digito "+position+" de "+number+" es "+(c-'0'));
 				return (c-'0');
 			}
 		}

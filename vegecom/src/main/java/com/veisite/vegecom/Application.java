@@ -2,6 +2,10 @@ package com.veisite.vegecom;
 
 import java.util.Locale;
 
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
@@ -26,6 +30,12 @@ public class Application {
 	 * Application global properties
 	 */
 	private static ApplicationProperties aplicationProperties;
+	
+	/**
+	 * Default Validator 
+	 */
+	private static Validator validator;
+	
 	
 	/**
 	 * @return the context
@@ -73,6 +83,17 @@ public class Application {
 	 */
 	public static String getMessage(String code, Object[] args, String defaultMessage) {
 		return getResourceBundle().getMessage(code, args, defaultMessage, Locale.getDefault());
+	}
+	
+	/**
+	 * Devuelve el validador por defecto.
+	 */
+	public static Validator getValidator() {
+		if (validator==null) {
+			ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+	        validator = factory.getValidator();
+		}
+		return validator;
 	}
 	
 }

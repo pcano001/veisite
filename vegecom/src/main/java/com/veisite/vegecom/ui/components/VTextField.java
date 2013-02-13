@@ -1,21 +1,31 @@
 package com.veisite.vegecom.ui.components;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 
 import org.jdesktop.swingx.JXTextField;
+import org.jdesktop.swingx.prompt.BuddySupport;
 
 import com.veisite.vegecom.binding.BindTarget;
 import com.veisite.vegecom.binding.IBindableTo;
+import com.veisite.vegecom.ui.components.util.IValidatableComponent;
+import com.veisite.vegecom.ui.util.UIResources;
 
-public class VTextField extends JXTextField implements IActivableComponent, 
-														 IBindableTo<String> {
+public class VTextField extends JXTextField implements IActivableComponent, IValidatableComponent,  
+														IBindableTo<String> {
 
 	/**
 	 * 
@@ -27,6 +37,28 @@ public class VTextField extends JXTextField implements IActivableComponent,
 	 */
 	List<BindTarget<String>> bindList = new ArrayList<BindTarget<String>>();
 	
+	/**
+	 * Implementación de las validaciones
+	 */
+	private Validator validator;
+	/**
+	 * Objeto a validar
+	 */
+	private Object validatableObject;
+	/**
+	 * Propiedad a validar
+	 */
+	private String validatableProperty;
+	/**
+	 * flag de activacion de validaciones
+	 */
+	private boolean validationEnabled=false;
+	/**
+	 * Componente para mostrar errores de validacion
+	 */
+	private JLabel validationBuddy;
+	
+
 	
 	public VTextField() {
 		super();
@@ -61,6 +93,8 @@ public class VTextField extends JXTextField implements IActivableComponent,
                 }
             }
         });
+		ImageIcon im = UIResources.getIcon16("emblem-important-3");
+		validationBuddy = new JLabel(im);
 	}
 
 	
@@ -98,6 +132,7 @@ public class VTextField extends JXTextField implements IActivableComponent,
 	private void documentChanged() {
 		for (BindTarget<String> b : bindList) 
 			b.setValue(getText());
+		doValidation();
 	}
 	
 	private class BindingDocumentListener implements DocumentListener {
@@ -112,6 +147,49 @@ public class VTextField extends JXTextField implements IActivableComponent,
 		@Override
 		public void changedUpdate(DocumentEvent arg0) {
 			documentChanged();
+		}
+	}
+	
+	@Override
+	public void configureValidation(Validator validator, Object target,
+			String property) {
+		this.validator = validator;
+		this.validatableObject = target;
+		this.validatableProperty = property;
+		enableValidation(true);
+		doValidation();
+	}
+
+	@Override
+	public void enableValidation(boolean validationEnabled) {
+		this.validationEnabled=validationEnabled;
+	}
+
+	@Override
+	public boolean isValidationEnabled() {
+		return validationEnabled;
+	}
+	
+	/**
+	 * Metodo que realiza las validaciones
+	 */
+	private void doValidation() {
+		if (!isValidationEnabled()) return;
+		if (validator==null || validatableObject==null || validatableProperty==null) return;
+		Set<ConstraintViolation<Object>> cv =
+			validator.validateProperty(validatableObject,validatableProperty);
+		if (cv.size()==0) {
+			setToolTipText(getPrompt());
+			removeAllBuddies();
+		} else {
+			Iterator<ConstraintViolation<Object>> it = cv.iterator();
+			ConstraintViolation<Object> o = it.next();
+			setToolTipText(o.getMessage());
+			List<Component> lb = getBuddies(BuddySupport.Position.RIGHT);
+			if (lb.contains(validationBuddy)) return;
+			else {
+				addBuddy(validationBuddy, BuddySupport.Position.RIGHT);
+			}
 		}
 	}
 
