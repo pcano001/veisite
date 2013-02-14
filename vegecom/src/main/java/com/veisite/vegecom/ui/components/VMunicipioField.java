@@ -1,5 +1,6 @@
 package com.veisite.vegecom.ui.components;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
@@ -46,6 +47,11 @@ public class VMunicipioField extends VComboBox<Municipio> {
 		Municipio pro = new Municipio();
 		pro.setNombre("SELECCIONE MUNICIPIO DE LA LISTA");
 		setPrototypeDisplayValue(pro);
+		// Ajustamos tamaño igual a un campo de texto.
+		VTextField p = new VTextField();
+		p.setText("prueba");
+		setPreferredSize(new Dimension(getPreferredSize().width, p.getPreferredSize().height));
+		setMaximumSize(new Dimension(Short.MAX_VALUE, p.getPreferredSize().height));
 	}
 	
 	/**

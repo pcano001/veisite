@@ -1,18 +1,24 @@
 package com.veisite.vegecom.ui.tercero;
 
 import java.awt.FlowLayout;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.validation.Validator;
 
+import org.slf4j.LoggerFactory;
+
 import com.veisite.vegecom.binding.BindTarget;
+import com.veisite.vegecom.model.Municipio;
+import com.veisite.vegecom.model.Provincia;
 import com.veisite.vegecom.model.TerceroComercial;
 import com.veisite.vegecom.ui.DeskApp;
-import com.veisite.vegecom.ui.components.VNifField;
 import com.veisite.vegecom.ui.components.VCodigoPostalField;
 import com.veisite.vegecom.ui.components.VCuentaBancariaField;
 import com.veisite.vegecom.ui.components.VMunicipioField;
+import com.veisite.vegecom.ui.components.VNifField;
 import com.veisite.vegecom.ui.components.VProvinciaField;
 import com.veisite.vegecom.ui.components.VTextArea;
 import com.veisite.vegecom.ui.components.VTextField;
@@ -80,6 +86,24 @@ public abstract class TerceroEditComponent<T extends TerceroComercial> extends J
 		nameField = new VTextField(s);
 		nameField.setColumns(25);
 		nameField.configureValidation(v, tercero, "nombre");
+		s =	DeskApp.getMessage("ui.tercero.TerceroEditPanel.telefonoPrompt", null, "Telephone");
+		telefonoField = new VTextField(s);
+		telefonoField.setColumns(15);
+		s =	DeskApp.getMessage("ui.tercero.TerceroEditPanel.emailPrompt", null, "E-mail");
+		emailField = new VTextField(s);
+		emailField.setColumns(15);
+		emailField.configureValidation(v, tercero, "email");
+		s =	DeskApp.getMessage("ui.tercero.TerceroEditPanel.domicilioPrompt", null, "Address");
+		domicilioField = new VTextField(s);
+		domicilioField.setColumns(18);
+		s =	DeskApp.getMessage("ui.tercero.TerceroEditPanel.codigoPostalPrompt", null, "C.P.");
+		cpField = new VCodigoPostalField(s);
+		cpField.setColumns(4);
+		provinciaField = new VProvinciaField();
+		municipioField = new VMunicipioField(provinciaField);
+		s =	DeskApp.getMessage("ui.tercero.TerceroEditPanel.localidadPrompt", null, "Village/Town");
+		localidadField = new VTextField(s);
+		localidadField.setColumns(15);
 	}
 	
 	protected void composePanel() {
@@ -96,6 +120,23 @@ public abstract class TerceroEditComponent<T extends TerceroComercial> extends J
 	    row.add(UIResources.getLabeledComponent(s, nifField));
 		s =	DeskApp.getMessage("ui.tercero.TerceroEditPanel.nameLabel", null, "Name:");
 	    row.add(UIResources.getLabeledComponent(s, nameField));
+		s =	DeskApp.getMessage("ui.tercero.TerceroEditPanel.telefonoLabel", null, "Telephone:");
+	    row.add(UIResources.getLabeledComponent(s, telefonoField));
+		s =	DeskApp.getMessage("ui.tercero.TerceroEditPanel.emailLabel", null, "E-mail:");
+	    row.add(UIResources.getLabeledComponent(s, emailField));
+	    vBox.add(row);
+	    
+	    row = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		s =	DeskApp.getMessage("ui.tercero.TerceroEditPanel.domicilioLabel", null, "Address:");
+	    row.add(UIResources.getLabeledComponent(s, domicilioField));
+		s =	DeskApp.getMessage("ui.tercero.TerceroEditPanel.codigoPostalLabel", null, "C.P.:");
+	    row.add(UIResources.getLabeledComponent(s, cpField));
+		s =	DeskApp.getMessage("ui.tercero.TerceroEditPanel.provinciaLabel", null, "Province:");
+	    row.add(UIResources.getLabeledComponent(s, provinciaField));
+		s =	DeskApp.getMessage("ui.tercero.TerceroEditPanel.municipioLabel", null, "City:");
+	    row.add(UIResources.getLabeledComponent(s, municipioField));
+		s =	DeskApp.getMessage("ui.tercero.TerceroEditPanel.localidadLabel", null, "Village/Town:");
+	    row.add(UIResources.getLabeledComponent(s, localidadField));
 	    vBox.add(row);
 	    
 	    add(vBox);
@@ -106,6 +147,49 @@ public abstract class TerceroEditComponent<T extends TerceroComercial> extends J
 		nifField.addBindTo(new BindTarget<String>(tercero, "nif"));
 		nameField.setText(tercero.getNombre());
 		nameField.addBindTo(new BindTarget<String>(tercero, "nombre"));
+		telefonoField.setText(tercero.getTelefono());
+		telefonoField.addBindTo(new BindTarget<String>(tercero, "telefono"));
+		emailField.setText(tercero.getEmail());
+		emailField.addBindTo(new BindTarget<String>(tercero, "email"));
+		domicilioField.setText(tercero.getDomicilio());
+		domicilioField.addBindTo(new BindTarget<String>(tercero, "domicilio"));
+		cpField.setText(tercero.getCodigoPostal());
+		cpField.addBindTo(new BindTarget<String>(tercero, "codigoPostal"));
+		provinciaField.setSelectedItem(tercero.getProvincia());
+		provinciaField.addBindTo(new BindTarget<Provincia>(tercero, "provincia"));
+		municipioField.setSelectedItem(tercero.getMunicipio());
+		municipioField.addBindTo(new BindTarget<Municipio>(tercero, "municipio"));
+		localidadField.setText(tercero.getLocalidad());
+		localidadField.addBindTo(new BindTarget<String>(tercero, "localidad"));
+		
+		// Listener para cambiar provincia en cambio de cp
+		cpField.addFocusListener(new FocusListener() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				changeProvinciaFromCP();
+			}
+			@Override
+			public void focusGained(FocusEvent e) {
+			}
+		});
+
 	}
+	
+	
+	/**
+	 * Si el codigo postal es correto y distinto de la provincia actual
+	 * entonces cambia la provincia y pregunta antes.
+	 */
+	private void changeProvinciaFromCP() {
+		String sc = cpField.getText();
+		int pc=0;
+		try {
+			pc = Integer.parseInt(sc) / 1000;
+		} catch (NumberFormatException nfe) {
+			LoggerFactory.getLogger(TerceroEditComponent.class).error("Error en cp",nfe);
+		}
+		provinciaField.setProvinciaFromCode(pc);
+	}
+	
 
 }

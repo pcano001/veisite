@@ -1,5 +1,6 @@
 package com.veisite.vegecom.ui.components;
 
+import java.awt.Dimension;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.List;
@@ -7,7 +8,6 @@ import java.util.Vector;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
 
 import com.veisite.vegecom.model.Provincia;
 import com.veisite.vegecom.service.AddressService;
@@ -42,9 +42,14 @@ public class VProvinciaField extends VComboBox<Provincia> {
 		Provincia pro = new Provincia();
 		pro.setNombre("GUADALAJARA  ");
 		setPrototypeDisplayValue(pro);
+		// Ajustamos tamaño igual a un campo de texto.
+		VTextField p = new VTextField();
+		p.setText("prueba");
+		setPreferredSize(new Dimension(getPreferredSize().width, p.getPreferredSize().height));
+		setMaximumSize(new Dimension(Short.MAX_VALUE, p.getPreferredSize().height));
 	}
 
-	public void setProvinciaFromCode(String code, boolean confirmar) {
+	public void setProvinciaFromCode(String code) {
 		// Si el codigo es la provincia actual, no hay que hacer nada
 		Provincia current = (Provincia) getSelectedItem();
 		if (current!=null && current.getId().equals(code)) return;
@@ -59,14 +64,12 @@ public class VProvinciaField extends VComboBox<Provincia> {
 			}
 		}
 		if (prov!=null) {
-			int result = JOptionPane.YES_OPTION;
-			if (confirmar) result = JOptionPane.showConfirmDialog(this, 
-							"El código postal corresponde a otra provincia, ¿Quiere cambiar la provincia?", 
-							"Cambio de provincia", JOptionPane.YES_NO_OPTION);
-		    if (result==JOptionPane.YES_OPTION) {
-		    	setSelectedItem(prov);
-		    }
+	    	setSelectedItem(prov);
 		}
+	}
+	
+	public void setProvinciaFromCode(int code) {
+		setProvinciaFromCode(String.format("%02d", code));
 	}
 	
 	private boolean isValidCode(String code) {

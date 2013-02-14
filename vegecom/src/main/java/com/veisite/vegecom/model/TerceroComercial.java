@@ -40,7 +40,7 @@ public abstract class TerceroComercial extends VersionableObject {
     
     @Column 
     @NotNull 
-    @NotEmpty(message="{com.veisite.vegecom.constraints.model.Cliente.Nombre.NotEmpty}")
+    @NotEmpty(message="{com.veisite.vegecom.constraints.model.Tercero.Nombre.NotEmpty}")
     private String nombre;
 
     @Column
@@ -64,7 +64,8 @@ public abstract class TerceroComercial extends VersionableObject {
     @Column
     private String cuentaBancaria;
     
-    @Column @Email
+    @Column
+    @Email(message="{com.veisite.vegecom.constraints.model.Tercero.Email.Incorrect}")
     private String email;
     
 	@Column(length=1024)
