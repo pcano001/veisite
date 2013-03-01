@@ -19,6 +19,8 @@ import javax.swing.event.EventListenerList;
 
 import com.veisite.vegecom.model.TerceroComercial;
 import com.veisite.vegecom.ui.components.VTextField;
+import com.veisite.vegecom.ui.components.table.filter.NoAcentosRegexFilter;
+import com.veisite.vegecom.util.StringUtil;
 
 public class TerceroFilterTablePanel<T extends TerceroComercial> extends JPanel {
 	
@@ -106,9 +108,16 @@ public class TerceroFilterTablePanel<T extends TerceroComercial> extends JPanel 
 
 		String search = searchField.getText().trim();
 		if (!search.isEmpty()) {
+			List<RowFilter<TerceroListTableModel<T>, Integer>> orFilter =
+					new ArrayList<RowFilter<TerceroListTableModel<T>, Integer>>();;
 			RowFilter<TerceroListTableModel<T>, Integer> searchFilter = 
-					RowFilter.regexFilter(search); 
-			filters.add(searchFilter);
+					RowFilter.regexFilter(search);
+			orFilter.add(searchFilter);
+			RowFilter<TerceroListTableModel<T>, Integer> asciiFilter =
+					NoAcentosRegexFilter.createNoAcentosFilter(true, 
+							StringUtil.quitaAcentos(search.toUpperCase()));
+			orFilter.add(asciiFilter);
+			filters.add(RowFilter.orFilter(orFilter));
 		}
 		if (filters.isEmpty()) return null;
 		RowFilter<TerceroListTableModel<T>, Integer> allFilter = RowFilter.andFilter(filters);		

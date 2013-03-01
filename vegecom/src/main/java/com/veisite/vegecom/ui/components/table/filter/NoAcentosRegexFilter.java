@@ -3,6 +3,8 @@ package com.veisite.vegecom.ui.components.table.filter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.RowFilter;
+
 import org.jdesktop.swingx.sort.RowFilters.GeneralFilter;
 
 import com.veisite.vegecom.util.StringUtil;
@@ -11,6 +13,13 @@ public class NoAcentosRegexFilter  extends GeneralFilter {
 
 	private Matcher matcher;
 	private boolean uppercase;
+	
+    @SuppressWarnings("unchecked")
+	public static <M,I> RowFilter<M,I> createNoAcentosFilter(boolean uppercase, String regex,
+            int... indices) {
+    	return (RowFilter<M,I>)
+    			new NoAcentosRegexFilter(uppercase, Pattern.compile(regex),indices);
+    }
 
 	public NoAcentosRegexFilter(boolean uppercase, Pattern regex, int... columns) {
 		super(columns);
