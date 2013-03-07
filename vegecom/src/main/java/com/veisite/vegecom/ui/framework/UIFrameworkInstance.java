@@ -1,0 +1,198 @@
+package com.veisite.vegecom.ui.framework;
+
+import java.awt.AWTEvent;
+import java.awt.BorderLayout;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
+import com.veisite.vegecom.ui.framework.menu.UIFrameworkMenuBar;
+import com.veisite.vegecom.ui.framework.statusbar.UIFrameworkStatusBar;
+import com.veisite.vegecom.ui.framework.views.UIFrameworkViewArea;
+
+/**
+ * Proporciona un framework gráfico de componentes a aplicaciones
+ * que les facilita la integracion en el marco común.
+ * 
+ * Proporciona los siguientes servicios:
+ * 	Una barra de menu de aplicación donde los componentes puede registrar
+ * sus elementos de menu y sus opciones de menu dentro los elementos.
+ * 
+ * 	Un 
+ * 
+ * @author josemaria
+ *
+ */
+public class UIFrameworkInstance extends JFrame implements WindowListener {
+
+	/**
+	 * serial
+	 */
+	private static final long serialVersionUID = -5770455349216954841L;
+	
+	/**
+	 * Metodo que se ejecuta cuando se cierra el framework.
+	 * Puede ser establecido por los llamantes
+	 */
+	private Runnable callOnDispose = null;
+	
+	/**
+	 * Cadena de texto con el identificador de la instancia
+	 */
+	private String id;
+	
+	/**
+	 * Barra de menu principal
+	 */
+	protected UIFrameworkMenuBar menuBar;
+
+	/**
+	 * Barra de estado
+	 */
+	protected UIFrameworkStatusBar statusBar;
+
+	/**
+	 * Gestor de elementos de vistas, un tabbedPane
+	 */
+	protected UIFrameworkViewArea viewArea;
+
+	
+	public UIFrameworkInstance(String id) {
+		super();
+		this.id = id;
+		initFramework();
+	}
+	
+	protected void initFramework() {
+		enableEvents(AWTEvent.WINDOW_EVENT_MASK);
+		addWindowListener(this);	
+		// Crea los recursos gráficos.
+		
+		// Crear la barra de menu vacía, 
+		menuBar = new UIFrameworkMenuBar("defaultMenuBar");
+		setJMenuBar(menuBar);
+		menuBar.addPropertyChangeListener(UIFrameworkMenuBar.CHANGED_PROPERTY, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				update();
+			}
+		});
+		
+		// Crea una barra de estado 
+		statusBar = new UIFrameworkStatusBar();
+		getContentPane().add(statusBar, BorderLayout.SOUTH);
+		
+		// Creamos un area de vistas en el centro. Es un tabbedPane 
+		viewArea = new UIFrameworkViewArea("defualtViewArea");
+		getContentPane().add(viewArea, BorderLayout.CENTER);
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see java.awt.Window#dispose()
+	 */
+	@Override
+	public void dispose() {
+		super.dispose();
+		if (callOnDispose!=null) callOnDispose.run();
+	}
+	
+	
+	@Override
+	public void windowOpened(WindowEvent e) {
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		dispose();
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the callOnDispose
+	 */
+	public Runnable getCallOnDispose() {
+		return callOnDispose;
+	}
+
+	/**
+	 * @param callOnDispose the callOnDispose to set
+	 */
+	public void setCallOnDispose(Runnable callOnDispose) {
+		this.callOnDispose = callOnDispose;
+	}
+
+	/**
+	 * @return the menuBar
+	 */
+	public UIFrameworkMenuBar getUIFrameworkMenuBar() {
+		return menuBar;
+	}
+
+	/**
+	 * @return the statusBar
+	 */
+	public UIFrameworkStatusBar getStatusBar() {
+		return statusBar;
+	}
+
+	/**
+	 * @return the viewArea
+	 */
+	public UIFrameworkViewArea getViewArea() {
+		return viewArea;
+	}
+
+	/**
+	 * Actualiza graficamente el framework
+	 * La actualización la realiza siempre en el thread de eventos
+	 */
+	public void update() {
+		if (SwingUtilities.isEventDispatchThread()) {
+			pack();
+			invalidate();
+			repaint();
+		} else {
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					pack();
+					invalidate();
+					repaint();
+				}
+			});
+		}
+	}
+
+}
