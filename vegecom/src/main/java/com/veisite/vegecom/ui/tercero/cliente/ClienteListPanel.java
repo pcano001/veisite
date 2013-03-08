@@ -41,15 +41,17 @@ public class ClienteListPanel extends TerceroListPanel<Cliente> {
 	 */
 	private ClienteService dataService;
 	
-	public ClienteListPanel() throws VegecomException {
-		super();
-		dataService = DeskApp.getContext().getBean(ClienteService.class);
+	public ClienteListPanel(ClienteService dataService) throws VegecomException {
+		super("clienteListView");
+		this.dataService = dataService;
+		setTitle(DeskApp.getMessage("ui.ClientesModule.ClientesViewTitle", null, "Customers"));
+		initComponent();
 	}
 
 	@Override
 	protected TerceroListProvider<Cliente> getDataProvider() throws VegecomException {
 		if (dataProvider==null)
-			dataProvider=new ClienteListProvider();
+			dataProvider=new ClienteListProvider(dataService);
 		return dataProvider;
 	}
 

@@ -10,7 +10,10 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import org.springframework.context.ApplicationContext;
+
 import com.veisite.vegecom.ui.framework.menu.UIFrameworkMenuBar;
+import com.veisite.vegecom.ui.framework.module.UIFrameworkModuleManager;
 import com.veisite.vegecom.ui.framework.statusbar.UIFrameworkStatusBar;
 import com.veisite.vegecom.ui.framework.views.UIFrameworkViewArea;
 
@@ -60,6 +63,18 @@ public class UIFrameworkInstance extends JFrame implements WindowListener {
 	 */
 	protected UIFrameworkViewArea viewArea;
 
+	/**
+	 * Gestor de modulos 
+	 */
+	protected UIFrameworkModuleManager moduleManager;
+
+	/**
+	 * Contexto de la aplicación
+	 * 
+	 * @param id
+	 */
+	protected ApplicationContext context = null;
+	
 	
 	public UIFrameworkInstance(String id) {
 		super();
@@ -89,6 +104,9 @@ public class UIFrameworkInstance extends JFrame implements WindowListener {
 		// Creamos un area de vistas en el centro. Es un tabbedPane 
 		viewArea = new UIFrameworkViewArea("defualtViewArea");
 		getContentPane().add(viewArea, BorderLayout.CENTER);
+		
+		// Creamos el gestor de módulos or defecto
+		moduleManager = new UIFrameworkModuleManager("moduleManager", this, null);
 		
 	}
 
@@ -172,6 +190,28 @@ public class UIFrameworkInstance extends JFrame implements WindowListener {
 	 */
 	public UIFrameworkViewArea getViewArea() {
 		return viewArea;
+	}
+
+	/**
+	 * @return the context
+	 */
+	public ApplicationContext getContext() {
+		return context;
+	}
+
+	/**
+	 * @param context the context to set
+	 */
+	public void setContext(ApplicationContext context) {
+		this.context = context;
+		moduleManager.setContext(context);
+	}
+
+	/**
+	 * @return the moduleManager
+	 */
+	public UIFrameworkModuleManager getModuleManager() {
+		return moduleManager;
 	}
 
 	/**

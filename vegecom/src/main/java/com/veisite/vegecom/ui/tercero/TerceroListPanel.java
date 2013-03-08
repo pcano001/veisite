@@ -9,7 +9,6 @@ import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.RowSorter.SortKey;
 import javax.swing.SortOrder;
@@ -23,8 +22,9 @@ import com.veisite.vegecom.model.TerceroComercial;
 import com.veisite.vegecom.ui.DeskApp;
 import com.veisite.vegecom.ui.components.table.AbstractListJTable;
 import com.veisite.vegecom.ui.components.table.AbstractListTablePanel;
+import com.veisite.vegecom.ui.framework.views.UIFrameworkView;
 
-public abstract class TerceroListPanel<T extends TerceroComercial> extends JPanel {
+public abstract class TerceroListPanel<T extends TerceroComercial> extends UIFrameworkView {
 
 	/**
 	 * 
@@ -53,10 +53,8 @@ public abstract class TerceroListPanel<T extends TerceroComercial> extends JPane
 	protected JMenuItem deleteTerceroMenu;
 	
 	
-	public TerceroListPanel() throws VegecomException {
-		super();
-		initComponent();
-		logger.debug("Creating a Tercero List Panel...");
+	public TerceroListPanel(String id) throws VegecomException {
+		super(id);
 	}
 	
 	
@@ -64,7 +62,7 @@ public abstract class TerceroListPanel<T extends TerceroComercial> extends JPane
 	 * Creamos los componentes del Panel
 	 * @throws GaslabException 
 	 */
-	private void initComponent() throws VegecomException {
+	protected void initComponent() throws VegecomException {
 		setLayout(new BorderLayout());
 		TerceroListProvider<T> dataProvider = getDataProvider();
 		dataProvider.setBlockSize(50);
@@ -86,6 +84,7 @@ public abstract class TerceroListPanel<T extends TerceroComercial> extends JPane
 		add(tablePanel,BorderLayout.CENTER);
 		configureFilter();
 		initSortOrder();
+		logger.debug("Creating a Tercero List Panel...");
 	}
 
 	/**

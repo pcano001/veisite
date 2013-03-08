@@ -3,9 +3,9 @@ package com.veisite.vegecom.ui.framework.views;
 import javax.swing.JPanel;
 
 import com.veisite.vegecom.ui.framework.UIFramework;
-import com.veisite.vegecom.ui.framework.menu.UIFrameworkMenuObject;
+import com.veisite.vegecom.ui.framework.UIFrameworkObject;
 
-public class UIFrameworkView extends JPanel implements UIFrameworkMenuObject {
+public class UIFrameworkView extends JPanel implements UIFrameworkObject {
 
 	/**
 	 * serial
@@ -47,12 +47,10 @@ public class UIFrameworkView extends JPanel implements UIFrameworkMenuObject {
 		return id;
 	}
 
-	@Override
 	public int getPriority() {
 		return priority;
 	}
 
-	@Override
 	public void setPriority(int priority) {
 		this.priority = priority;
 	}

@@ -1,10 +1,10 @@
 package com.veisite.vegecom.ui.framework.menu;
 
+import com.veisite.vegecom.ui.framework.UIFrameworkObject;
 
-public interface UIFrameworkMenuObject {
+
+public interface UIFrameworkMenuObject extends UIFrameworkObject {
 	
-	public String getId();
-
 	public int getPriority();
 
 	public void setPriority(int priority);

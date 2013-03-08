@@ -1,9 +1,17 @@
 package com.veisite.vegecom.ui.framework.views;
 
+import java.awt.Component;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import javax.swing.Icon;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.veisite.vegecom.ui.components.tabbedpane.CloseableTabbedPane;
 import com.veisite.vegecom.ui.framework.UIFramework;
@@ -17,13 +25,19 @@ import com.veisite.vegecom.ui.framework.menu.UIFrameworkMenuObject;
  * @author josemaria
  *
  */
-public class UIFrameworkViewArea extends CloseableTabbedPane implements UIFrameworkMenuObject {
+public class UIFrameworkViewArea extends CloseableTabbedPane 
+						implements UIFrameworkMenuObject, PropertyChangeListener {
 	
 	/**
 	 * serial
 	 */
 	private static final long serialVersionUID = -2020596505332632511L;
 
+	/**
+	 * logger
+	 */
+	private Logger logger = LoggerFactory.getLogger(getClass());
+	
 	/**
 	 * identificador 
 	 * @param id
@@ -46,6 +60,7 @@ public class UIFrameworkViewArea extends CloseableTabbedPane implements UIFramew
 	public UIFrameworkViewArea(String id) {
 		super();
 		this.id = id;
+		addPropertyChangeListener(CloseableTabbedPane.REMOVEDTAB_PROPERTY, this);
 	}
 
 	@Override
@@ -71,6 +86,7 @@ public class UIFrameworkViewArea extends CloseableTabbedPane implements UIFramew
 	 * @param view
 	 */
 	public void addView(UIFrameworkView view) {
+		logger.debug("Adding new view, title {}",view.getTitle());
 		if (!viewList.contains(view)) {
 			viewList.add(view);
 			Collections.sort(viewList, new Comparator<UIFrameworkView>() {
@@ -92,9 +108,10 @@ public class UIFrameworkViewArea extends CloseableTabbedPane implements UIFramew
 	 */
 	public UIFrameworkView removeView(UIFrameworkView view) {
 		int i = viewList.indexOf(view);
+		logger.debug("Removing view at index "+i);
 		if (i>=0) {
 			UIFrameworkView v = viewList.remove(i);
-			remove(view);
+			constructViewArea();
 			return v;
 		} else return null;
 	}
@@ -113,7 +130,44 @@ public class UIFrameworkViewArea extends CloseableTabbedPane implements UIFramew
 		removeAll();
 		// Vamos añadiendo las areas en orden de prioridad
 		for (UIFrameworkView v : viewList) {
-			addTab(v.getTitle(), v);
+			super.addTab(v.getTitle(), v, true);
 		}
 	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals(CloseableTabbedPane.REMOVEDTAB_PROPERTY)) {
+			// A tab has been removed
+			if (evt.getOldValue() instanceof UIFrameworkView) {
+				UIFrameworkView v = (UIFrameworkView) evt.getOldValue();
+				removeView(v);
+			}
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see com.veisite.vegecom.ui.components.tabbedpane.CloseableTabbedPane#addTab(java.lang.String, java.awt.Component)
+	 */
+	@Override
+	public void addTab(String title, Component component) {
+		if (component instanceof UIFrameworkView)
+			addView((UIFrameworkView) component);
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.JTabbedPane#addTab(java.lang.String, javax.swing.Icon, java.awt.Component, java.lang.String)
+	 */
+	@Override
+	public void addTab(String title, Icon icon, Component component, String tip) {
+		addTab(title, component);
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.JTabbedPane#addTab(java.lang.String, javax.swing.Icon, java.awt.Component)
+	 */
+	@Override
+	public void addTab(String title, Icon icon, Component component) {
+		addTab(title, component);
+	}
+	
 }

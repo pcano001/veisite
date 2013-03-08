@@ -38,6 +38,7 @@ import com.veisite.vegecom.ui.framework.UIFrameworkInstance;
 import com.veisite.vegecom.ui.framework.menu.UIFrameworkMenuBar;
 import com.veisite.vegecom.ui.framework.menu.UIFrameworkMenuItem;
 import com.veisite.vegecom.ui.framework.views.UIFrameworkView;
+import com.veisite.vegecom.ui.tercero.cliente.ClienteUIModule;
 import com.veisite.vegecom.ui.util.UIResources;
 
 public class VegecomUIInstance extends UIFrameworkInstance {
@@ -178,6 +179,7 @@ public class VegecomUIInstance extends UIFrameworkInstance {
 						logger.error("Context has not been correctly loaded, exiting...");
 						dispose();
 					}
+					setContext(cl.getContext());
 					DeskApp.setContext(cl.getContext());
 					/* Inicializamos recurso de mensajes */
 					DeskApp.setResourceBundle((ResourceBundleMessageSource) cl.getContext().getBean("clientMessageSource"));
@@ -220,6 +222,15 @@ public class VegecomUIInstance extends UIFrameworkInstance {
 		// Eliminar panel de login.
 		getViewArea().removeView(loginTabPanel);
 		getRootPane().setDefaultButton(null);
+		
+		// Añadir modulo de clientes
+		ClienteUIModule cm = new ClienteUIModule();
+		try {
+			moduleManager.installModule(cm);
+		} catch (Throwable t) {
+			logger.error("Error installing clientes module",t);
+		}
+		
 		update();
 	}
 
@@ -393,7 +404,7 @@ public class VegecomUIInstance extends UIFrameworkInstance {
 				am += " (unknown host) ";
 			}
 			am += "-- "+message;
-			as.auditAction(AuditAction.LOGIN_FAIL, ApplicationFrame.class.getSimpleName(), null, am);
+			as.auditAction(AuditAction.LOGIN_FAIL, this.getClass().getSimpleName(), null, am);
 		}
 		else logger.error("Cannot get AuditService");
 		SwingUtilities.invokeLater(new Runnable() {

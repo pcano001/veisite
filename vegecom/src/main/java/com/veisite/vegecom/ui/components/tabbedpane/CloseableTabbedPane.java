@@ -14,6 +14,13 @@ public class CloseableTabbedPane extends JTabbedPane implements MouseListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Cuando se cierra una pestaña se lanza un cambio de propiedad
+	 * en la propiedad supuesta "removedTab". El valor old lleva
+	 * el componente eliminado, el valor nuevo es null
+	 */
+	public static String REMOVEDTAB_PROPERTY = "removedTab";
 
 	/** Creates a new instance of ClosableTabbedPane */
 	public CloseableTabbedPane() {
@@ -85,7 +92,9 @@ public class CloseableTabbedPane extends JTabbedPane implements MouseListener {
 		Rectangle rect=((CloseTabIcon)icon).getBounds();
 		if (rect.contains(evt.getX(), evt.getY())) {
 			//the tab is being closed
+			Component c = this.getComponentAt(tabIndex);
 			this.removeTabAt(tabIndex);
+			firePropertyChange(REMOVEDTAB_PROPERTY, c, null);
 		}
 	}
 
@@ -102,17 +111,4 @@ public class CloseableTabbedPane extends JTabbedPane implements MouseListener {
 		addMouseListener(this);
 	}
 	
-	/**
-	 * Devuelve el indice del componente dentro del grupo de
-	 * pestañas o -1 si no se encuentra.
-	 * @param component
-	 * @return
-	 */
-	public int getTabIndex(Component component) {
-		for (int i=0; i<getTabCount(); i++)
-			if (getTabComponentAt(i)==component) return i;
-		return -1;
-	}
-
-
 }
