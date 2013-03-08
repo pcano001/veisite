@@ -122,10 +122,10 @@ public class UIFrameworkInstance extends JFrame implements WindowListener {
 		getContentPane().add(viewArea, BorderLayout.CENTER);
 		
 		// Creamos el gestor de módulos por defecto
-		moduleManager = new UIFrameworkModuleManager("moduleManager", this, null);
+		moduleManager = new UIFrameworkModuleManager("moduleManager");
 		
 		// Creamos el gestor de servicios por defecto
-		serviceManager = new UIFrameworkServiceManager("serviceManager", this, null);
+		serviceManager = new UIFrameworkServiceManager("serviceManager");
 		
 	}
 
@@ -223,8 +223,6 @@ public class UIFrameworkInstance extends JFrame implements WindowListener {
 	 */
 	public void setContext(ApplicationContext context) {
 		this.context = context;
-		moduleManager.setContext(context);
-		serviceManager.setContext(context);
 	}
 
 	/**

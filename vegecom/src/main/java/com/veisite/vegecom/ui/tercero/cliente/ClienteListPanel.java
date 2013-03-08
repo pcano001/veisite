@@ -21,9 +21,9 @@ public class ClienteListPanel extends TerceroListPanel<Cliente> {
 	
 	
 	public ClienteListPanel(ClienteUIService uiService, ClienteListProvider dataProvider) throws VegecomException {
-		super("clienteListView", dataProvider, uiService.getUiInstance());
+		super("clienteListView", dataProvider, uiService);
 		this.uiService = uiService;
-		setTitle(uiService.getUiInstance().getMessage("ui.ClientesModule.ClientesViewTitle", null, "Customers"));
+		setTitle(uiService.getMessage("ui.ClientesModule.ClientesViewTitle", null, "Customers"));
 	}
 
 	@Override

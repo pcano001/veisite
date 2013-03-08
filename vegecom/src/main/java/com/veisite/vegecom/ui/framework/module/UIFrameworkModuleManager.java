@@ -5,10 +5,9 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
+import org.springframework.util.Assert;
 
 import com.veisite.vegecom.VegecomException;
-import com.veisite.vegecom.ui.framework.UIFrameworkInstance;
 import com.veisite.vegecom.ui.framework.UIFrameworkObject;
 
 public class UIFrameworkModuleManager implements UIFrameworkObject {
@@ -21,17 +20,6 @@ public class UIFrameworkModuleManager implements UIFrameworkObject {
 	private String id;
 	
 	/**
-	 * Framework sobre el que trabaja el gestor de modulos
-	 */
-	private UIFrameworkInstance uiInstance;
-	
-	/**
-	 * Contexto de aplicación
-	 */
-	private ApplicationContext context;
-	
-	
-	/**
 	 * Lista de modulos que tenemos cargados e iniciados 
 	 * 
 	 * @param id
@@ -40,13 +28,7 @@ public class UIFrameworkModuleManager implements UIFrameworkObject {
 
 	
 	public UIFrameworkModuleManager(String id) {
-		this(id, null, null);
-	}
-	
-	public UIFrameworkModuleManager(String id, UIFrameworkInstance uiInstance, ApplicationContext context) {
-		this.id = id;
-		this.setUiInstance(uiInstance);
-		this.setContext(context);
+		Assert.notNull(id);
 	}
 	
 	@Override
@@ -54,44 +36,10 @@ public class UIFrameworkModuleManager implements UIFrameworkObject {
 		return id;
 	}
 
-	/**
-	 * @return the uiInstance
-	 */
-	public UIFrameworkInstance getUiInstance() {
-		return uiInstance;
-	}
-
-	/**
-	 * @param uiInstance the uiInstance to set
-	 */
-	public void setUiInstance(UIFrameworkInstance uiInstance) {
-		this.uiInstance = uiInstance;
-	}
-
-	/**
-	 * @return the context
-	 */
-	public ApplicationContext getContext() {
-		return context;
-	}
-
-	/**
-	 * @param context the context to set
-	 */
-	public void setContext(ApplicationContext context) {
-		this.context = context;
-	}
-
-	
 	public void installModule(UIFrameworkModule module) throws Throwable {
-		// Si no tenemos frmework o contexto lanzar excepcion
-		if (uiInstance==null)
-			throw new VegecomException("UI framework is null. Cannot install modules");
-		if (context==null)
-			throw new VegecomException("Application context is null. Cannot install modules");
 		logger.debug("Trying to install module with id "+module.getId());
 		try {
-			module.initModule(uiInstance, context);
+			module.initModule();
 		} catch (Throwable t) {
 			logger.error("Error installing module with id "+module.getId(),t);
 			throw t;

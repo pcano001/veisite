@@ -8,12 +8,12 @@ import javax.swing.table.TableColumnModel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 
 import com.veisite.vegecom.data.TerceroListProvider;
 import com.veisite.vegecom.model.Municipio;
 import com.veisite.vegecom.model.TerceroComercial;
 import com.veisite.vegecom.ui.components.table.AbstractListTableModel;
-import com.veisite.vegecom.ui.framework.UIFrameworkInstance;
 
 /**
  * Clase que implementa el modelo de tabla de un tercero. 
@@ -48,23 +48,26 @@ public class TerceroListTableModel<T extends TerceroComercial>
 	 * recursos graficos para cadenas de texto
 	 * 
 	 */
-	private UIFrameworkInstance uiInstance;
+	private TerceroUIService<T> uiService;
 
-	public TerceroListTableModel(TerceroListProvider<T> dataProvider, UIFrameworkInstance uiInstance) {
+	public TerceroListTableModel(TerceroListProvider<T> dataProvider, TerceroUIService<T> uiService) {
 		super(dataProvider);
-		this.uiInstance = uiInstance;
+		Assert.notNull(uiService);
+		this.uiService = uiService;
 		logger.debug("Creating a Tercero List Table Model with dataProvider");
 	}
 	
-	public TerceroListTableModel(List<T> dataList, UIFrameworkInstance uiInstance) {
+	public TerceroListTableModel(List<T> dataList, TerceroUIService<T> uiService) {
 		super(dataList);
-		this.uiInstance = uiInstance;
+		Assert.notNull(uiService);
+		this.uiService = uiService;
 		logger.debug("Creating a Tercero List Table Model with dataList");
 	}
 	
-	public TerceroListTableModel(UIFrameworkInstance uiInstance) {
+	public TerceroListTableModel(TerceroUIService<T> uiService) {
 		super();
-		this.uiInstance = uiInstance;
+		Assert.notNull(uiService);
+		this.uiService = uiService;
 		logger.debug("Creating a Tercero List Table Model with empty data");
 	}
 	
@@ -79,7 +82,7 @@ public class TerceroListTableModel<T extends TerceroComercial>
 		if (item==null) return null;
 		switch (columnIndex) {
 		case 0:
-			return _item.getNif();
+			return item.getNif();
 		case 1:
 			return item.getNombre();
 		case 2:
@@ -109,21 +112,21 @@ public class TerceroListTableModel<T extends TerceroComercial>
 	public String getColumnName(int column) {
 		switch (column) {
 		case 0:
-			return "Cif";
+			return uiService.getMessage("ui.tercero.TerceroListTable.cifLabel", null, "Nif");
 		case 1:
-			return "Nombre";
+			return uiService.getMessage("ui.tercero.TerceroListTable.nameLabel", null, "Nif");
 		case 2:
-			return "Teléfono";
+			return uiService.getMessage("ui.tercero.TerceroListTable.telefonoLabel", null, "Nif");
 		case 3:
-			return "e-mail";
+			return uiService.getMessage("ui.tercero.TerceroListTable.emailLabel", null, "Nif");
 		case 4:
-			return "Provincia";
+			return uiService.getMessage("ui.tercero.TerceroListTable.provinciaLabel", null, "Nif");
 		case 5:
-			return "C.Postal";
+			return uiService.getMessage("ui.tercero.TerceroListTable.cpostalLabel", null, "Nif");
 		case 6:
-			return "Municipio";
+			return uiService.getMessage("ui.tercero.TerceroListTable.municipioLabel", null, "Nif");
 		case 7:
-			return "Domicilio";
+			return uiService.getMessage("ui.tercero.TerceroListTable.domicilioLabel", null, "Nif");
 		}
 		return super.getColumnName(column);
 	}

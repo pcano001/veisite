@@ -16,10 +16,10 @@ import org.springframework.util.Assert;
 import com.veisite.vegecom.VegecomException;
 import com.veisite.vegecom.model.Cliente;
 import com.veisite.vegecom.service.ClienteService;
-import com.veisite.vegecom.ui.framework.UIFrameworkInstance;
-import com.veisite.vegecom.ui.framework.service.UIFrameworkService;
+import com.veisite.vegecom.ui.framework.module.UIFrameworkModule;
+import com.veisite.vegecom.ui.tercero.TerceroUIService;
 
-public class ClienteUIService implements UIFrameworkService {
+public class ClienteUIService extends TerceroUIService<Cliente> {
 
 	/**
 	 * logger
@@ -32,22 +32,13 @@ public class ClienteUIService implements UIFrameworkService {
 	public static final String SERVICE_ID = "clienteUIService";
 	
 	/**
-	 * instancia de framework
-	 */
-	private UIFrameworkInstance uiInstance;
-	
-	/**
-	 * Contexto de aplicación
-	 */
-	private ApplicationContext context;
-	
-	/**
 	 * Servicio de acceso a datos de clientes
 	 */
 	private ClienteService dataService;
 	
 	
-	public ClienteUIService() {
+	public ClienteUIService(UIFrameworkModule uiModule, ApplicationContext context) {
+		super(uiModule, context);
 	}
 	
 	@Override
@@ -56,10 +47,7 @@ public class ClienteUIService implements UIFrameworkService {
 	}
 
 	@Override
-	public void initService(UIFrameworkInstance uiInstance,
-			ApplicationContext context) throws Throwable {
-		this.uiInstance = uiInstance;
-		this.context = context;
+	public void initService() throws Throwable {
 		dataService = this.context.getBean(ClienteService.class);
 		if (dataService==null)
 			throw new VegecomException("ClienteService is not available");
@@ -94,12 +82,11 @@ public class ClienteUIService implements UIFrameworkService {
 	 * 
 	 */
 	public Cliente editCliente(Cliente cliente, Component parent) {
-		Assert.notNull(uiInstance);
 		Assert.notNull(dataService);
 		Cliente eCliente = cliente;
 		if (eCliente==null) {
 			eCliente = new Cliente();
-			String s = uiInstance.getMessage("ui.ClienteUIService.DefaultName", 
+			String s = getMessage("ui.ClienteUIService.DefaultName", 
 					null, "New customer");
 			eCliente.setNombre(s);
 		}
@@ -117,28 +104,28 @@ public class ClienteUIService implements UIFrameworkService {
 			}
 			if (error) {
 				logger.error("Error retrieving customer from persistence service", excep);
-				String t = uiInstance.getMessage("ui.ClienteUIService.ErrorLoadClienteTitle", 
+				String t = getMessage("ui.ClienteUIService.ErrorLoadClienteTitle", 
 						null, "Error retrieving customer");
-				String m = uiInstance.getMessage("ui.ClienteUIService.ErrorLoadClienteMessage", 
+				String m = getMessage("ui.ClienteUIService.ErrorLoadClienteMessage", 
 						null, "Error retrieving customer data");
 				ErrorInfo err = new ErrorInfo(t, m,	excep.getMessage(), null, excep, null, null);
-				JXErrorPane.showDialog(parent==null ? uiInstance : parent, err);
+				JXErrorPane.showDialog(parent==null ? getParentWindow() : parent, err);
 				return null;
 			}
 			// Si el cliente es null, no se ha encontrado
 			// Podría haber sido borrado
 			if (eCliente==null) {
 				logger.error("Error retrieving customer from persistence service. Not found.");
-				String t = uiInstance.getMessage("ui.ClienteUIService.ErrorNotExistClienteTitle", 
+				String t = getMessage("ui.ClienteUIService.ErrorNotExistClienteTitle", 
 						null, "Error retrieving customer");
-				String m = uiInstance.getMessage("ui.ClienteUIService.ErrorNotExistClienteMessage", 
+				String m = getMessage("ui.ClienteUIService.ErrorNotExistClienteMessage", 
 						null, "Customer not found. Please, refresh data");
 				ErrorInfo err = new ErrorInfo(t, m,	m, null, null, null, null);
-				JXErrorPane.showDialog(uiInstance, err);
+				JXErrorPane.showDialog(getParentWindow(), err);
 				return null;
 			}
 		}
-		ClienteEditDialog dialog = new ClienteEditDialog(parent==null ? uiInstance : parent, eCliente, this);
+		ClienteEditDialog dialog = new ClienteEditDialog(parent==null ? getParentWindow() : parent, eCliente, this);
 		dialog.setDataService(dataService);
 		dialog.setModalityType(ModalityType.MODELESS);
 		dialog.pack();
@@ -156,14 +143,13 @@ public class ClienteUIService implements UIFrameworkService {
 	 * 
 	 */
 	public Cliente removeCliente(Cliente cliente, boolean askConfirmation, Component parent) {
-		Assert.notNull(uiInstance);
 		Assert.notNull(dataService);
 		if (askConfirmation) {
-			String ti = uiInstance.getMessage("ui.ClienteUIService.ConfirmDeleteTitle", 
+			String ti = getMessage("ui.ClienteUIService.ConfirmDeleteTitle", 
 					null, "Remove Customer");
-			String me =  uiInstance.getMessage("ui.ClienteUIService.ConfirmDeleteQuestion", 
+			String me =  getMessage("ui.ClienteUIService.ConfirmDeleteQuestion", 
 					new String[] {cliente.getNombre()}, "Do you want to remove customer {0}?");
-			int code = JOptionPane.showConfirmDialog(parent==null ? uiInstance : parent, me, ti, JOptionPane.YES_NO_OPTION);
+			int code = JOptionPane.showConfirmDialog(parent==null ? getParentWindow() : parent, me, ti, JOptionPane.YES_NO_OPTION);
 			if (code!=JOptionPane.YES_OPTION) return null;
 		}
 		boolean error=false;
@@ -179,22 +165,15 @@ public class ClienteUIService implements UIFrameworkService {
 		}
 		if (error) {
 			logger.error("Error deleting customer in persistence service", excep);
-			String t = uiInstance.getMessage("ui.ClienteUIService.ErrorDeleteClienteTitle", 
+			String t = getMessage("ui.ClienteUIService.ErrorDeleteClienteTitle", 
 					null, "Error deleting customer");
-			String m = uiInstance.getMessage("ui.ClienteUIService.ErrorDeleteClienteMessage", 
+			String m = getMessage("ui.ClienteUIService.ErrorDeleteClienteMessage", 
 					null, "Error trying to delete customer data");
 			ErrorInfo err = new ErrorInfo(t, m,	excep.getMessage(), null, excep, null, null);
-			JXErrorPane.showDialog(parent==null ? uiInstance : parent, err);
+			JXErrorPane.showDialog(parent==null ? getParentWindow() : parent, err);
 			return null;
 		}
 		return cliente;
-	}
-
-	/**
-	 * @return the uiInstance
-	 */
-	public UIFrameworkInstance getUiInstance() {
-		return uiInstance;
 	}
 
 }

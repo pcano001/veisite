@@ -1,8 +1,9 @@
 package com.veisite.vegecom.ui.framework.module;
 
-import org.springframework.context.ApplicationContext;
+import java.awt.Window;
 
-import com.veisite.vegecom.ui.framework.UIFrameworkInstance;
+import javax.validation.Validator;
+
 import com.veisite.vegecom.ui.framework.UIFrameworkObject;
 
 /**
@@ -14,8 +15,14 @@ import com.veisite.vegecom.ui.framework.UIFrameworkObject;
  */
 public interface UIFrameworkModule extends UIFrameworkObject {
 	
-	public void initModule(UIFrameworkInstance uiInstance, ApplicationContext context) throws Throwable;
+	public void initModule() throws Throwable;
 	
 	public void disposeModule() throws Throwable;
+	
+	public String getMessage(String code, Object[] args, String defaultMessage);
 
+	public Validator getValidator();
+
+	public Window getParentWindow();
+	
 }

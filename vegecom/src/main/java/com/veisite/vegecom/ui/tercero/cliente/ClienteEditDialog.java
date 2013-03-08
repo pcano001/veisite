@@ -89,20 +89,20 @@ public class ClienteEditDialog extends AbstractEditDialog {
 			}
 		});
 		// Poner el componente de edición de cliente.
-		ClienteEditComponent c = new ClienteEditComponent(cliente, uiService.getUiInstance());
+		ClienteEditComponent c = new ClienteEditComponent(cliente, uiService);
 		setContentComponent(c);
 	}
 
 	@Override
 	protected boolean canClose() {
 		// Hacemos las validaciones para poder cerrar el dialogo.
-		Validator validator = uiService.getUiInstance().getValidator();
+		Validator validator = uiService.getValidator();
 		if (validator!=null) {
 			Set<ConstraintViolation<Cliente>> constraintViolations =
 					validator.validate(cliente);
 			if (constraintViolations.size()>0) {
 				String s = 
-						uiService.getUiInstance().getMessage("ui.ClienteEditDialog.ValidationErrorMessage", 
+						uiService.getMessage("ui.ClienteEditDialog.ValidationErrorMessage", 
 						null, "Customer data has errors");
 				ValidationMessagesPanel<Cliente> p = 
 						new ValidationMessagesPanel<Cliente>(s,constraintViolations);
@@ -125,9 +125,9 @@ public class ClienteEditDialog extends AbstractEditDialog {
 			}
 			if (error) {
 				logger.error("Error saving customer in persistence service", excep);
-				String t = uiService.getUiInstance().getMessage("ui.ClienteEditDialog.ErrorSaveClienteTitle", 
+				String t = uiService.getMessage("ui.ClienteEditDialog.ErrorSaveClienteTitle", 
 						null, "Error retrieving customer");
-				String m = uiService.getUiInstance().getMessage("ui.ClienteEditDialog.ErrorSaveClienteMessage", 
+				String m = uiService.getMessage("ui.ClienteEditDialog.ErrorSaveClienteMessage", 
 						null, "Error retrieving customer data");
 				ErrorInfo err = new ErrorInfo(t, m,	excep.getMessage(), null, excep, null, null);
 				JXErrorPane.showDialog(getParent(), err);

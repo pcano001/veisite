@@ -16,11 +16,11 @@ import com.veisite.vegecom.ui.framework.UIFrameworkInstance;
 import com.veisite.vegecom.ui.framework.menu.UIFrameworkMenu;
 import com.veisite.vegecom.ui.framework.menu.UIFrameworkMenuBar;
 import com.veisite.vegecom.ui.framework.menu.UIFrameworkMenuItem;
-import com.veisite.vegecom.ui.framework.module.UIFrameworkModule;
+import com.veisite.vegecom.ui.framework.module.UIFrameworkAbstractModule;
 import com.veisite.vegecom.ui.framework.views.UIFrameworkView;
 import com.veisite.vegecom.ui.util.UIResources;
 
-public class ClienteUIModule implements UIFrameworkModule {
+public class ClienteUIModule extends UIFrameworkAbstractModule {
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
@@ -41,16 +41,6 @@ public class ClienteUIModule implements UIFrameworkModule {
 	private ClienteService clienteService=null;
 	
 	/**
-	 * Framework en el que colabora
-	 */
-	private UIFrameworkInstance uiInstance;
-	
-	/**
-	 * Contexto de la aplicación
-	 */
-	private ApplicationContext context;
-	
-	/**
 	 * Recursos graficos del modulo.
 	 */
 	private UIFrameworkView clienteListView = null;
@@ -60,6 +50,10 @@ public class ClienteUIModule implements UIFrameworkModule {
 	 */
 	private ClienteUIService clienteUIService = null;
 	
+	public ClienteUIModule(UIFrameworkInstance uiInstance,
+			ApplicationContext context) {
+		super(uiInstance, context);
+	}
 
 	@Override
 	public String getId() {
@@ -67,10 +61,7 @@ public class ClienteUIModule implements UIFrameworkModule {
 	}
 
 	@Override
-	public void initModule(UIFrameworkInstance uiInstance,
-			ApplicationContext context) throws Throwable {
-		this.uiInstance = uiInstance;
-		this.context = context;
+	public void initModule() throws Throwable {
 		try {
 			clienteService = this.context.getBean(ClienteService.class);
 		} catch (Throwable t) {
@@ -80,7 +71,7 @@ public class ClienteUIModule implements UIFrameworkModule {
 		if (clienteService==null) 
 			throw new VegecomException("Cannot get Customer Service. Module cannot init");
 		// Registra el servicio grafico para clientes
-		clienteUIService = new ClienteUIService();
+		clienteUIService = new ClienteUIService(this,context);
 		uiInstance.getServiceManager().registerService(clienteUIService);
 		configureUI();
 	}

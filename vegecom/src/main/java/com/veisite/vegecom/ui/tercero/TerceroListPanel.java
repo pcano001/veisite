@@ -13,13 +13,14 @@ import javax.swing.JPopupMenu;
 import javax.swing.RowSorter.SortKey;
 import javax.swing.SortOrder;
 
+import org.springframework.util.Assert;
+
 import com.veisite.vegecom.VegecomException;
 import com.veisite.vegecom.data.TerceroListProvider;
 import com.veisite.vegecom.model.TerceroComercial;
 import com.veisite.vegecom.service.DataChangeListener;
 import com.veisite.vegecom.ui.components.table.AbstractListJTable;
 import com.veisite.vegecom.ui.components.table.AbstractListTablePanel;
-import com.veisite.vegecom.ui.framework.UIFrameworkInstance;
 import com.veisite.vegecom.ui.framework.views.UIFrameworkView;
 
 public abstract class TerceroListPanel<T extends TerceroComercial> extends UIFrameworkView 
@@ -54,14 +55,16 @@ public abstract class TerceroListPanel<T extends TerceroComercial> extends UIFra
 	/**
 	 * recursos graficos
 	 */
-	UIFrameworkInstance uiInstance;
+	private TerceroUIService<T> uiService;
 	
 	
-	public TerceroListPanel(String id, TerceroListProvider<T> dataProvider, UIFrameworkInstance uiInstance) 
+	public TerceroListPanel(String id, TerceroListProvider<T> dataProvider, TerceroUIService<T> uiService) 
 			throws VegecomException {
 		super(id);
+		Assert.notNull(dataProvider);
+		Assert.notNull(uiService);
 		this.dataProvider = dataProvider;
-		this.uiInstance = uiInstance;
+		this.uiService = uiService;
 		initComponent();
 	}
 	
@@ -74,7 +77,7 @@ public abstract class TerceroListPanel<T extends TerceroComercial> extends UIFra
 		setLayout(new BorderLayout());
 		dataProvider.setBlockSize(50);
 		TerceroListJTable<T> table =
-				new TerceroListJTable<T>(dataProvider);
+				new TerceroListJTable<T>(dataProvider, uiService);
 		tablePanel = new AbstractListTablePanel<T>(this,table) {
 			private static final long serialVersionUID = 1L;
 			@Override
@@ -100,7 +103,7 @@ public abstract class TerceroListPanel<T extends TerceroComercial> extends UIFra
 	 * Configura y pone visible el panel de filtro de beneficiarios
 	 */
 	private void configureFilter() {
-		filterPanel = new TerceroFilterTablePanel<T>();
+		filterPanel = new TerceroFilterTablePanel<T>(uiService);
 		add(filterPanel,BorderLayout.NORTH);
 		filterPanel.addActionListener(new ActionListener() {
 			@Override
@@ -209,7 +212,7 @@ public abstract class TerceroListPanel<T extends TerceroComercial> extends UIFra
 		private static final long serialVersionUID = 3651293287585063125L;
 
 		public NewTerceroAction() {
-			super(uiInstance.getMessage("ui.components.menu.New", null, "New"));
+			super(uiService.getMessage("ui.components.menu.New", null, "New"));
 		}
 
 		@Override
@@ -230,7 +233,7 @@ public abstract class TerceroListPanel<T extends TerceroComercial> extends UIFra
 		private static final long serialVersionUID = -4731589874417212249L;
 
 		public EditTerceroAction() {
-			super(uiInstance.getMessage("ui.components.menu.Edit", null, "Edit"));
+			super(uiService.getMessage("ui.components.menu.Edit", null, "Edit"));
 		}
 
 		@Override
@@ -256,7 +259,7 @@ public abstract class TerceroListPanel<T extends TerceroComercial> extends UIFra
 		private static final long serialVersionUID = 7372447598794037254L;
 
 		public DeleteTerceroAction() {
-			super(uiInstance.getMessage("ui.components.menu.Delete", null, "Delete"));
+			super(uiService.getMessage("ui.components.menu.Delete", null, "Delete"));
 		}
 
 		@Override

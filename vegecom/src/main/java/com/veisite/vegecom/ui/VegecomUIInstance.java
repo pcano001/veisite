@@ -220,7 +220,7 @@ public class VegecomUIInstance extends UIFrameworkInstance {
 		getRootPane().setDefaultButton(null);
 		
 		// Añadir modulo de clientes
-		ClienteUIModule cm = new ClienteUIModule();
+		ClienteUIModule cm = new ClienteUIModule(this,getContext());
 		try {
 			moduleManager.installModule(cm);
 		} catch (Throwable t) {

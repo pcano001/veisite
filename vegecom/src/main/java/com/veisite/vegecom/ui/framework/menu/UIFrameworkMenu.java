@@ -220,7 +220,7 @@ public class UIFrameworkMenu extends JMenu implements UIFrameworkMenuObject {
 		removeAll();
 		// Empezamos a meter items por orden de grupos
 		for (UIFrameworkMenuItemGroup g : groups) {
-			if (getItemCount()>0) addSeparator();
+			if (getItemCount()>0 && g.getElements().size()>0) addSeparator();
 			for (UIFrameworkMenuObject o : g.getElements()) {
 				if (o instanceof UIFrameworkMenu) {
 					UIFrameworkMenu m = (UIFrameworkMenu) o;

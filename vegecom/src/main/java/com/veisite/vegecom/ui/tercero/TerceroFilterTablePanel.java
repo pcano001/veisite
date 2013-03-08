@@ -17,6 +17,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.EventListenerList;
 
+import org.springframework.util.Assert;
+
 import com.veisite.vegecom.model.TerceroComercial;
 import com.veisite.vegecom.ui.components.VTextField;
 import com.veisite.vegecom.ui.components.table.filter.NoAcentosRegexFilter;
@@ -54,9 +56,16 @@ public class TerceroFilterTablePanel<T extends TerceroComercial> extends JPanel 
      */
     final Object lock = new Object();
     
+    /**
+     * servicio de recursos gráficos
+     */
+    private TerceroUIService<T> uiService;
+    
 	
-	public TerceroFilterTablePanel() {
+	public TerceroFilterTablePanel(TerceroUIService<T> uiService) {
 		super(new BorderLayout());
+		Assert.notNull(uiService);
+		this.uiService = uiService;
 		setBorder(javax.swing.BorderFactory.createTitledBorder("Filtro"));
 		filterTimer = new Timer();
 		configurePanel();
@@ -65,7 +74,9 @@ public class TerceroFilterTablePanel<T extends TerceroComercial> extends JPanel 
 	private void configurePanel() {
 		JPanel filterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-	 	searchField = new VTextField("Buscar/Filtro:");
+		String s = uiService.getMessage("ui.tercero.TerceroFilterPanel.findPrompt", 
+				null, "Find/Filter:");
+	 	searchField = new VTextField(s);
 	 	searchField.setColumns(20);
 	 	filterPanel.add(searchField);
 	 	
@@ -73,18 +84,21 @@ public class TerceroFilterTablePanel<T extends TerceroComercial> extends JPanel 
 	 	
 	 	/* Bottom panel */
 	 	JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-	 	JButton applyButton =  new JButton("Aplicar filtro");
-	 	actionPanel.add(applyButton);
+		s = uiService.getMessage("ui.tercero.TerceroFilterPanel.clearButton", 
+				null, "Find/Filter:");
+	 	JButton clearButton =  new JButton(s);
+	 	actionPanel.add(clearButton);
 	 	filterPanel.add(actionPanel);
 	 	//add(actionPanel, BorderLayout.SOUTH);
 	 	
 	 	ActionListener changeListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				searchField.setText("");
 				fireFilterChanged();
 			}
 	 	};
-	 	applyButton.addActionListener(changeListener);
+	 	clearButton.addActionListener(changeListener);
 	 	searchField.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void removeUpdate(DocumentEvent e) {

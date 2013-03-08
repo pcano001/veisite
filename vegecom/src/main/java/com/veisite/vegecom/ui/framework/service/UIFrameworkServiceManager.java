@@ -5,9 +5,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
 
-import com.veisite.vegecom.ui.framework.UIFrameworkInstance;
 import com.veisite.vegecom.ui.framework.UIFrameworkObject;
 
 public class UIFrameworkServiceManager implements UIFrameworkObject {
@@ -20,17 +18,6 @@ public class UIFrameworkServiceManager implements UIFrameworkObject {
 	private String id;
 	
 	/**
-	 * Framework sobre el que trabaja el gestor de modulos
-	 */
-	private UIFrameworkInstance uiInstance;
-	
-	/**
-	 * Contexto de aplicación
-	 */
-	private ApplicationContext context;
-	
-	
-	/**
 	 * Lista de modulos que tenemos cargados e iniciados 
 	 * 
 	 * @param id
@@ -38,44 +25,14 @@ public class UIFrameworkServiceManager implements UIFrameworkObject {
 	List<UIFrameworkService> serviceList = new ArrayList<UIFrameworkService>();
 	
 
-	public UIFrameworkServiceManager(String id, UIFrameworkInstance uiInstance, ApplicationContext context) {
+	public UIFrameworkServiceManager(String id) {
 		this.id = id;
-		this.setUiInstance(uiInstance);
-		this.setContext(context);
 	}
 	
 	
 	@Override
 	public String getId() {
 		return id;
-	}
-
-	/**
-	 * @return the uiInstance
-	 */
-	public UIFrameworkInstance getUiInstance() {
-		return uiInstance;
-	}
-
-	/**
-	 * @param uiInstance the uiInstance to set
-	 */
-	public void setUiInstance(UIFrameworkInstance uiInstance) {
-		this.uiInstance = uiInstance;
-	}
-
-	/**
-	 * @return the context
-	 */
-	public ApplicationContext getContext() {
-		return context;
-	}
-
-	/**
-	 * @param context the context to set
-	 */
-	public void setContext(ApplicationContext context) {
-		this.context = context;
 	}
 
 	/**
@@ -87,7 +44,7 @@ public class UIFrameworkServiceManager implements UIFrameworkObject {
 			logger.warn("registerService. Service '"+service.getId()+"' already registered");
 			return;
 		}
-		service.initService(uiInstance, context);
+		service.initService();
 		serviceList.add(service);
 		logger.debug("Service {} registered.",service.getId());
 	}

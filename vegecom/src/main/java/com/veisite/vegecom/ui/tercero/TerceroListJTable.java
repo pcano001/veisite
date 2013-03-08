@@ -15,20 +15,20 @@ public class TerceroListJTable<T extends TerceroComercial> extends AbstractListJ
 	private static final long serialVersionUID = -5157503773928583494L;
 	
 	
-	public TerceroListJTable() {
-		super(new TerceroListTableModel<T>());
+	public TerceroListJTable(TerceroUIService<T> uiService) {
+		super(new TerceroListTableModel<T>(uiService));
 	}
 
-	public TerceroListJTable(List<T> dataList) {
-		super(new TerceroListTableModel<T>(dataList));
+	public TerceroListJTable(List<T> dataList, TerceroUIService<T> uiService) {
+		super(new TerceroListTableModel<T>(dataList, uiService));
 	}
 
 	public TerceroListJTable(AbstractListTableModel<T> model) {
 		super(model);
 	}
 
-	public TerceroListJTable(TerceroListProvider<T> dataProvider) {
-		super(new TerceroListTableModel<T>(dataProvider));
+	public TerceroListJTable(TerceroListProvider<T> dataProvider, TerceroUIService<T> uiService) {
+		super(new TerceroListTableModel<T>(dataProvider, uiService));
 	}
 
 }
