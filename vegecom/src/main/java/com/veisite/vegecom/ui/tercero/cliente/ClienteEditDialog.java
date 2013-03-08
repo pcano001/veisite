@@ -20,7 +20,6 @@ import org.springframework.dao.DataAccessException;
 
 import com.veisite.vegecom.model.Cliente;
 import com.veisite.vegecom.service.ClienteService;
-import com.veisite.vegecom.ui.DeskApp;
 import com.veisite.vegecom.ui.components.dialogs.AbstractEditDialog;
 import com.veisite.vegecom.ui.components.panels.ValidationMessagesPanel;
 
@@ -90,20 +89,20 @@ public class ClienteEditDialog extends AbstractEditDialog {
 			}
 		});
 		// Poner el componente de edición de cliente.
-		ClienteEditComponent c = new ClienteEditComponent(cliente);
+		ClienteEditComponent c = new ClienteEditComponent(cliente, uiService.getUiInstance());
 		setContentComponent(c);
 	}
 
 	@Override
 	protected boolean canClose() {
 		// Hacemos las validaciones para poder cerrar el dialogo.
-		Validator validator = DeskApp.getValidator();
+		Validator validator = uiService.getUiInstance().getValidator();
 		if (validator!=null) {
 			Set<ConstraintViolation<Cliente>> constraintViolations =
 					validator.validate(cliente);
 			if (constraintViolations.size()>0) {
 				String s = 
-						DeskApp.getMessage("ui.ClienteEditDialog.ValidationErrorMessage", 
+						uiService.getUiInstance().getMessage("ui.ClienteEditDialog.ValidationErrorMessage", 
 						null, "Customer data has errors");
 				ValidationMessagesPanel<Cliente> p = 
 						new ValidationMessagesPanel<Cliente>(s,constraintViolations);

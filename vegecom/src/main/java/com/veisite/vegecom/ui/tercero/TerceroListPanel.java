@@ -17,9 +17,9 @@ import com.veisite.vegecom.VegecomException;
 import com.veisite.vegecom.data.TerceroListProvider;
 import com.veisite.vegecom.model.TerceroComercial;
 import com.veisite.vegecom.service.DataChangeListener;
-import com.veisite.vegecom.ui.DeskApp;
 import com.veisite.vegecom.ui.components.table.AbstractListJTable;
 import com.veisite.vegecom.ui.components.table.AbstractListTablePanel;
+import com.veisite.vegecom.ui.framework.UIFrameworkInstance;
 import com.veisite.vegecom.ui.framework.views.UIFrameworkView;
 
 public abstract class TerceroListPanel<T extends TerceroComercial> extends UIFrameworkView 
@@ -51,11 +51,17 @@ public abstract class TerceroListPanel<T extends TerceroComercial> extends UIFra
 	protected JMenuItem editTerceroMenu;
 	protected JMenuItem deleteTerceroMenu;
 	
+	/**
+	 * recursos graficos
+	 */
+	UIFrameworkInstance uiInstance;
 	
-	public TerceroListPanel(String id, TerceroListProvider<T> dataProvider) 
+	
+	public TerceroListPanel(String id, TerceroListProvider<T> dataProvider, UIFrameworkInstance uiInstance) 
 			throws VegecomException {
 		super(id);
 		this.dataProvider = dataProvider;
+		this.uiInstance = uiInstance;
 		initComponent();
 	}
 	
@@ -203,7 +209,7 @@ public abstract class TerceroListPanel<T extends TerceroComercial> extends UIFra
 		private static final long serialVersionUID = 3651293287585063125L;
 
 		public NewTerceroAction() {
-			super(DeskApp.getMessage("ui.components.menu.New", null, "New"));
+			super(uiInstance.getMessage("ui.components.menu.New", null, "New"));
 		}
 
 		@Override
@@ -224,7 +230,7 @@ public abstract class TerceroListPanel<T extends TerceroComercial> extends UIFra
 		private static final long serialVersionUID = -4731589874417212249L;
 
 		public EditTerceroAction() {
-			super(DeskApp.getMessage("ui.components.menu.Edit", null, "Edit"));
+			super(uiInstance.getMessage("ui.components.menu.Edit", null, "Edit"));
 		}
 
 		@Override
@@ -250,7 +256,7 @@ public abstract class TerceroListPanel<T extends TerceroComercial> extends UIFra
 		private static final long serialVersionUID = 7372447598794037254L;
 
 		public DeleteTerceroAction() {
-			super(DeskApp.getMessage("ui.components.menu.Delete", null, "Delete"));
+			super(uiInstance.getMessage("ui.components.menu.Delete", null, "Delete"));
 		}
 
 		@Override

@@ -13,6 +13,7 @@ import com.veisite.vegecom.data.TerceroListProvider;
 import com.veisite.vegecom.model.Municipio;
 import com.veisite.vegecom.model.TerceroComercial;
 import com.veisite.vegecom.ui.components.table.AbstractListTableModel;
+import com.veisite.vegecom.ui.framework.UIFrameworkInstance;
 
 /**
  * Clase que implementa el modelo de tabla de un tercero. 
@@ -42,19 +43,28 @@ public class TerceroListTableModel<T extends TerceroComercial>
 	private static final long serialVersionUID = 4478333403718532551L;
 
 	private static Logger logger = LoggerFactory.getLogger(TerceroListTableModel.class);
+	
+	/**
+	 * recursos graficos para cadenas de texto
+	 * 
+	 */
+	private UIFrameworkInstance uiInstance;
 
-	public TerceroListTableModel(TerceroListProvider<T> dataProvider) {
+	public TerceroListTableModel(TerceroListProvider<T> dataProvider, UIFrameworkInstance uiInstance) {
 		super(dataProvider);
+		this.uiInstance = uiInstance;
 		logger.debug("Creating a Tercero List Table Model with dataProvider");
 	}
 	
-	public TerceroListTableModel(List<T> dataList) {
+	public TerceroListTableModel(List<T> dataList, UIFrameworkInstance uiInstance) {
 		super(dataList);
+		this.uiInstance = uiInstance;
 		logger.debug("Creating a Tercero List Table Model with dataList");
 	}
 	
-	public TerceroListTableModel() {
+	public TerceroListTableModel(UIFrameworkInstance uiInstance) {
 		super();
+		this.uiInstance = uiInstance;
 		logger.debug("Creating a Tercero List Table Model with empty data");
 	}
 	
@@ -69,7 +79,7 @@ public class TerceroListTableModel<T extends TerceroComercial>
 		if (item==null) return null;
 		switch (columnIndex) {
 		case 0:
-			return item.getNif();
+			return _item.getNif();
 		case 1:
 			return item.getNombre();
 		case 2:

@@ -10,10 +10,12 @@ import java.util.Locale;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import javax.validation.Validator;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
+import com.veisite.vegecom.Application;
 import com.veisite.vegecom.ui.framework.menu.UIFrameworkMenuBar;
 import com.veisite.vegecom.ui.framework.module.UIFrameworkModuleManager;
 import com.veisite.vegecom.ui.framework.service.UIFrameworkServiceManager;
@@ -262,6 +264,10 @@ public class UIFrameworkInstance extends JFrame implements WindowListener {
 
 	public String getMessage(String code, Object[] args, String defaultMessage) {
 		return resourceBundle.getMessage(code, args, defaultMessage, Locale.getDefault());
+	}
+
+	public Validator getValidator() {
+		return Application.getValidator();
 	}
 
 }

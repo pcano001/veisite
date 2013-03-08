@@ -11,7 +11,6 @@ import org.springframework.context.ApplicationContext;
 import com.veisite.vegecom.VegecomException;
 import com.veisite.vegecom.data.ClienteListProvider;
 import com.veisite.vegecom.service.ClienteService;
-import com.veisite.vegecom.ui.DeskApp;
 import com.veisite.vegecom.ui.VegecomUIMenu;
 import com.veisite.vegecom.ui.framework.UIFrameworkInstance;
 import com.veisite.vegecom.ui.framework.menu.UIFrameworkMenu;
@@ -97,10 +96,10 @@ public class ClienteUIModule implements UIFrameworkModule {
 		UIFrameworkMenuBar menuBar = uiInstance.getUIFrameworkMenuBar();
 		UIFrameworkMenu menu = menuBar.getMenu(VegecomUIMenu.MENU_SELL_ID);
 		if (menu==null) {
-			String m = DeskApp.getMessage("ui.ApplicationFrame.Menu.Sells", null, "Sells");
+			String m = uiInstance.getMessage("ui.ApplicationFrame.Menu.Sells", null, "Sells");
 			menu = menuBar.addMenu(VegecomUIMenu.MENU_SELL_ID, m);
 		}
-		String m = DeskApp.getMessage("ui.ClientesModule.Menu.ClientesList", null, "Customers");
+		String m = uiInstance.getMessage("ui.ClientesModule.Menu.ClientesList", null, "Customers");
 		UIFrameworkMenuItem mi = new UIFrameworkMenuItem(MENU_CUSTOMERLIST_ID,new ClienteListAction(m));
 		menu.add(mi);
 		
@@ -115,7 +114,7 @@ public class ClienteUIModule implements UIFrameworkModule {
 				menu.addGroup(VegecomUIMenu.MENUGROUP_FILE_NEWOPEN_ID, 0);
 				menu.add(VegecomUIMenu.MENUGROUP_FILE_NEWOPEN_ID, newMenu);
 			}
-			m = DeskApp.getMessage("ui.ClientesModule.Menu.NewCliente", null, "Customer");
+			m = uiInstance.getMessage("ui.ClientesModule.Menu.NewCliente", null, "Customer");
 			mi = new UIFrameworkMenuItem(MENU_NEWCUSTOMER_ID, new NewClienteAction(m));
 			newMenu.add(mi);
 		}

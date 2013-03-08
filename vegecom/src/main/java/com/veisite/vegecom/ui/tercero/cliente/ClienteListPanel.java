@@ -5,7 +5,6 @@ import java.awt.Component;
 import com.veisite.vegecom.VegecomException;
 import com.veisite.vegecom.data.ClienteListProvider;
 import com.veisite.vegecom.model.Cliente;
-import com.veisite.vegecom.ui.DeskApp;
 import com.veisite.vegecom.ui.tercero.TerceroListPanel;
 
 public class ClienteListPanel extends TerceroListPanel<Cliente> {
@@ -22,9 +21,9 @@ public class ClienteListPanel extends TerceroListPanel<Cliente> {
 	
 	
 	public ClienteListPanel(ClienteUIService uiService, ClienteListProvider dataProvider) throws VegecomException {
-		super("clienteListView", dataProvider);
+		super("clienteListView", dataProvider, uiService.getUiInstance());
 		this.uiService = uiService;
-		setTitle(DeskApp.getMessage("ui.ClientesModule.ClientesViewTitle", null, "Customers"));
+		setTitle(uiService.getUiInstance().getMessage("ui.ClientesModule.ClientesViewTitle", null, "Customers"));
 	}
 
 	@Override

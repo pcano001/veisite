@@ -196,6 +196,5 @@ public class ClienteUIService implements UIFrameworkService {
 	public UIFrameworkInstance getUiInstance() {
 		return uiInstance;
 	}
-	
-	
+
 }
