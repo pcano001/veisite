@@ -13,19 +13,24 @@ import com.veisite.vegecom.model.Cliente;
 import com.veisite.vegecom.service.ClienteService;
 
 @Service
-public class ClienteServiceImpl implements ClienteService {
+public class ClienteServiceImpl extends TerceroServiceImpl<Cliente> implements ClienteService {
 
 	@Autowired
 	ClienteDAO dao;
 	
 	@Override @Transactional
 	public Cliente save(Cliente cliente) {
-		return dao.save(cliente);
+		boolean newItem = (cliente.getId()==null);
+		Cliente i = dao.save(cliente);
+		if (newItem) fireItemAddedEvent(i);
+		else fireItemChangedEvent(i);
+		return i;
 	}
 
 	@Override @Transactional
 	public void remove(Cliente cliente) {
 		dao.remove(cliente);
+		fireItemRemovedEvent(cliente);
 	}
 
 	@Override @Transactional

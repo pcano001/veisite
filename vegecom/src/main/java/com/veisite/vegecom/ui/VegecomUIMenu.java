@@ -7,6 +7,11 @@ package com.veisite.vegecom.ui;
  */
 public class VegecomUIMenu {
 	
+	public static String MENU_FILE_ID = "fileMenu";
 	public static String MENU_SELL_ID = "sellMenu";
 
+	public static String MENU_FILE_NEW_ID = "fileNewMenu";
+	
+	public static String MENUGROUP_FILE_NEWOPEN_ID = "fileNewOpenGroup";
+	
 }

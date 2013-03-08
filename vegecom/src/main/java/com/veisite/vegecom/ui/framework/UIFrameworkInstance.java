@@ -6,14 +6,17 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Locale;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ResourceBundleMessageSource;
 
 import com.veisite.vegecom.ui.framework.menu.UIFrameworkMenuBar;
 import com.veisite.vegecom.ui.framework.module.UIFrameworkModuleManager;
+import com.veisite.vegecom.ui.framework.service.UIFrameworkServiceManager;
 import com.veisite.vegecom.ui.framework.statusbar.UIFrameworkStatusBar;
 import com.veisite.vegecom.ui.framework.views.UIFrameworkViewArea;
 
@@ -49,6 +52,11 @@ public class UIFrameworkInstance extends JFrame implements WindowListener {
 	private String id;
 	
 	/**
+	 * Recurso para internacionalizacion
+	 */
+	ResourceBundleMessageSource resourceBundle;
+	
+	/**
 	 * Barra de menu principal
 	 */
 	protected UIFrameworkMenuBar menuBar;
@@ -69,6 +77,11 @@ public class UIFrameworkInstance extends JFrame implements WindowListener {
 	protected UIFrameworkModuleManager moduleManager;
 
 	/**
+	 * Gestor de servicios 
+	 */
+	protected UIFrameworkServiceManager serviceManager;
+
+	/**
 	 * Contexto de la aplicación
 	 * 
 	 * @param id
@@ -76,9 +89,10 @@ public class UIFrameworkInstance extends JFrame implements WindowListener {
 	protected ApplicationContext context = null;
 	
 	
-	public UIFrameworkInstance(String id) {
+	public UIFrameworkInstance(String id, ResourceBundleMessageSource resourceBundleMessageSource) {
 		super();
 		this.id = id;
+		this.resourceBundle = resourceBundleMessageSource;
 		initFramework();
 	}
 	
@@ -105,8 +119,11 @@ public class UIFrameworkInstance extends JFrame implements WindowListener {
 		viewArea = new UIFrameworkViewArea("defualtViewArea");
 		getContentPane().add(viewArea, BorderLayout.CENTER);
 		
-		// Creamos el gestor de módulos or defecto
+		// Creamos el gestor de módulos por defecto
 		moduleManager = new UIFrameworkModuleManager("moduleManager", this, null);
+		
+		// Creamos el gestor de servicios por defecto
+		serviceManager = new UIFrameworkServiceManager("serviceManager", this, null);
 		
 	}
 
@@ -205,6 +222,7 @@ public class UIFrameworkInstance extends JFrame implements WindowListener {
 	public void setContext(ApplicationContext context) {
 		this.context = context;
 		moduleManager.setContext(context);
+		serviceManager.setContext(context);
 	}
 
 	/**
@@ -212,6 +230,13 @@ public class UIFrameworkInstance extends JFrame implements WindowListener {
 	 */
 	public UIFrameworkModuleManager getModuleManager() {
 		return moduleManager;
+	}
+
+	/**
+	 * @return the serviceManager
+	 */
+	public UIFrameworkServiceManager getServiceManager() {
+		return serviceManager;
 	}
 
 	/**
@@ -233,6 +258,10 @@ public class UIFrameworkInstance extends JFrame implements WindowListener {
 				}
 			});
 		}
+	}
+
+	public String getMessage(String code, Object[] args, String defaultMessage) {
+		return resourceBundle.getMessage(code, args, defaultMessage, Locale.getDefault());
 	}
 
 }

@@ -12,7 +12,14 @@ import javax.swing.JOptionPane;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
+
 import com.veisite.vegecom.model.Cliente;
+import com.veisite.vegecom.service.ClienteService;
 import com.veisite.vegecom.ui.DeskApp;
 import com.veisite.vegecom.ui.components.dialogs.AbstractEditDialog;
 import com.veisite.vegecom.ui.components.panels.ValidationMessagesPanel;
@@ -23,34 +30,53 @@ public class ClienteEditDialog extends AbstractEditDialog {
 	 * serial
 	 */
 	private static final long serialVersionUID = -7349392482605593043L;
+	
+	/**
+	 * logger
+	 */
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * El cliente que se va a editar
 	 */
 	private Cliente cliente;
 	
+	/**
+	 * El Servicio de datos para persistir los cambios
+	 */
+	private ClienteService dataService = null;
 	
-	public ClienteEditDialog(Dialog owner, Cliente cliente) {
+	/**
+	 * El Servicio grafico
+	 */
+	private ClienteUIService uiService = null;
+	
+	
+	public ClienteEditDialog(Dialog owner, Cliente cliente, ClienteUIService uiService) {
 		super(owner);
 		this.cliente = cliente;
+		this.uiService = uiService;
 		initializeDialog();
 	}
 
-	public ClienteEditDialog(Frame owner, Cliente cliente) {
+	public ClienteEditDialog(Frame owner, Cliente cliente, ClienteUIService uiService) {
 		super(owner);
 		this.cliente = cliente;
+		this.uiService = uiService;
 		initializeDialog();
 	}
 
-	public ClienteEditDialog(Window owner, Cliente cliente) {
+	public ClienteEditDialog(Window owner, Cliente cliente, ClienteUIService uiService) {
 		super(owner);
 		this.cliente = cliente;
+		this.uiService = uiService;
 		initializeDialog();
 	}
 
-	public ClienteEditDialog(Component parent, Cliente cliente) {
+	public ClienteEditDialog(Component parent, Cliente cliente, ClienteUIService uiService) {
 		super(parent);
 		this.cliente = cliente;
+		this.uiService = uiService;
 		initializeDialog();
 	}
 	
@@ -77,11 +103,35 @@ public class ClienteEditDialog extends AbstractEditDialog {
 					validator.validate(cliente);
 			if (constraintViolations.size()>0) {
 				String s = 
-						DeskApp.getMessage("ui.tercero.cliente.ClienteEditDialog.ValidationErrorMessage", 
+						DeskApp.getMessage("ui.ClienteEditDialog.ValidationErrorMessage", 
 						null, "Customer data has errors");
 				ValidationMessagesPanel<Cliente> p = 
 						new ValidationMessagesPanel<Cliente>(s,constraintViolations);
 				JOptionPane.showMessageDialog(this, p, s, JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+		}
+		// Ahora intentamos persistir los datos si tenemos servicio de persistencia
+		if (dataService!=null) {
+			Throwable excep=null;
+			boolean error=false;
+			try {
+				dataService.save(cliente);
+			} catch (DataAccessException e) {
+				excep = e;
+				error = true;
+			} catch (Throwable t) {
+				excep = t;
+				error = true;
+			}
+			if (error) {
+				logger.error("Error saving customer in persistence service", excep);
+				String t = uiService.getUiInstance().getMessage("ui.ClienteEditDialog.ErrorSaveClienteTitle", 
+						null, "Error retrieving customer");
+				String m = uiService.getUiInstance().getMessage("ui.ClienteEditDialog.ErrorSaveClienteMessage", 
+						null, "Error retrieving customer data");
+				ErrorInfo err = new ErrorInfo(t, m,	excep.getMessage(), null, excep, null, null);
+				JXErrorPane.showDialog(getParent(), err);
 				return false;
 			}
 		}
@@ -95,6 +145,34 @@ public class ClienteEditDialog extends AbstractEditDialog {
 
 	@Override
 	protected void onClose() {
+	}
+
+	/**
+	 * @return the dataService
+	 */
+	public ClienteService getDataService() {
+		return dataService;
+	}
+
+	/**
+	 * @param dataService the dataService to set
+	 */
+	public void setDataService(ClienteService dataService) {
+		this.dataService = dataService;
+	}
+
+	/**
+	 * @return the cliente
+	 */
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	/**
+	 * @return the uiService
+	 */
+	public ClienteUIService getUiService() {
+		return uiService;
 	}
 	
 }

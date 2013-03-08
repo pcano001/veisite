@@ -61,7 +61,7 @@ public class DeskApp extends Application {
 	
 	private static void runDesktopApp() throws Throwable {
 		logger.debug("Initializing main window");
-		ui = new VegecomUIInstance("VegecomUIInstance");
+		ui = new VegecomUIInstance("VegecomUIInstance", getResourceBundle());
 		ui.setCallOnDispose(new Runnable() {
 			@Override
 			public void run() {

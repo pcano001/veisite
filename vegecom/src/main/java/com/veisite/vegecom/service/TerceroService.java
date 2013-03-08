@@ -17,5 +17,9 @@ public abstract interface TerceroService<T extends TerceroComercial> {
 	public List<T> getList();
 	
 	public void writeListTo(ObjectOutputFlow<T> output) throws DataIOException;
+	
+	public void addDataChangeListener(DataChangeListener<T> listener);
+
+	public void removeDataChangeListener(DataChangeListener<T> listener);
 
 }

@@ -13,19 +13,24 @@ import com.veisite.vegecom.model.Proveedor;
 import com.veisite.vegecom.service.ProveedorService;
 
 @Service
-public class ProveedorServiceImpl implements ProveedorService {
+public class ProveedorServiceImpl extends TerceroServiceImpl<Proveedor> implements ProveedorService {
 
 	@Autowired
 	ProveedorDAO dao;
 	
 	@Override @Transactional
 	public Proveedor save(Proveedor proveedor) {
-		return dao.save(proveedor);
+		boolean newItem = (proveedor.getId()==null);
+		Proveedor i = dao.save(proveedor);
+		if (newItem) fireItemAddedEvent(i);
+		else fireItemChangedEvent(i);
+		return i;
 	}
 
 	@Override @Transactional
 	public void remove(Proveedor proveedor) {
 		dao.remove(proveedor);
+		fireItemRemovedEvent(proveedor);
 	}
 
 	@Override @Transactional

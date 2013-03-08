@@ -53,11 +53,6 @@ public class VegecomUIInstance extends UIFrameworkInstance {
 	 */
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
-	/**
-	 * Constantes
-	 */
-	public static final String MENUFILE_ID = "fileMenu";
-	
 	public static final Dimension DIMENSION_MAXIMA_JFRAME_PRINCIPAL = new Dimension(940, 680);
 	
 	/**
@@ -89,9 +84,10 @@ public class VegecomUIInstance extends UIFrameworkInstance {
 	 * 
 	 * @param id
 	 * 		the id of the instance
+	 * @param resourceBundleMessageSource 
 	 */
-	public VegecomUIInstance(String id) {
-		super(id);
+	public VegecomUIInstance(String id, ResourceBundleMessageSource resourceBundleMessageSource) {
+		super(id, resourceBundleMessageSource);
 		String title = DeskApp.getMessage("ui.ApplicationFrame.Title", null, "Vegecom Application");
 		if (!DeskApp.isProductionMode()) title += " (Runnig in test mode)";
 		setTitle(title);
@@ -209,12 +205,12 @@ public class VegecomUIInstance extends UIFrameworkInstance {
 	private void createInitialMenuBar() {
 		UIFrameworkMenuBar menuBar = getUIFrameworkMenuBar();
 		String fm = DeskApp.getMessage("ui.ApplicationFrame.Menu.File", null, "File");
-		menuBar.addMenu(MENUFILE_ID, fm);
+		menuBar.addMenu(VegecomUIMenu.MENU_FILE_ID, fm);
 		ExitAction ea = 
 				new ExitAction(DeskApp.getMessage("ui.ApplicationFrame.Menu.File.Exit", null, "Exit"));
 		UIFrameworkMenuItem mi = new UIFrameworkMenuItem("exitAction", ea);
-		menuBar.addMenuItem(new String[] {MENUFILE_ID}, "fileExitGroup", mi);
-		menuBar.getMenu(MENUFILE_ID).getGroup("fileExitGroup").setPriority(1024);
+		menuBar.addMenuItem(new String[] {VegecomUIMenu.MENU_FILE_ID}, "fileExitGroup", mi);
+		menuBar.getMenu(VegecomUIMenu.MENU_FILE_ID).getGroup("fileExitGroup").setPriority(1024);
 	}
 
 

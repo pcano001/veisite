@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
 import com.veisite.vegecom.VegecomException;
+import com.veisite.vegecom.data.ClienteListProvider;
 import com.veisite.vegecom.service.ClienteService;
 import com.veisite.vegecom.ui.DeskApp;
 import com.veisite.vegecom.ui.VegecomUIMenu;
@@ -24,11 +25,16 @@ public class ClienteUIModule implements UIFrameworkModule {
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
-	
 	/**
 	 * module id
 	 */
 	public static String MODULE_ID = "clientesModule";
+	
+	/**
+	 * menu
+	 */
+	public static String MENU_CUSTOMERLIST_ID = "customerListMenu";
+	public static String MENU_NEWCUSTOMER_ID = "newCustomerMenu";
 	
 	/**
 	 * Servicio de acceso a datos de cliente 
@@ -45,11 +51,16 @@ public class ClienteUIModule implements UIFrameworkModule {
 	 */
 	private ApplicationContext context;
 	
-	
 	/**
 	 * Recursos graficos del modulo.
 	 */
 	private UIFrameworkView clienteListView = null;
+
+	/**
+	 * Servicios graficos para clientes.
+	 */
+	private ClienteUIService clienteUIService = null;
+	
 
 	@Override
 	public String getId() {
@@ -69,6 +80,9 @@ public class ClienteUIModule implements UIFrameworkModule {
 		}
 		if (clienteService==null) 
 			throw new VegecomException("Cannot get Customer Service. Module cannot init");
+		// Registra el servicio grafico para clientes
+		clienteUIService = new ClienteUIService();
+		uiInstance.getServiceManager().registerService(clienteUIService);
 		configureUI();
 	}
 
@@ -87,14 +101,28 @@ public class ClienteUIModule implements UIFrameworkModule {
 			menu = menuBar.addMenu(VegecomUIMenu.MENU_SELL_ID, m);
 		}
 		String m = DeskApp.getMessage("ui.ClientesModule.Menu.ClientesList", null, "Customers");
-		UIFrameworkMenuItem mi = new UIFrameworkMenuItem("customerList",new ClienteListAction(m));
+		UIFrameworkMenuItem mi = new UIFrameworkMenuItem(MENU_CUSTOMERLIST_ID,new ClienteListAction(m));
 		menu.add(mi);
+		
+		menu = menuBar.getMenu(VegecomUIMenu.MENU_FILE_ID);
+		if (menu!=null) {
+			// Toomar menu nuevo
+			UIFrameworkMenu newMenu = 
+					menu.getMenu(VegecomUIMenu.MENUGROUP_FILE_NEWOPEN_ID, VegecomUIMenu.MENU_FILE_NEW_ID);
+			if (newMenu==null) {
+				m = uiInstance.getMessage("ui.components.menu.New", null, "New");
+				newMenu = new UIFrameworkMenu(VegecomUIMenu.MENU_FILE_NEW_ID, m);
+				menu.addGroup(VegecomUIMenu.MENUGROUP_FILE_NEWOPEN_ID, 0);
+				menu.add(VegecomUIMenu.MENUGROUP_FILE_NEWOPEN_ID, newMenu);
+			}
+			m = DeskApp.getMessage("ui.ClientesModule.Menu.NewCliente", null, "Customer");
+			mi = new UIFrameworkMenuItem(MENU_NEWCUSTOMER_ID, new NewClienteAction(m));
+			newMenu.add(mi);
+		}
 	}
 	
 	
-	
 	private class ClienteListAction extends AbstractAction {
-		
 		/**
 		 * serial
 		 */
@@ -108,7 +136,8 @@ public class ClienteUIModule implements UIFrameworkModule {
 		public void actionPerformed(ActionEvent e) {
 			if (clienteListView==null) {
 				try {
-					clienteListView = new ClienteListPanel(clienteService);
+					ClienteListProvider lp = new ClienteListProvider(clienteService);
+					clienteListView = new ClienteListPanel(clienteUIService,lp);
 				} catch (VegecomException exception) {
 					logger.error("Cannot make a clienteListPanel",exception);
 					UIResources.showException(uiInstance, exception);
@@ -117,6 +146,22 @@ public class ClienteUIModule implements UIFrameworkModule {
 			}
 			uiInstance.getViewArea().addView(clienteListView);
 		}
-		
 	}
+	
+	private class NewClienteAction extends AbstractAction {
+		/**
+		 * serial
+		 */
+		private static final long serialVersionUID = 6313251397994803529L;
+
+		public NewClienteAction(String name) {
+			super(name);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			clienteUIService.newCliente(uiInstance);
+		}
+	}
+	
 }
