@@ -14,6 +14,7 @@ import com.veisite.vegecom.data.TerceroListProvider;
 import com.veisite.vegecom.model.Municipio;
 import com.veisite.vegecom.model.TerceroComercial;
 import com.veisite.vegecom.ui.components.table.AbstractListTableModel;
+import com.veisite.vegecom.ui.service.TerceroUIService;
 
 /**
  * Clase que implementa el modelo de tabla de un tercero. 

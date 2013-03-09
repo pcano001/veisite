@@ -6,6 +6,7 @@ import com.veisite.vegecom.data.TerceroListProvider;
 import com.veisite.vegecom.model.TerceroComercial;
 import com.veisite.vegecom.ui.components.table.AbstractListJTable;
 import com.veisite.vegecom.ui.components.table.AbstractListTableModel;
+import com.veisite.vegecom.ui.service.TerceroUIService;
 
 public class TerceroListJTable<T extends TerceroComercial> extends AbstractListJTable<T> {
 

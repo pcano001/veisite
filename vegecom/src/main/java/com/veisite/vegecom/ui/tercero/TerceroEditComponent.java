@@ -21,6 +21,7 @@ import com.veisite.vegecom.ui.components.VNifField;
 import com.veisite.vegecom.ui.components.VProvinciaField;
 import com.veisite.vegecom.ui.components.VTextArea;
 import com.veisite.vegecom.ui.components.VTextField;
+import com.veisite.vegecom.ui.service.TerceroUIService;
 import com.veisite.vegecom.ui.util.UIResources;
 
 public abstract class TerceroEditComponent<T extends TerceroComercial> extends JPanel {

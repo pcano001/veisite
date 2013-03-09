@@ -18,6 +18,8 @@ import com.veisite.vegecom.ui.framework.menu.UIFrameworkMenuBar;
 import com.veisite.vegecom.ui.framework.menu.UIFrameworkMenuItem;
 import com.veisite.vegecom.ui.framework.module.UIFrameworkAbstractModule;
 import com.veisite.vegecom.ui.framework.views.UIFrameworkView;
+import com.veisite.vegecom.ui.impl.service.ClienteUIServiceImpl;
+import com.veisite.vegecom.ui.service.ClienteUIService;
 import com.veisite.vegecom.ui.util.UIResources;
 
 public class ClienteUIModule extends UIFrameworkAbstractModule {
@@ -71,7 +73,7 @@ public class ClienteUIModule extends UIFrameworkAbstractModule {
 		if (clienteService==null) 
 			throw new VegecomException("Cannot get Customer Service. Module cannot init");
 		// Registra el servicio grafico para clientes
-		clienteUIService = new ClienteUIService(this,context);
+		clienteUIService = new ClienteUIServiceImpl(this, context);
 		uiInstance.getServiceManager().registerService(clienteUIService);
 		configureUI();
 	}

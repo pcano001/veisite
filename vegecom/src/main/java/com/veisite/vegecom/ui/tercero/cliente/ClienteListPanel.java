@@ -5,6 +5,7 @@ import java.awt.Component;
 import com.veisite.vegecom.VegecomException;
 import com.veisite.vegecom.data.ClienteListProvider;
 import com.veisite.vegecom.model.Cliente;
+import com.veisite.vegecom.ui.service.ClienteUIService;
 import com.veisite.vegecom.ui.tercero.TerceroListPanel;
 
 public class ClienteListPanel extends TerceroListPanel<Cliente> {

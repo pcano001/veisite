@@ -22,6 +22,7 @@ import org.springframework.util.Assert;
 import com.veisite.vegecom.model.TerceroComercial;
 import com.veisite.vegecom.ui.components.VTextField;
 import com.veisite.vegecom.ui.components.table.filter.NoAcentosRegexFilter;
+import com.veisite.vegecom.ui.service.TerceroUIService;
 import com.veisite.vegecom.util.StringUtil;
 
 public class TerceroFilterTablePanel<T extends TerceroComercial> extends JPanel {

@@ -1,4 +1,4 @@
-package com.veisite.vegecom.ui.tercero.cliente;
+package com.veisite.vegecom.ui.impl.service;
 
 import java.awt.Component;
 import java.awt.Dialog.ModalityType;
@@ -17,9 +17,10 @@ import com.veisite.vegecom.VegecomException;
 import com.veisite.vegecom.model.Cliente;
 import com.veisite.vegecom.service.ClienteService;
 import com.veisite.vegecom.ui.framework.module.UIFrameworkModule;
-import com.veisite.vegecom.ui.tercero.TerceroUIService;
+import com.veisite.vegecom.ui.framework.service.UIFrameworkAbstractService;
+import com.veisite.vegecom.ui.tercero.cliente.ClienteEditDialog;
 
-public class ClienteUIService extends TerceroUIService<Cliente> {
+public class ClienteUIServiceImpl extends UIFrameworkAbstractService implements com.veisite.vegecom.ui.service.ClienteUIService {
 
 	/**
 	 * logger
@@ -37,8 +38,16 @@ public class ClienteUIService extends TerceroUIService<Cliente> {
 	private ClienteService dataService;
 	
 	
-	public ClienteUIService(UIFrameworkModule uiModule, ApplicationContext context) {
-		super(uiModule, context);
+	/**
+	 * Contexto de aplicación
+	 */
+	protected ApplicationContext context;
+	
+	
+	public ClienteUIServiceImpl(UIFrameworkModule uiModule, ApplicationContext context) {
+		super(uiModule);
+		Assert.notNull(context);
+		this.context = context;
 	}
 	
 	@Override

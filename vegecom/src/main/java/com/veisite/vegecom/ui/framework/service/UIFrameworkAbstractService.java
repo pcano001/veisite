@@ -43,6 +43,4 @@ public abstract class UIFrameworkAbstractService implements UIFrameworkService {
 		return uiModule.getParentWindow();
 	}
 	
-	
-
 }

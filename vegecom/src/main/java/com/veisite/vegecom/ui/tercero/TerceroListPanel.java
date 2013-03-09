@@ -22,6 +22,7 @@ import com.veisite.vegecom.service.DataChangeListener;
 import com.veisite.vegecom.ui.components.table.AbstractListJTable;
 import com.veisite.vegecom.ui.components.table.AbstractListTablePanel;
 import com.veisite.vegecom.ui.framework.views.UIFrameworkView;
+import com.veisite.vegecom.ui.service.TerceroUIService;
 
 public abstract class TerceroListPanel<T extends TerceroComercial> extends UIFrameworkView 
 						implements DataChangeListener<T> {

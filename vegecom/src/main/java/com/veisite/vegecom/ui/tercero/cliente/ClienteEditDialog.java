@@ -22,6 +22,7 @@ import com.veisite.vegecom.model.Cliente;
 import com.veisite.vegecom.service.ClienteService;
 import com.veisite.vegecom.ui.components.dialogs.AbstractEditDialog;
 import com.veisite.vegecom.ui.components.panels.ValidationMessagesPanel;
+import com.veisite.vegecom.ui.service.ClienteUIService;
 
 public class ClienteEditDialog extends AbstractEditDialog {
 
