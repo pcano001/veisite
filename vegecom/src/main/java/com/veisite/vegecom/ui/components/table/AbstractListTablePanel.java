@@ -110,7 +110,6 @@ public abstract class AbstractListTablePanel<T> extends JPanel {
 				updateStatusBar();
 			}
 		});
-		table.getModel().refreshData();
 		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override

@@ -98,6 +98,5 @@ public class VComboBox<T> extends JComboBox<T> implements IActivableComponent,
 			itemChanged();
 		}
 	}
-
 	
 }

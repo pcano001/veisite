@@ -11,5 +11,5 @@ public interface ClienteUIService extends TerceroUIService<Cliente> {
 	public Cliente editCliente(Cliente cliente, Component parent);
 	
 	public Cliente removeCliente(Cliente cliente, boolean askConfirmation, Component parent);
-
+	
 }

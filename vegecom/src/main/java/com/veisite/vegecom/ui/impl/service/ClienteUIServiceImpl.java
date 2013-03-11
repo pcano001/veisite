@@ -2,6 +2,7 @@ package com.veisite.vegecom.ui.impl.service;
 
 import java.awt.Component;
 import java.awt.Dialog.ModalityType;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -14,13 +15,18 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.util.Assert;
 
 import com.veisite.vegecom.VegecomException;
+import com.veisite.vegecom.data.ClienteListProvider;
 import com.veisite.vegecom.model.Cliente;
 import com.veisite.vegecom.service.ClienteService;
+import com.veisite.vegecom.service.DataChangeListener;
 import com.veisite.vegecom.ui.framework.module.UIFrameworkModule;
 import com.veisite.vegecom.ui.framework.service.UIFrameworkAbstractService;
+import com.veisite.vegecom.ui.service.ClienteUIService;
+import com.veisite.vegecom.ui.tercero.TerceroListTableModel;
 import com.veisite.vegecom.ui.tercero.cliente.ClienteEditDialog;
 
-public class ClienteUIServiceImpl extends UIFrameworkAbstractService implements com.veisite.vegecom.ui.service.ClienteUIService {
+public class ClienteUIServiceImpl extends UIFrameworkAbstractService 
+				implements ClienteUIService, DataChangeListener<Cliente> {
 
 	/**
 	 * logger
@@ -43,6 +49,11 @@ public class ClienteUIServiceImpl extends UIFrameworkAbstractService implements 
 	 */
 	protected ApplicationContext context;
 	
+	/**
+	 * Modelo de datos de lista de clientes
+	 */
+	protected TerceroListTableModel<Cliente> listModel = null;
+	
 	
 	public ClienteUIServiceImpl(UIFrameworkModule uiModule, ApplicationContext context) {
 		super(uiModule);
@@ -60,6 +71,8 @@ public class ClienteUIServiceImpl extends UIFrameworkAbstractService implements 
 		dataService = this.context.getBean(ClienteService.class);
 		if (dataService==null)
 			throw new VegecomException("ClienteService is not available");
+		dataService.addDataChangeListener(this);
+
 	}
 	
 
@@ -184,5 +197,65 @@ public class ClienteUIServiceImpl extends UIFrameworkAbstractService implements 
 		}
 		return cliente;
 	}
+	
+
+	@Override
+	public TerceroListTableModel<Cliente> getListTableModel() {
+		Assert.notNull(dataService);
+		if (listModel == null) {
+			ClienteListProvider dataProvider = new ClienteListProvider(dataService);
+			listModel = new TerceroListTableModel<Cliente>(dataProvider, this);
+			listModel.refreshData();
+		}
+		return this.listModel;
+	}
+	
+	
+	/**
+	 * Un nuevo tercero ha sido añadido
+	 * Incluir en la lista
+	 */
+	@Override
+	public void itemAdded(Cliente item) {
+		if (listModel!=null) listModel.addItem(item);
+	}
+
+
+	/**
+	 * Un tercero ha sido modificado, notificar la tabla
+	 */
+	@Override
+	public void itemChanged(Cliente item) {
+		int index = getModelIndexForItem(item);
+		if (index>=0) listModel.setItemAt(index, item);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see com.veisite.vegecom.service.DataChangeListener#itemRemoved(java.lang.Object)
+	 */
+	@Override
+	public void itemRemoved(Cliente item) {
+		int index = getModelIndexForItem(item);
+		if (index>=0) listModel.delItemAt(index);
+	}
+	
+	/**
+	 * Busca un elemento en la table y devuelve el indice en el modelo
+	 * Devuelve -1 si no se encuetra.
+	 * @param table
+	 * @param item
+	 * @return
+	 */
+	protected int getModelIndexForItem(Cliente item) {
+		if (listModel!=null) {
+			List<Cliente> lista = listModel.getDataList();
+			for (int i=0; i<lista.size(); i++)
+				if (lista.get(i).getId().equals(item.getId()))
+					return i;
+		}
+		return -1;
+	}
+	
 
 }

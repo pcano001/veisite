@@ -90,18 +90,18 @@ public abstract class TerceroEditComponent<T extends TerceroComercial> extends J
 		nifField.configureValidation(v, tercero, "nif");
 		s =	uiService.getMessage("ui.tercero.TerceroEditPanel.namePrompt", null, "Name");
 		nameField = new VTextField(s);
-		nameField.setColumns(25);
+		nameField.setColumns(35);
 		nameField.configureValidation(v, tercero, "nombre");
 		s =	uiService.getMessage("ui.tercero.TerceroEditPanel.telefonoPrompt", null, "Telephone");
 		telefonoField = new VTextField(s);
-		telefonoField.setColumns(15);
+		telefonoField.setColumns(20);
 		s =	uiService.getMessage("ui.tercero.TerceroEditPanel.emailPrompt", null, "E-mail");
 		emailField = new VTextField(s);
-		emailField.setColumns(15);
+		emailField.setColumns(25);
 		emailField.configureValidation(v, tercero, "email");
 		s =	uiService.getMessage("ui.tercero.TerceroEditPanel.domicilioPrompt", null, "Address");
 		domicilioField = new VTextField(s);
-		domicilioField.setColumns(18);
+		domicilioField.setColumns(35);
 		s =	uiService.getMessage("ui.tercero.TerceroEditPanel.codigoPostalPrompt", null, "C.P.");
 		cpField = new VCodigoPostalField(s);
 		cpField.setColumns(4);
@@ -109,7 +109,7 @@ public abstract class TerceroEditComponent<T extends TerceroComercial> extends J
 		municipioField = new VMunicipioField(provinciaField);
 		s =	uiService.getMessage("ui.tercero.TerceroEditPanel.localidadPrompt", null, "Village/Town");
 		localidadField = new VTextField(s);
-		localidadField.setColumns(15);
+		localidadField.setColumns(25);
 	}
 	
 	protected void composePanel() {
@@ -126,6 +126,9 @@ public abstract class TerceroEditComponent<T extends TerceroComercial> extends J
 	    row.add(UIResources.getLabeledComponent(s, nifField));
 		s =	uiService.getMessage("ui.tercero.TerceroEditPanel.nameLabel", null, "Name:");
 	    row.add(UIResources.getLabeledComponent(s, nameField));
+	    vBox.add(row);
+	    
+	    row = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		s =	uiService.getMessage("ui.tercero.TerceroEditPanel.telefonoLabel", null, "Telephone:");
 	    row.add(UIResources.getLabeledComponent(s, telefonoField));
 		s =	uiService.getMessage("ui.tercero.TerceroEditPanel.emailLabel", null, "E-mail:");
@@ -139,6 +142,9 @@ public abstract class TerceroEditComponent<T extends TerceroComercial> extends J
 	    row.add(UIResources.getLabeledComponent(s, cpField));
 		s =	uiService.getMessage("ui.tercero.TerceroEditPanel.provinciaLabel", null, "Province:");
 	    row.add(UIResources.getLabeledComponent(s, provinciaField));
+	    vBox.add(row);
+	    
+	    row = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		s =	uiService.getMessage("ui.tercero.TerceroEditPanel.municipioLabel", null, "City:");
 	    row.add(UIResources.getLabeledComponent(s, municipioField));
 		s =	uiService.getMessage("ui.tercero.TerceroEditPanel.localidadLabel", null, "Village/Town:");
@@ -188,6 +194,7 @@ public abstract class TerceroEditComponent<T extends TerceroComercial> extends J
 	 */
 	private void changeProvinciaFromCP() {
 		String sc = cpField.getText();
+		if (sc==null || sc.isEmpty()) return;
 		int pc=0;
 		try {
 			pc = Integer.parseInt(sc) / 1000;

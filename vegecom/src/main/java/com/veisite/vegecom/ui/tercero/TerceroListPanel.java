@@ -16,16 +16,13 @@ import javax.swing.SortOrder;
 import org.springframework.util.Assert;
 
 import com.veisite.vegecom.VegecomException;
-import com.veisite.vegecom.data.TerceroListProvider;
 import com.veisite.vegecom.model.TerceroComercial;
-import com.veisite.vegecom.service.DataChangeListener;
 import com.veisite.vegecom.ui.components.table.AbstractListJTable;
 import com.veisite.vegecom.ui.components.table.AbstractListTablePanel;
 import com.veisite.vegecom.ui.framework.views.UIFrameworkView;
 import com.veisite.vegecom.ui.service.TerceroUIService;
 
-public abstract class TerceroListPanel<T extends TerceroComercial> extends UIFrameworkView 
-						implements DataChangeListener<T> {
+public abstract class TerceroListPanel<T extends TerceroComercial> extends UIFrameworkView {
 
 	/**
 	 * 
@@ -42,11 +39,6 @@ public abstract class TerceroListPanel<T extends TerceroComercial> extends UIFra
 	protected AbstractListTablePanel<T> tablePanel;
 	
 	/**
-	 * Fuente de datos de clientes
-	 */
-	protected TerceroListProvider<T> dataProvider;
-	
-	/**
 	 * Opciones de menu contextual
 	 */
 	protected JMenuItem newTerceroMenu;
@@ -59,26 +51,24 @@ public abstract class TerceroListPanel<T extends TerceroComercial> extends UIFra
 	private TerceroUIService<T> uiService;
 	
 	
-	public TerceroListPanel(String id, TerceroListProvider<T> dataProvider, TerceroUIService<T> uiService) 
+	public TerceroListPanel(String id, TerceroUIService<T> uiService) 
 			throws VegecomException {
 		super(id);
-		Assert.notNull(dataProvider);
 		Assert.notNull(uiService);
-		this.dataProvider = dataProvider;
 		this.uiService = uiService;
 		initComponent();
 	}
 	
-	
+
 	/**
 	 * Creamos los componentes del Panel
 	 * @throws GaslabException 
 	 */
 	protected void initComponent() throws VegecomException {
 		setLayout(new BorderLayout());
-		dataProvider.setBlockSize(50);
+		TerceroListTableModel<T> dataModel = uiService.getListTableModel();
 		TerceroListJTable<T> table =
-				new TerceroListJTable<T>(dataProvider, uiService);
+				new TerceroListJTable<T>(dataModel);
 		tablePanel = new AbstractListTablePanel<T>(this,table) {
 			private static final long serialVersionUID = 1L;
 			@Override
@@ -95,9 +85,6 @@ public abstract class TerceroListPanel<T extends TerceroComercial> extends UIFra
 		add(tablePanel,BorderLayout.CENTER);
 		configureFilter();
 		initSortOrder();
-		// Quedamos a la escucha de cambios en el servicio de clientes para
-		// reflajar los cambios que haya
-		dataProvider.getDataService().addDataChangeListener(this);
 	}
 
 	/**
@@ -276,55 +263,5 @@ public abstract class TerceroListPanel<T extends TerceroComercial> extends UIFra
 		}
 	}
 
-	
-	/**
-	 * Un nuevo tercero ha sido añadido
-	 * Incluir en la lista
-	 */
-	@Override
-	public void itemAdded(T item) {
-		AbstractListJTable<T> table = tablePanel.getTable();
-		table.addItem(item);
-	}
-
-
-	/**
-	 * Un tercero ha sido modificado, notificar la tabla
-	 */
-	@Override
-	public void itemChanged(T item) {
-		AbstractListJTable<T> table = tablePanel.getTable();
-		int index = getModelIndexForItem(table, item);
-		if (index>=0) table.setItemAt(index, item);
-	}
-
-
-	/* (non-Javadoc)
-	 * @see com.veisite.vegecom.service.DataChangeListener#itemRemoved(java.lang.Object)
-	 */
-	@Override
-	public void itemRemoved(T item) {
-		AbstractListJTable<T> table = tablePanel.getTable();
-		int index = getModelIndexForItem(table, item);
-		if (index>=0) table.delItemAt(index);
-	}
-	
-	/**
-	 * Busca un elemento en la table y devuelve el indice en el modelo
-	 * Devuelve -1 si no se encuetra.
-	 * @param table
-	 * @param item
-	 * @return
-	 */
-	protected int getModelIndexForItem(AbstractListJTable<T> table, T item) {
-		if (table.getModel()!=null) {
-			List<T> lista = table.getModel().getDataList();
-			for (int i=0; i<lista.size(); i++)
-				if (lista.get(i).getId().equals(item.getId()))
-					return i;
-		}
-		return -1;
-	}
-	
 	
 }
