@@ -3,6 +3,8 @@ package com.veisite.vegecom.ui.components.table;
 import java.util.List;
 
 import javax.swing.JTable;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 
 import org.jdesktop.swingx.JXTable;
 
@@ -32,13 +34,11 @@ public abstract class AbstractListJTable<T> extends JXTable {
 	}
 	
 	private void init(){
+		configureColumns();
 		setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		setColumnControlVisible(true);
 		setBackground(new javax.swing.plaf.ColorUIResource(250,250,250));
 		setAutoCreateRowSorter(true);
-		AbstractListTableModel<T> model = getModel();
-		if (model!=null)
-			model.configureColumns(getColumnModel());
 	}
 	
 	/**
@@ -54,8 +54,6 @@ public abstract class AbstractListJTable<T> extends JXTable {
 	 */
 	public void setModel(AbstractListTableModel<T> model) {
 		super.setModel(model);
-		if (model!=null)
-			model.configureColumns(getColumnModel());
 	}
 
 	/**
@@ -135,6 +133,25 @@ public abstract class AbstractListJTable<T> extends JXTable {
 	 */
 	public void setDataList(List<T> dataList) {
 		getModel().setDataList(dataList);
+	}
+	
+	/**
+	 * Las subclases deben implementar este metodo para configurar las
+	 * columnas a su antojo.
+	 * 
+	 * @param model
+	 */
+	public abstract void configureColumns();	
+	
+	protected void configureCol(TableColumn col, int minWidth, int preferredWidth, TableCellRenderer renderer) {
+		col.setMinWidth(minWidth);
+		col.setPreferredWidth(preferredWidth);
+		if (renderer!=null) col.setCellRenderer(renderer);
+	}
+		
+	protected void configureCol(TableColumn col, int minWidth, int preferredWidth, int maxWidth, TableCellRenderer renderer) {
+		configureCol(col, minWidth, preferredWidth, renderer);
+		col.setMaxWidth(maxWidth);
 	}
 	
 }

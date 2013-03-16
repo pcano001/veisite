@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableColumnModel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,14 +66,6 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
 		if (dataList!=null ) size = dataList.size();
 		return size;
 	}
-
-	/**
-	 * Las subclases deben implementar este metodo para configurar las
-	 * columnas a su antojo.
-	 * 
-	 * @param model
-	 */
-	public abstract void configureColumns(TableColumnModel columnModel);
 
 	/**
 	 * Fuerza una nueva recarga de datos 

@@ -2,10 +2,6 @@ package com.veisite.vegecom.ui.tercero;
 
 import java.util.List;
 
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -45,6 +41,17 @@ public class TerceroListTableModel<T extends TerceroComercial>
 
 	private static Logger logger = LoggerFactory.getLogger(TerceroListTableModel.class);
 	
+	// Definicion de columnas del modelo
+	public static final int CIF_COLUMN = 		00;
+	public static final int NOMBRE_COLUMN =		01;
+	public static final int TELEFONO_COLUMN =	02;
+	public static final int EMAIL_COLUMN = 		03;
+	public static final int PROVINCIA_COLUMN = 	04;
+	public static final int CPOSTAL_COLUMN = 	05;
+	public static final int MUNICIPIO_COLUMN = 	06;
+	public static final int DOMICILIO_COLUMN = 	07;
+	
+	
 	/**
 	 * recursos graficos para cadenas de texto
 	 * 
@@ -82,19 +89,19 @@ public class TerceroListTableModel<T extends TerceroComercial>
 		TerceroComercial item = getItemAt(rowIndex);
 		if (item==null) return null;
 		switch (columnIndex) {
-		case 0:
+		case CIF_COLUMN:
 			return item.getNif();
-		case 1:
+		case NOMBRE_COLUMN:
 			return item.getNombre();
-		case 2:
+		case TELEFONO_COLUMN:
 			return item.getTelefono();
-		case 3:
+		case EMAIL_COLUMN:
 			return item.getEmail();
-		case 4:
+		case PROVINCIA_COLUMN:
 			return item.getProvincia()==null ? null : item.getProvincia().getNombre();
-		case 5:
+		case CPOSTAL_COLUMN:
 			return item.getCodigoPostal();
-		case 6:
+		case MUNICIPIO_COLUMN:
 			String l = "";
 			if (item.getLocalidad()!=null) l = item.getLocalidad().trim();
 			Municipio m = item.getMunicipio();
@@ -103,7 +110,7 @@ public class TerceroListTableModel<T extends TerceroComercial>
 				else l += m.getNombre();
 			}
 			return l;
-		case 7:
+		case DOMICILIO_COLUMN:
 			return item.getDomicilio();
 		}
 		return null;
@@ -112,21 +119,21 @@ public class TerceroListTableModel<T extends TerceroComercial>
 	@Override
 	public String getColumnName(int column) {
 		switch (column) {
-		case 0:
+		case CIF_COLUMN:
 			return uiService.getMessage("ui.tercero.TerceroListTable.cifLabel", null, "Nif");
-		case 1:
+		case NOMBRE_COLUMN:
 			return uiService.getMessage("ui.tercero.TerceroListTable.nameLabel", null, "Nif");
-		case 2:
+		case TELEFONO_COLUMN:
 			return uiService.getMessage("ui.tercero.TerceroListTable.telefonoLabel", null, "Nif");
-		case 3:
+		case EMAIL_COLUMN:
 			return uiService.getMessage("ui.tercero.TerceroListTable.emailLabel", null, "Nif");
-		case 4:
+		case PROVINCIA_COLUMN:
 			return uiService.getMessage("ui.tercero.TerceroListTable.provinciaLabel", null, "Nif");
-		case 5:
+		case CPOSTAL_COLUMN:
 			return uiService.getMessage("ui.tercero.TerceroListTable.cpostalLabel", null, "Nif");
-		case 6:
+		case MUNICIPIO_COLUMN:
 			return uiService.getMessage("ui.tercero.TerceroListTable.municipioLabel", null, "Nif");
-		case 7:
+		case DOMICILIO_COLUMN:
 			return uiService.getMessage("ui.tercero.TerceroListTable.domicilioLabel", null, "Nif");
 		}
 		return super.getColumnName(column);
@@ -142,32 +149,4 @@ public class TerceroListTableModel<T extends TerceroComercial>
 		return super.getColumnClass(columnIndex);
 	}
 
-	@Override
-	public void configureColumns(TableColumnModel columnModel) {
-		int i=0;
-		TableColumn col;
-		col = columnModel.getColumn(i++);
-		configureCol(col,80,85,null);
-		col = columnModel.getColumn(i++);
-		configureCol(col,150,250,null);
-		col = columnModel.getColumn(i++);
-		configureCol(col,50,120,null);
-		col = columnModel.getColumn(i++);
-		configureCol(col,100,120,null);
-		col = columnModel.getColumn(i++);
-		configureCol(col,80,100,null);
-		col = columnModel.getColumn(i++);
-		configureCol(col,40,40,null);
-		col = columnModel.getColumn(i++);
-		configureCol(col,80,120,null);
-		col = columnModel.getColumn(i++);
-		configureCol(col,80,150,null);
-	}
-
-	private void configureCol(TableColumn col, int minWidth, int preferredWidth, TableCellRenderer renderer) {
-		col.setMinWidth(minWidth);
-		col.setPreferredWidth(preferredWidth);
-		if (renderer!=null) col.setCellRenderer(renderer);
-	}
-	
 }
