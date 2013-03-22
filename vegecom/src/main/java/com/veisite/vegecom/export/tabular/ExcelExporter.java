@@ -60,7 +60,7 @@ public class ExcelExporter {
 				sheet.addCell(new Label(column, row, value.toString()));
 			}
 		} catch (RowsExceededException ree) {
-			logger.error("Error al añadir celda.",ree);
+			logger.error("Error adding cell, row {}, column {}.",row,column,ree);
 		}
 	}
 
