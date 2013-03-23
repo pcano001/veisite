@@ -2,7 +2,7 @@ package com.veisite.vegecom.model;
 
 import java.io.Serializable;
 
-import com.veisite.vegecom.bean.Bean;
+import com.veisite.utils.bean.Bean;
 
 public abstract class ModelObject extends Bean implements Serializable {
 	

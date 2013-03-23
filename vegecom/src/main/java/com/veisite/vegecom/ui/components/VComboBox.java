@@ -9,8 +9,8 @@ import java.util.Vector;
 import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
 
-import com.veisite.vegecom.binding.BindTarget;
-import com.veisite.vegecom.binding.IBindableTo;
+import com.veisite.utils.binding.BindTarget;
+import com.veisite.utils.binding.IBindableTo;
 
 public class VComboBox<T> extends JComboBox<T> implements IActivableComponent, 
 													IBindableTo<T> {

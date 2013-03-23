@@ -7,7 +7,7 @@ import javax.swing.RowFilter;
 
 import org.jdesktop.swingx.sort.RowFilters.GeneralFilter;
 
-import com.veisite.vegecom.util.StringUtil;
+import com.veisite.utils.StringUtil;
 
 public class NoAcentosRegexFilter  extends GeneralFilter {
 

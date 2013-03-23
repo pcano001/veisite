@@ -1,7 +1,7 @@
 package com.veisite.vegecom.data;
 
-import com.veisite.vegecom.dataio.AbstractPipedListProvider;
-import com.veisite.vegecom.dataio.ObjectOutputFlow;
+import com.veisite.utils.dataio.AbstractPipedListProvider;
+import com.veisite.utils.dataio.ObjectOutputFlow;
 import com.veisite.vegecom.model.TerceroComercial;
 import com.veisite.vegecom.service.TerceroService;
 

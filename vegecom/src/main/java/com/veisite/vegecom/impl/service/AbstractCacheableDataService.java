@@ -3,7 +3,7 @@ package com.veisite.vegecom.impl.service;
 import java.util.Date;
 import java.util.List;
 
-import com.veisite.vegecom.bean.Bean;
+import com.veisite.utils.bean.Bean;
 
 public abstract class AbstractCacheableDataService<T> extends Bean {
 	

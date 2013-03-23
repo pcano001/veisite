@@ -10,8 +10,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.veisite.vegecom.util.EqualsUtil;
-import com.veisite.vegecom.util.HashCodeUtil;
+import com.veisite.utils.EqualsUtil;
+import com.veisite.utils.HashCodeUtil;
 
 @Entity
 public class FamiliaArticulo extends VersionableObject {

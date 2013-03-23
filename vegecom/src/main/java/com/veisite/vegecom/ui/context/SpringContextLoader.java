@@ -2,7 +2,7 @@ package com.veisite.vegecom.ui.context;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.veisite.vegecom.tasks.ProgressableTask;
+import com.veisite.utils.tasks.ProgressableTask;
 
 public class SpringContextLoader extends ProgressableTask {
 

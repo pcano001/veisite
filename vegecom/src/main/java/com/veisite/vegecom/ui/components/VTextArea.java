@@ -8,8 +8,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.Document;
 
-import com.veisite.vegecom.binding.BindTarget;
-import com.veisite.vegecom.binding.IBindableTo;
+import com.veisite.utils.binding.BindTarget;
+import com.veisite.utils.binding.IBindableTo;
 
 public class VTextArea extends JTextArea implements IActivableComponent, 
 													IBindableTo<String> {

@@ -21,15 +21,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
+import com.veisite.utils.tasks.ProgressEvent;
+import com.veisite.utils.tasks.ProgressEventListener;
+import com.veisite.utils.tasks.TaskException;
 import com.veisite.vegecom.ApplicationProperties;
 import com.veisite.vegecom.VegecomException;
 import com.veisite.vegecom.model.audit.AuditAction;
 import com.veisite.vegecom.service.audit.AuditService;
 import com.veisite.vegecom.service.security.SecurityService;
 import com.veisite.vegecom.service.security.SessionExpirationListener;
-import com.veisite.vegecom.tasks.ProgressEvent;
-import com.veisite.vegecom.tasks.ProgressEventListener;
-import com.veisite.vegecom.tasks.TaskException;
 import com.veisite.vegecom.ui.auth.LoginPanel;
 import com.veisite.vegecom.ui.auth.LoginProcessListener;
 import com.veisite.vegecom.ui.auth.LoginProcessManager;

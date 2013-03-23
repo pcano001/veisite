@@ -2,8 +2,8 @@ package com.veisite.vegecom.service.audit;
 
 import java.util.List;
 
-import com.veisite.vegecom.dataio.DataIOException;
-import com.veisite.vegecom.dataio.ObjectOutputFlow;
+import com.veisite.utils.dataio.DataIOException;
+import com.veisite.utils.dataio.ObjectOutputFlow;
 import com.veisite.vegecom.model.audit.AuditAction;
 import com.veisite.vegecom.model.audit.AuditLog;
 import com.veisite.vegecom.model.audit.AuditLogLine;

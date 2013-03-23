@@ -6,8 +6,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
-import com.veisite.vegecom.util.EqualsUtil;
-import com.veisite.vegecom.util.HashCodeUtil;
+import com.veisite.utils.EqualsUtil;
+import com.veisite.utils.HashCodeUtil;
 
 @Entity
 public class Municipio extends ModelObject {

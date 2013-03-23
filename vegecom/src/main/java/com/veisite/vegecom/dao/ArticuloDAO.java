@@ -12,8 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.veisite.vegecom.dataio.DataIOException;
-import com.veisite.vegecom.dataio.ObjectOutputFlow;
+import com.veisite.utils.dataio.DataIOException;
+import com.veisite.utils.dataio.ObjectOutputFlow;
 import com.veisite.vegecom.model.Articulo;
 
 @Repository

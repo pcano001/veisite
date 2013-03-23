@@ -10,8 +10,8 @@ import javax.swing.table.AbstractTableModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.veisite.vegecom.dataio.ObjectFlowListener;
-import com.veisite.vegecom.dataio.ObjectFlowProvider;
+import com.veisite.utils.dataio.ObjectFlowListener;
+import com.veisite.utils.dataio.ObjectFlowProvider;
 
 public abstract class AbstractListTableModel<T> extends AbstractTableModel 
 		implements ObjectFlowListener<T> {

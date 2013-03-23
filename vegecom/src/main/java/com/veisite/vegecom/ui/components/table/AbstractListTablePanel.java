@@ -31,8 +31,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.veisite.vegecom.VegecomException;
-import com.veisite.vegecom.ui.components.panels.DefaultTableStatusBar;
 import com.veisite.vegecom.export.tabular.TableModelExporter;
+import com.veisite.vegecom.ui.components.panels.DefaultTableStatusBar;
 
 public abstract class AbstractListTablePanel<T> extends JPanel {
 

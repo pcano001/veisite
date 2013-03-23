@@ -19,8 +19,8 @@ import javax.validation.Validator;
 import org.jdesktop.swingx.JXTextField;
 import org.jdesktop.swingx.prompt.BuddySupport;
 
-import com.veisite.vegecom.binding.BindTarget;
-import com.veisite.vegecom.binding.IBindableTo;
+import com.veisite.utils.binding.BindTarget;
+import com.veisite.utils.binding.IBindableTo;
 import com.veisite.vegecom.ui.components.util.IValidatableComponent;
 import com.veisite.vegecom.ui.util.UIResources;
 

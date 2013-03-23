@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.veisite.utils.dataio.DataIOException;
+import com.veisite.utils.dataio.ObjectOutputFlow;
 import com.veisite.vegecom.dao.audit.AuditLogLineDAO;
-import com.veisite.vegecom.dataio.DataIOException;
-import com.veisite.vegecom.dataio.ObjectOutputFlow;
 import com.veisite.vegecom.model.audit.AuditAction;
 import com.veisite.vegecom.model.audit.AuditLog;
 import com.veisite.vegecom.model.audit.AuditLogLine;
@@ -80,5 +80,5 @@ public class AuditServiceImpl implements AuditService {
 			AuditLogSearchCriteria criteria) throws DataIOException {
 		dao.getList(output,criteria);
 	}
-	
+
 }

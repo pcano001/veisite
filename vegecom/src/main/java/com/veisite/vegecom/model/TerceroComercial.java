@@ -14,9 +14,9 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.veisite.utils.EqualsUtil;
+import com.veisite.utils.HashCodeUtil;
 import com.veisite.vegecom.model.validation.CheckNif;
-import com.veisite.vegecom.util.EqualsUtil;
-import com.veisite.vegecom.util.HashCodeUtil;
 
 @Entity
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)

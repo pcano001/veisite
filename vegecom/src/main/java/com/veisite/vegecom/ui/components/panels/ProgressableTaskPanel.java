@@ -11,9 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
 
-import com.veisite.vegecom.tasks.ProgressEvent;
-import com.veisite.vegecom.tasks.ProgressEventListener;
-import com.veisite.vegecom.tasks.ProgressableTask;
+import com.veisite.utils.tasks.ProgressEvent;
+import com.veisite.utils.tasks.ProgressEventListener;
+import com.veisite.utils.tasks.ProgressableTask;
 import com.veisite.vegecom.ui.components.VMultiLineJLabel;
 
 public abstract class ProgressableTaskPanel extends JPanel {

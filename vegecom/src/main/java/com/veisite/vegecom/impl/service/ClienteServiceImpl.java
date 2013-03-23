@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.veisite.utils.dataio.DataIOException;
+import com.veisite.utils.dataio.ObjectOutputFlow;
 import com.veisite.vegecom.dao.ClienteDAO;
-import com.veisite.vegecom.dataio.DataIOException;
-import com.veisite.vegecom.dataio.ObjectOutputFlow;
 import com.veisite.vegecom.model.Cliente;
 import com.veisite.vegecom.service.ClienteService;
 

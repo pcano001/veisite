@@ -10,7 +10,7 @@ import javax.validation.Validator;
 
 import org.slf4j.LoggerFactory;
 
-import com.veisite.vegecom.binding.BindTarget;
+import com.veisite.utils.binding.BindTarget;
 import com.veisite.vegecom.model.Municipio;
 import com.veisite.vegecom.model.Provincia;
 import com.veisite.vegecom.model.TerceroComercial;
