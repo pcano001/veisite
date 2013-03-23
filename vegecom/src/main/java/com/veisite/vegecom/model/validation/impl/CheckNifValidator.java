@@ -8,7 +8,7 @@ import com.veisite.vegecom.model.validation.CheckNif;
 public class CheckNifValidator implements ConstraintValidator<CheckNif, String> {
 	
 	/**
-	 * Expresion regular de forato de Nif español válido
+	 * Expresion regular de formato de Nif español válido
 	 */
 	private static final String pattern_es = "[0-9A-Z]{1}[0-9]{7}[0-9A-Z]{1}";
 	/**
