@@ -4,9 +4,10 @@
   <artifactId>veisite-utils</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 
-<properties>
-  <manifest.file>src/main/resources/META-INF/MANIFEST.MF</manifest.file>
-</properties>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <manifest.file>src/main/resources/META-INF/MANIFEST.MF</manifest.file>
+  </properties>
 
   <build>
     <plugins>

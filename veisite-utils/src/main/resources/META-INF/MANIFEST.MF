@@ -7,8 +7,8 @@ Bundle-Vendor: Veisite Software
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: com.veisite.utils,
  com.veisite.utils.bean,
- com.veisite.vegecom.binding,
- com.veisite.vegecom.dataio,
+ com.veisite.utils.binding,
+ com.veisite.utils.dataio,
  com.veisite.utils.date,
  com.veisite.utils.math,
- com.veisite.vegecom.tasks
+ com.veisite.utils.tasks
